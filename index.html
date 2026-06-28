@@ -236,7 +236,7 @@
       background: #fecaca;
     }
 
-    /* ===== UPPER SECTION: stats + daughters overview ===== */
+    /* ===== UPPER SECTION: stats + daughters overview (only for admin) ===== */
     .upper-section {
       flex: 0 0 50%;
       min-height: 200px;
@@ -245,6 +245,10 @@
       gap: 12px;
       margin-bottom: 16px;
     }
+    .upper-section.hidden {
+      display: none !important;
+    }
+
     .stats-dashboard {
       background: #faf8fc;
       border-radius: 20px;
@@ -318,7 +322,7 @@
       margin-top: 3px;
     }
 
-    /* daughters overview (two columns) */
+    /* daughters overview (two columns) - only for admin */
     .daughters-overview {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1008,7 +1012,7 @@
       <button class="btn-logout" id="logoutBtn">🚪 Logout</button>
     </div>
 
-    <!-- ===== UPPER SECTION ===== -->
+    <!-- ===== UPPER SECTION (only for admin) ===== -->
     <div class="upper-section" id="upperSection">
       <!-- Global stats -->
       <div class="stats-dashboard">
@@ -1035,23 +1039,56 @@
         </div>
       </div>
 
-      <!-- Daughters overview -->
+      <!-- Daughters detailed overview -->
       <div class="daughters-overview" id="daughtersOverview">
+        <!-- Isabella card -->
         <div class="daughter-card" id="daughterCardIsabella">
-          <div class="d-header"><span class="name">👧 Isabella</span><span class="total-badge" id="isabellaTotalBadge">0 tasks</span></div>
+          <div class="d-header">
+            <span class="name">👧 Isabella</span>
+            <span class="total-badge" id="isabellaTotalBadge">0 tasks</span>
+          </div>
           <div class="d-stats">
-            <div class="d-stat"><div class="label">Today</div><div class="num"><span class="done" id="isabellaTodayDone">0</span>/<span class="total" id="isabellaTodayTotal">0</span></div><div class="mini-bar"><div class="fill" id="isabellaTodayBar" style="width:0%;"></div></div></div>
-            <div class="d-stat"><div class="label">Week</div><div class="num"><span class="done" id="isabellaWeekDone">0</span>/<span class="total" id="isabellaWeekTotal">0</span></div><div class="mini-bar"><div class="fill" id="isabellaWeekBar" style="width:0%;"></div></div></div>
-            <div class="d-stat"><div class="label">Month</div><div class="num"><span class="done" id="isabellaMonthDone">0</span>/<span class="total" id="isabellaMonthTotal">0</span></div><div class="mini-bar"><div class="fill" id="isabellaMonthBar" style="width:0%;"></div></div></div>
+            <div class="d-stat">
+              <div class="label">Today</div>
+              <div class="num"><span class="done" id="isabellaTodayDone">0</span>/<span class="total" id="isabellaTodayTotal">0</span></div>
+              <div class="mini-bar"><div class="fill" id="isabellaTodayBar" style="width:0%;"></div></div>
+            </div>
+            <div class="d-stat">
+              <div class="label">Week</div>
+              <div class="num"><span class="done" id="isabellaWeekDone">0</span>/<span class="total" id="isabellaWeekTotal">0</span></div>
+              <div class="mini-bar"><div class="fill" id="isabellaWeekBar" style="width:0%;"></div></div>
+            </div>
+            <div class="d-stat">
+              <div class="label">Month</div>
+              <div class="num"><span class="done" id="isabellaMonthDone">0</span>/<span class="total" id="isabellaMonthTotal">0</span></div>
+              <div class="mini-bar"><div class="fill" id="isabellaMonthBar" style="width:0%;"></div></div>
+            </div>
           </div>
           <div class="d-recent" id="isabellaRecent">No recent activity</div>
         </div>
+
+        <!-- Natalie card -->
         <div class="daughter-card" id="daughterCardNatalie">
-          <div class="d-header"><span class="name">👧 Natalie</span><span class="total-badge" id="natalieTotalBadge">0 tasks</span></div>
+          <div class="d-header">
+            <span class="name">👧 Natalie</span>
+            <span class="total-badge" id="natalieTotalBadge">0 tasks</span>
+          </div>
           <div class="d-stats">
-            <div class="d-stat"><div class="label">Today</div><div class="num"><span class="done" id="natalieTodayDone">0</span>/<span class="total" id="natalieTodayTotal">0</span></div><div class="mini-bar"><div class="fill" id="natalieTodayBar" style="width:0%;"></div></div></div>
-            <div class="d-stat"><div class="label">Week</div><div class="num"><span class="done" id="natalieWeekDone">0</span>/<span class="total" id="natalieWeekTotal">0</span></div><div class="mini-bar"><div class="fill" id="natalieWeekBar" style="width:0%;"></div></div></div>
-            <div class="d-stat"><div class="label">Month</div><div class="num"><span class="done" id="natalieMonthDone">0</span>/<span class="total" id="natalieMonthTotal">0</span></div><div class="mini-bar"><div class="fill" id="natalieMonthBar" style="width:0%;"></div></div></div>
+            <div class="d-stat">
+              <div class="label">Today</div>
+              <div class="num"><span class="done" id="natalieTodayDone">0</span>/<span class="total" id="natalieTodayTotal">0</span></div>
+              <div class="mini-bar"><div class="fill" id="natalieTodayBar" style="width:0%;"></div></div>
+            </div>
+            <div class="d-stat">
+              <div class="label">Week</div>
+              <div class="num"><span class="done" id="natalieWeekDone">0</span>/<span class="total" id="natalieWeekTotal">0</span></div>
+              <div class="mini-bar"><div class="fill" id="natalieWeekBar" style="width:0%;"></div></div>
+            </div>
+            <div class="d-stat">
+              <div class="label">Month</div>
+              <div class="num"><span class="done" id="natalieMonthDone">0</span>/<span class="total" id="natalieMonthTotal">0</span></div>
+              <div class="mini-bar"><div class="fill" id="natalieMonthBar" style="width:0%;"></div></div>
+            </div>
           </div>
           <div class="d-recent" id="natalieRecent">No recent activity</div>
         </div>
@@ -1245,7 +1282,7 @@
     // ===== 全局状态 =====
     let currentUser = null;
     let currentUserRole = null;
-    let selectedRole = null;          // 当前选中的角色
+    let selectedRole = null;
     let tasks = [];
     let subjects = [];
     let points = { isabella: 0, natalie: 0 };
@@ -1355,10 +1392,8 @@
       selectedRole = null;
       document.getElementById('loginPage').style.display = 'flex';
       document.getElementById('mainApp').classList.remove('visible');
-      // 重置密码框和错误
       document.getElementById('loginPassword').value = '';
       document.getElementById('loginError').textContent = '';
-      // 移除角色高亮
       document.querySelectorAll('.login-btn').forEach(b => b.classList.remove('active'));
     }
 
@@ -1498,13 +1533,8 @@
     }
 
     // ============================================================
-    //  渲染函数 (与之前完全相同)
+    //  渲染函数
     // ============================================================
-    // 注：由于篇幅，这里省略了所有渲染函数的完整代码，
-    // 但它们在最终文件中都存在。此处保留注释以示完整性。
-    // 实际代码中已包含全部渲染逻辑。
-
-    // ----- 鼓励语和名言 -----
     function getEncouragementMessage(done, total) {
       if (total === 0) return '🌱 Start your journey with a small step today!';
       const ratio = done / total;
@@ -1519,64 +1549,678 @@
       return QUOTES[Math.floor(Math.random() * QUOTES.length)];
     }
 
-    // ----- 全局统计 -----
+    // ----- 全局统计（仅 admin） -----
     function updateGlobalStats() {
-      // 代码略（与之前完全一致）
+      let taskList = tasks; // admin 看到所有任务
+      const today = getTodayStr();
+      const now = new Date();
+      const dayOfWeek = now.getDay();
+      const diffToMon = (dayOfWeek === 0 ? 6 : dayOfWeek - 1);
+      const weekStart = new Date(now);
+      weekStart.setDate(now.getDate() - diffToMon);
+      const weekStartStr = weekStart.toISOString().slice(0, 10);
+      const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+      const monthStartStr = monthStart.toISOString().slice(0, 10);
+
+      const todayTasks = taskList.filter(t => t.dueDate === today);
+      const todayDone = todayTasks.filter(t => t.completed).length;
+      const todayTotal = todayTasks.length;
+
+      const weekTasks = taskList.filter(t => t.dueDate >= weekStartStr && t.dueDate <= today);
+      const weekDone = weekTasks.filter(t => t.completed).length;
+      const weekTotal = weekTasks.length;
+
+      const monthTasks = taskList.filter(t => t.dueDate >= monthStartStr && t.dueDate <= today);
+      const monthDone = monthTasks.filter(t => t.completed).length;
+      const monthTotal = monthTasks.length;
+
+      document.getElementById('todayDone').textContent = todayDone;
+      document.getElementById('todayTotal').textContent = todayTotal;
+      const todayFill = document.getElementById('todayFill');
+      todayFill.style.width = todayTotal === 0 ? '0%' : (todayDone / todayTotal * 100) + '%';
+      todayFill.className = 'fill' + (todayTotal > 0 && todayDone === todayTotal ? ' all-done' : (todayDone > 0 ? ' done' : ''));
+      document.getElementById('todaySub').textContent = todayTotal === 0 ? 'No tasks due today' : (todayDone === todayTotal ? '🎉 All done!' : `${todayDone} of ${todayTotal} done`);
+
+      document.getElementById('weekDone').textContent = weekDone;
+      document.getElementById('weekTotal').textContent = weekTotal;
+      const weekFill = document.getElementById('weekFill');
+      weekFill.style.width = weekTotal === 0 ? '0%' : (weekDone / weekTotal * 100) + '%';
+      weekFill.className = 'fill' + (weekTotal > 0 && weekDone === weekTotal ? ' all-done' : (weekDone > 0 ? ' done' : ''));
+      document.getElementById('weekSub').textContent = weekTotal === 0 ? 'No tasks this week' : (weekDone === weekTotal ? '🌟 Perfect week!' : `${weekDone} of ${weekTotal} done`);
+
+      document.getElementById('monthDone').textContent = monthDone;
+      document.getElementById('monthTotal').textContent = monthTotal;
+      const monthFill = document.getElementById('monthFill');
+      monthFill.style.width = monthTotal === 0 ? '0%' : (monthDone / monthTotal * 100) + '%';
+      monthFill.className = 'fill' + (monthTotal > 0 && monthDone === monthTotal ? ' all-done' : (monthDone > 0 ? ' done' : ''));
+      document.getElementById('monthSub').textContent = monthTotal === 0 ? 'No tasks this month' : (monthDone === monthTotal ? '🎊 Monthly goal achieved!' : `${monthDone} of ${monthTotal} done`);
     }
 
-    // ----- 女儿概览 -----
+    // ----- 女儿概览（admin） -----
     function renderDaughtersOverview() {
-      // 代码略
+      const today = getTodayStr();
+      const now = new Date();
+      const dayOfWeek = now.getDay();
+      const diffToMon = (dayOfWeek === 0 ? 6 : dayOfWeek - 1);
+      const weekStart = new Date(now);
+      weekStart.setDate(now.getDate() - diffToMon);
+      const weekStartStr = weekStart.toISOString().slice(0, 10);
+      const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+      const monthStartStr = monthStart.toISOString().slice(0, 10);
+
+      const renderDaughter = (who, idPrefix) => {
+        const allTasks = tasks.filter(t => t.assignedTo === who || t.assignedTo === 'both');
+        const total = allTasks.length;
+        document.getElementById(idPrefix + 'TotalBadge').textContent = total + ' tasks';
+
+        const todayTasks = allTasks.filter(t => t.dueDate === today);
+        const todayDone = todayTasks.filter(t => t.completed).length;
+        const todayTotal = todayTasks.length;
+        document.getElementById(idPrefix + 'TodayDone').textContent = todayDone;
+        document.getElementById(idPrefix + 'TodayTotal').textContent = todayTotal;
+        const todayBar = document.getElementById(idPrefix + 'TodayBar');
+        todayBar.style.width = todayTotal === 0 ? '0%' : (todayDone / todayTotal * 100) + '%';
+        todayBar.className = 'fill' + (todayTotal > 0 && todayDone === todayTotal ? ' all-done' : (todayDone > 0 ? ' done' : ''));
+
+        const weekTasks = allTasks.filter(t => t.dueDate >= weekStartStr && t.dueDate <= today);
+        const weekDone = weekTasks.filter(t => t.completed).length;
+        const weekTotal = weekTasks.length;
+        document.getElementById(idPrefix + 'WeekDone').textContent = weekDone;
+        document.getElementById(idPrefix + 'WeekTotal').textContent = weekTotal;
+        const weekBar = document.getElementById(idPrefix + 'WeekBar');
+        weekBar.style.width = weekTotal === 0 ? '0%' : (weekDone / weekTotal * 100) + '%';
+        weekBar.className = 'fill' + (weekTotal > 0 && weekDone === weekTotal ? ' all-done' : (weekDone > 0 ? ' done' : ''));
+
+        const monthTasks = allTasks.filter(t => t.dueDate >= monthStartStr && t.dueDate <= today);
+        const monthDone = monthTasks.filter(t => t.completed).length;
+        const monthTotal = monthTasks.length;
+        document.getElementById(idPrefix + 'MonthDone').textContent = monthDone;
+        document.getElementById(idPrefix + 'MonthTotal').textContent = monthTotal;
+        const monthBar = document.getElementById(idPrefix + 'MonthBar');
+        monthBar.style.width = monthTotal === 0 ? '0%' : (monthDone / monthTotal * 100) + '%';
+        monthBar.className = 'fill' + (monthTotal > 0 && monthDone === monthTotal ? ' all-done' : (monthDone > 0 ? ' done' : ''));
+
+        const recent = allTasks.filter(t => t.completed).sort((a, b) => (b.completedAt || b.id) - (a.completedAt || a.id));
+        const recentEl = document.getElementById(idPrefix + 'Recent');
+        if (recent.length === 0) {
+          recentEl.textContent = 'No recent activity';
+        } else {
+          const latest = recent[0];
+          const date = latest.completedAt ? formatDate(latest.completedAt) : formatDate(latest.dueDate);
+          recentEl.textContent = `✅ ${latest.title} (${date})`;
+        }
+      };
+      renderDaughter('isabella', 'isabella');
+      renderDaughter('natalie', 'natalie');
     }
 
-    // ----- 管理员任务 -----
+    // ----- 管理员任务列表 -----
     function renderAdmin() {
-      // 代码略
+      const filter = document.getElementById('filterAssignee').value;
+      let list = tasks;
+      if (filter !== 'all') list = tasks.filter(t => t.assignedTo === filter || t.assignedTo === 'both');
+      const container = document.getElementById('adminTaskList');
+      if (list.length === 0) {
+        container.innerHTML = `<p class="text-muted">No tasks found.</p>`;
+      } else {
+        let html = '';
+        list.forEach(task => {
+          const status = task.completed ? '✅ Done' : '⏳ Pending';
+          const badgeClass = task.completed ? 'done' : 'pending';
+          const replyInfo = task.reply ? '💬 Replied' : 'No reply';
+          const replyAction = task.reply ?
+            `<button class="btn-sm view" data-action="viewReply" data-id="${task.id}">View Reply</button>` :
+            `<span class="text-muted">—</span>`;
+          const creator = task.createdBy || 'admin';
+          const scoreDisplay = task.score !== undefined && task.score > 0 ? `⭐ ${task.score}` : '⭐ 0';
+          const penaltyBadge = task.penaltyApplied ? `<span class="badge penalty">⚠️ -5</span>` : '';
+          const subject = task.subject || '';
+          html += `
+            <div class="task-card">
+              <div class="task-title">${task.title}</div>
+              <div class="task-desc">${task.description || '—'} ${subject ? '📚 '+subject : ''}</div>
+              <div class="task-meta">
+                <span>👤 ${task.assignedTo === 'both' ? 'Both' : task.assignedTo}</span>
+                <span>📅 ${formatDate(task.dueDate)}</span>
+                <span class="badge ${badgeClass}">${status}</span>
+                <span class="badge">${replyInfo}</span>
+                <span class="badge creator">by ${creator}</span>
+                <span class="badge" style="background:#fce7f3;">${scoreDisplay}</span>
+                ${penaltyBadge}
+              </div>
+              <div class="task-actions">
+                ${replyAction}
+                <button class="btn-sm edit" data-action="editTask" data-id="${task.id}">✏️ Edit</button>
+                <button class="btn-sm duplicate" data-action="duplicateTask" data-id="${task.id}">📋 Copy</button>
+                <button class="btn-sm score" data-action="adjustScore" data-id="${task.id}">⭐ Rate</button>
+                <button class="btn-sm delete" data-action="deleteTask" data-id="${task.id}">🗑️ Delete</button>
+              </div>
+            </div>
+          `;
+        });
+        container.innerHTML = html;
+        attachTaskEvents(container);
+      }
+
+      // History
+      const redeemList = document.getElementById('redeemHistoryList');
+      if (redemptions.length === 0) {
+        redeemList.innerHTML = '<div class="text-muted">No redemptions yet.</div>';
+      } else {
+        let html = '';
+        redemptions.slice().reverse().forEach(r => {
+          html += `<div class="history-item">${r.child}: ${r.reward} (${r.cost} pts) on ${formatDateTime(r.date)}</div>`;
+        });
+        redeemList.innerHTML = html;
+      }
+
+      const awardList = document.getElementById('awardHistoryList');
+      if (awards.length === 0) {
+        awardList.innerHTML = '<div class="text-muted">No awards yet.</div>';
+      } else {
+        let html = '';
+        awards.slice().reverse().forEach(a => {
+          html += `<div class="history-item">${a.child}: +${a.amount} pts ${a.reason ? '("'+a.reason+'")' : ''} on ${formatDateTime(a.date)}</div>`;
+        });
+        awardList.innerHTML = html;
+      }
     }
 
-    // ----- 女儿任务 -----
+    // ----- 女儿任务列表 -----
     function renderDaughter(who) {
-      // 代码略
+      const container = document.getElementById(who + 'TaskList');
+      const list = tasks.filter(t => t.assignedTo === who || t.assignedTo === 'both');
+      if (list.length === 0) {
+        container.innerHTML = `<p class="text-muted">No homework assigned yet. 😊</p>`;
+        return;
+      }
+      let html = '';
+      list.forEach(task => {
+        const status = task.completed ? '✅ Done' : '⏳ Pending';
+        const badgeClass = task.completed ? 'done' : 'pending';
+        let replyArea = '';
+        if (task.completed && task.reply) {
+          replyArea = `
+            <div class="reply-preview">
+              <strong>Your reply:</strong> ${task.reply.text || '—'}
+              ${task.reply.fileName ? `<div>📎 <span class="file-link">${task.reply.fileName}</span></div>` : ''}
+            </div>
+          `;
+        }
+        const canEditTask = (task.createdBy === who || task.createdBy === 'admin');
+        let actionButtons = '';
+        if (task.completed) {
+          actionButtons += `<span class="btn-sm done-label">✔️ Done</span>`;
+        } else {
+          actionButtons += `<button class="btn-sm reply" data-action="replyTask" data-id="${task.id}">✏️ Reply</button>`;
+        }
+        if (canEditTask) {
+          actionButtons += `
+            <button class="btn-sm edit" data-action="editTask" data-id="${task.id}">✏️ Edit</button>
+            <button class="btn-sm duplicate" data-action="duplicateTask" data-id="${task.id}">📋 Copy</button>
+            <button class="btn-sm delete" data-action="deleteTask" data-id="${task.id}">🗑️ Delete</button>
+          `;
+        }
+        const creator = task.createdBy || 'admin';
+        const scoreDisplay = task.score !== undefined && task.score > 0 ? `⭐ ${task.score}` : '';
+        const penaltyBadge = task.penaltyApplied ? `<span class="badge penalty">⚠️ -5</span>` : '';
+        const subject = task.subject || '';
+        html += `
+          <div class="task-card">
+            <div class="task-title">${task.title}</div>
+            <div class="task-desc">${task.description || '—'} ${subject ? '📚 '+subject : ''}</div>
+            <div class="task-meta">
+              <span>📅 ${formatDate(task.dueDate)}</span>
+              <span class="badge ${badgeClass}">${status}</span>
+              ${task.createdBy ? `<span class="badge creator">by ${creator}</span>` : ''}
+              ${scoreDisplay ? `<span class="badge" style="background:#fce7f3;">${scoreDisplay}</span>` : ''}
+              ${penaltyBadge}
+            </div>
+            ${replyArea}
+            <div class="task-actions">
+              ${actionButtons}
+            </div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+      attachTaskEvents(container);
     }
 
-    // ----- 绑定事件 -----
+    // ----- 绑定任务事件 -----
     function attachTaskEvents(container) {
-      // 代码略
+      container.querySelectorAll('[data-action]').forEach(el => {
+        el.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const action = this.dataset.action;
+          const id = parseInt(this.dataset.id, 10);
+          if (action === 'replyTask') openReplyModal(id);
+          else if (action === 'viewReply') viewReply(id);
+          else if (action === 'editTask') openEditModal(id);
+          else if (action === 'duplicateTask') openDuplicateModal(id);
+          else if (action === 'deleteTask') {
+            if (confirm('Delete this task?')) {
+              deleteTask(id);
+            }
+          } else if (action === 'adjustScore') openScoreModal(id);
+        });
+      });
     }
 
-    // ----- 个人进度 -----
+    // ----- 个人进度（女儿） -----
     function renderPersonalProgress(who) {
-      // 代码略
+      const taskList = tasks.filter(t => t.assignedTo === who || t.assignedTo === 'both');
+      const total = taskList.length;
+      const done = taskList.filter(t => t.completed).length;
+      const percent = total === 0 ? 0 : Math.round(done / total * 100);
+      const capWho = who.charAt(0).toUpperCase() + who.slice(1);
+      document.getElementById('pp' + capWho + 'Date').textContent = new Date().toLocaleDateString();
+      document.getElementById('pp' + capWho + 'Total').textContent = total;
+      document.getElementById('pp' + capWho + 'Done').textContent = done;
+      document.getElementById('pp' + capWho + 'Rate').textContent = percent;
+      const barEl = document.getElementById('pp' + capWho + 'Bar');
+      barEl.style.width = percent + '%';
+      barEl.className = 'fill' + (percent === 100 ? ' all-done' : (percent > 0 ? ' done' : ''));
+
+      const recent = taskList.filter(t => t.completed).sort((a, b) => (b.completedAt || b.id) - (a.completedAt || a.id));
+      const recentEl = document.getElementById('pp' + capWho + 'Recent');
+      if (recent.length === 0) {
+        recentEl.textContent = 'No recent activity';
+      } else {
+        const latest = recent[0];
+        const date = latest.completedAt ? formatDate(latest.completedAt) : formatDate(latest.dueDate);
+        recentEl.textContent = `✅ ${latest.title} (${date})`;
+      }
     }
 
     // ----- 反思 -----
     function renderReflections(who) {
-      // 代码略
+      const containerId = who === 'isabella' ? 'reflectionHistory' : 'reflectionHistory2';
+      const container = document.getElementById(containerId);
+      const entries = reflections[who] || [];
+      if (entries.length === 0) {
+        container.innerHTML = '<div class="text-muted">No reflections yet. Write your first one!</div>';
+        return;
+      }
+      let html = '';
+      entries.slice().reverse().forEach(entry => {
+        html += `<div class="entry"><span class="date">${formatDateTime(entry.date)}</span><span class="text">${entry.text || '—'}</span></div>`;
+      });
+      container.innerHTML = html;
     }
 
     function saveReflection(who) {
-      // 代码略
+      const inputId = who === 'isabella' ? 'reflectionInput' : 'reflectionInput2';
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      const text = input.value.trim();
+      if (!text) {
+        alert('Please write something about your day.');
+        return;
+      }
+      sb.from('reflections').insert([{
+        user_id: currentUser.id,
+        text: text,
+        date: new Date().toISOString()
+      }]).then(() => {
+        loadAllData().then(() => {
+          render();
+          input.value = '';
+        });
+      });
     }
 
-    // ----- 学科管理 -----
+    // ----- 学科管理（admin） -----
     function renderSubjectTags() {
-      // 代码略
+      const container = document.getElementById('subjectTagContainer');
+      if (!container) return;
+      if (subjects.length === 0) {
+        container.innerHTML = '<span class="text-muted">No subjects added yet.</span>';
+        return;
+      }
+      let html = '';
+      subjects.forEach((s, idx) => {
+        html += `<span class="subject-tag">${s} <span class="del" data-name="${s}">✕</span></span>`;
+      });
+      container.innerHTML = html;
+      container.querySelectorAll('.del').forEach(el => {
+        el.addEventListener('click', function() {
+          const name = this.dataset.name;
+          if (confirm(`Remove subject "${name}"?`)) {
+            removeSubject(name);
+          }
+        });
+      });
     }
 
     function updateSubjectDatalist() {
-      // 代码略
+      const datalist = document.getElementById('subjectList');
+      if (!datalist) return;
+      datalist.innerHTML = '';
+      subjects.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s;
+        datalist.appendChild(opt);
+      });
     }
 
     // ============================================================
-    //  模态框处理 (与之前完全相同)
+    //  模态框处理函数
     // ============================================================
-    // 由于篇幅，此处省略，但最终文件中包含全部代码。
+
+    function openAddModal(assignTo) {
+      document.getElementById('editTaskId').value = '';
+      document.getElementById('taskFormTitle').textContent = '✏️ Add Task';
+      document.getElementById('taskFormTitleInput').value = '';
+      document.getElementById('taskFormSubject').value = '';
+      document.getElementById('taskFormDesc').value = '';
+      document.getElementById('taskFormDate').value = getTodayStr();
+      const assignField = document.getElementById('taskFormAssignField');
+      if (currentUserRole === 'admin') {
+        assignField.style.display = 'block';
+        document.getElementById('taskFormAssign').value = assignTo || 'isabella';
+      } else {
+        assignField.style.display = 'none';
+      }
+      document.getElementById('taskFormModal').dataset.mode = 'add';
+      document.getElementById('taskFormModal').classList.remove('hidden');
+      updateSubjectDatalist();
+    }
+
+    function openEditModal(taskId) {
+      const task = tasks.find(t => t.id === taskId);
+      if (!task) return;
+      document.getElementById('editTaskId').value = taskId;
+      document.getElementById('taskFormTitle').textContent = '✏️ Edit Task';
+      document.getElementById('taskFormTitleInput').value = task.title;
+      document.getElementById('taskFormSubject').value = task.subject || '';
+      document.getElementById('taskFormDesc').value = task.description || '';
+      document.getElementById('taskFormDate').value = task.dueDate;
+      const assignField = document.getElementById('taskFormAssignField');
+      if (currentUserRole === 'admin') {
+        assignField.style.display = 'block';
+        document.getElementById('taskFormAssign').value = task.assignedTo;
+      } else {
+        assignField.style.display = 'none';
+      }
+      document.getElementById('taskFormModal').dataset.mode = 'edit';
+      document.getElementById('taskFormModal').classList.remove('hidden');
+      updateSubjectDatalist();
+    }
+
+    function openDuplicateModal(taskId) {
+      const task = tasks.find(t => t.id === taskId);
+      if (!task) return;
+      document.getElementById('editTaskId').value = '';
+      document.getElementById('taskFormTitle').textContent = '📋 Duplicate Task';
+      document.getElementById('taskFormTitleInput').value = task.title + ' (copy)';
+      document.getElementById('taskFormSubject').value = task.subject || '';
+      document.getElementById('taskFormDesc').value = task.description || '';
+      document.getElementById('taskFormDate').value = task.dueDate;
+      const assignField = document.getElementById('taskFormAssignField');
+      if (currentUserRole === 'admin') {
+        assignField.style.display = 'block';
+        document.getElementById('taskFormAssign').value = task.assignedTo;
+      } else {
+        assignField.style.display = 'none';
+      }
+      document.getElementById('taskFormModal').dataset.mode = 'add';
+      document.getElementById('taskFormModal').classList.remove('hidden');
+      updateSubjectDatalist();
+    }
+
+    function saveTaskFromForm() {
+      const mode = document.getElementById('taskFormModal').dataset.mode;
+      const id = parseInt(document.getElementById('editTaskId').value, 10);
+      const title = document.getElementById('taskFormTitleInput').value.trim();
+      const subject = document.getElementById('taskFormSubject').value.trim();
+      const desc = document.getElementById('taskFormDesc').value.trim();
+      const date = document.getElementById('taskFormDate').value;
+      let assignTo = currentUserRole === 'admin' ? document.getElementById('taskFormAssign').value : currentUserRole;
+      if (!title || !date) {
+        alert('Title and due date are required.');
+        return;
+      }
+      const taskObj = {
+        title,
+        subject,
+        description: desc,
+        dueDate: date,
+        assignedTo: assignTo,
+        completed: false,
+        reply: null,
+        score: 0,
+        penaltyApplied: false,
+        autoScoreApplied: false,
+        createdBy: currentUserRole,
+        completedAt: null,
+        user_id: currentUser.id
+      };
+      if (mode === 'edit') {
+        taskObj.id = id;
+        const old = tasks.find(t => t.id === id);
+        if (old) {
+          taskObj.completed = old.completed;
+          taskObj.reply = old.reply;
+          taskObj.score = old.score;
+          taskObj.penaltyApplied = old.penaltyApplied;
+          taskObj.autoScoreApplied = old.autoScoreApplied;
+          taskObj.createdBy = old.createdBy;
+          taskObj.completedAt = old.completedAt;
+        }
+        saveTask(taskObj);
+      } else {
+        saveTask(taskObj);
+      }
+      document.getElementById('taskFormModal').classList.add('hidden');
+    }
+
+    // ----- 回复 -----
+    let replyTargetId = null;
+
+    function openReplyModal(taskId) {
+      const task = tasks.find(t => t.id === taskId);
+      if (!task) return;
+      replyTargetId = taskId;
+      document.getElementById('replyTaskInfo').textContent = `Reply to: ${task.title}`;
+      document.getElementById('replyText').value = '';
+      document.getElementById('replyFile').value = '';
+      document.getElementById('fileNameDisplay').textContent = '';
+      document.getElementById('replyModal').classList.remove('hidden');
+    }
+
+    function submitReply() {
+      const text = document.getElementById('replyText').value.trim();
+      const fileInput = document.getElementById('replyFile');
+      const file = fileInput.files[0];
+      let fileName = '';
+      if (file) fileName = file.name;
+      if (!text && !fileName) {
+        alert('Please write a message or attach a file.');
+        return;
+      }
+      const task = tasks.find(t => t.id === replyTargetId);
+      if (!task) return;
+      task.completed = true;
+      task.reply = { text: text || 'No text', fileName: fileName || null };
+      task.completedAt = new Date().toISOString();
+      const child = task.assignedTo === 'both' ? null : task.assignedTo;
+      if (child) {
+        updatePoints(child, 5);
+      } else {
+        updatePoints('isabella', 5);
+        updatePoints('natalie', 5);
+      }
+      task.autoScoreApplied = true;
+      saveTask(task);
+      document.getElementById('replyModal').classList.add('hidden');
+    }
+
+    // ----- 查看回复 -----
+    function viewReply(taskId) {
+      const task = tasks.find(t => t.id === taskId);
+      if (!task || !task.reply) return;
+      const content = document.getElementById('viewReplyContent');
+      let html = `<p><strong>Task:</strong> ${task.title}</p>`;
+      html += `<p><strong>Reply:</strong> ${task.reply.text || '—'}</p>`;
+      if (task.reply.fileName) {
+        html += `<p>📎 <strong>Attachment:</strong> ${task.reply.fileName}</p>`;
+      }
+      html += `<p class="text-muted">Assigned to: ${task.assignedTo}</p>`;
+      content.innerHTML = html;
+      document.getElementById('viewReplyModal').classList.remove('hidden');
+    }
+
+    // ----- 评分 -----
+    let scoreTargetId = null;
+
+    function openScoreModal(taskId) {
+      const task = tasks.find(t => t.id === taskId);
+      if (!task) return;
+      const child = task.assignedTo === 'both' ? null : task.assignedTo;
+      if (!child) {
+        alert('Cannot rate tasks assigned to both at once.');
+        return;
+      }
+      const todayManual = getManualToday(child);
+      const remaining = 10 - todayManual;
+      if (remaining <= 0) {
+        alert(`Today's manual rating limit (10 points) already used for ${child}.`);
+        return;
+      }
+      scoreTargetId = taskId;
+      document.getElementById('scoreInput').value = Math.min(remaining, 5);
+      document.getElementById('scoreRemainingMsg').textContent = `Remaining points available today: ${remaining}`;
+      document.getElementById('scoreModal').classList.remove('hidden');
+    }
+
+    function submitScore() {
+      const val = parseInt(document.getElementById('scoreInput').value, 10);
+      if (isNaN(val) || val < 0 || val > 10) {
+        alert('Please enter a score between 0 and 10.');
+        return;
+      }
+      const task = tasks.find(t => t.id === scoreTargetId);
+      if (!task) return;
+      const child = task.assignedTo === 'both' ? null : task.assignedTo;
+      if (!child) {
+        alert('Cannot rate both.');
+        return;
+      }
+      const today = getTodayStr();
+      const todayManual = getManualToday(child);
+      if (todayManual + val > 10) {
+        alert(`Cannot exceed 10 points per day. Remaining: ${10 - todayManual}`);
+        return;
+      }
+      updatePoints(child, val);
+      manualLog.push({ child, date: today, amount: val });
+      task.score = (task.score || 0) + val;
+      saveTask(task);
+      document.getElementById('scoreModal').classList.add('hidden');
+    }
+
+    // ----- 获奖积分 -----
+    function openAwardModal() {
+      document.getElementById('awardChild').value = 'isabella';
+      document.getElementById('awardRank').value = '0';
+      document.getElementById('awardPoints').value = 0;
+      document.getElementById('awardReason').value = '';
+      document.getElementById('awardModal').classList.remove('hidden');
+    }
+
+    function submitAward() {
+      const child = document.getElementById('awardChild').value;
+      const rankSelect = document.getElementById('awardRank');
+      const rankVal = parseInt(rankSelect.value, 10);
+      let pointsToAdd = rankVal;
+      if (rankVal === 0) {
+        pointsToAdd = parseInt(document.getElementById('awardPoints').value, 10);
+        if (isNaN(pointsToAdd) || pointsToAdd < 0) {
+          alert('Please enter a valid custom points amount.');
+          return;
+        }
+      }
+      const reason = document.getElementById('awardReason').value.trim() || 'Award';
+      updatePoints(child, pointsToAdd);
+      sb.from('awards').insert([{
+        user_id: currentUser.id,
+        amount: pointsToAdd,
+        reason: reason
+      }]).then(() => {
+        loadAllData().then(() => render());
+      });
+      document.getElementById('awardModal').classList.add('hidden');
+    }
+
+    // ----- 兑换 -----
+    let redeemChild = null;
+
+    function openRedeem(child) {
+      const currentPoints = points[child] || 0;
+      const affordable = REWARDS.some(r => currentPoints >= r.cost);
+      if (!affordable) {
+        alert(`Not enough points! ${child} has only ${currentPoints} points. Need at least ${Math.min(...REWARDS.map(r=>r.cost))} points.`);
+        return;
+      }
+      redeemChild = child;
+      document.getElementById('redeemChildInfo').textContent = `${child} has ${currentPoints} points. Choose a reward:`;
+      const grid = document.getElementById('rewardGrid');
+      grid.innerHTML = '';
+      REWARDS.forEach(reward => {
+        const btn = document.createElement('button');
+        btn.className = 'reward-btn';
+        btn.innerHTML = `${reward.label} <span class="cost">${reward.cost} pts</span>`;
+        btn.dataset.cost = reward.cost;
+        btn.dataset.label = reward.label;
+        if (currentPoints < reward.cost) {
+          btn.disabled = true;
+          btn.title = `Need ${reward.cost} points, you have ${currentPoints}`;
+        }
+        btn.addEventListener('click', function() {
+          const cost = parseInt(this.dataset.cost, 10);
+          const label = this.dataset.label;
+          doRedeem(label, cost);
+        });
+        grid.appendChild(btn);
+      });
+      document.getElementById('redeemModal').classList.remove('hidden');
+    }
+
+    function doRedeem(label, cost) {
+      if (!redeemChild) return;
+      const child = redeemChild;
+      if (points[child] < cost) {
+        alert('Not enough points.');
+        return;
+      }
+      updatePoints(child, -cost);
+      sb.from('redemptions').insert([{
+        user_id: currentUser.id,
+        reward: label,
+        cost: cost,
+        redeemed_at: new Date().toISOString()
+      }]).then(() => {
+        loadAllData().then(() => render());
+      });
+      document.getElementById('redeemModal').classList.add('hidden');
+      alert(`🎉 ${child} redeemed "${label}"! Remaining points: ${points[child]}`);
+      redeemChild = null;
+    }
 
     // ============================================================
     //  主渲染函数
     // ============================================================
     function render() {
       if (!currentUser) return;
+
+      // 控制 upper-section 显示：仅 admin 可见
+      const upperSection = document.getElementById('upperSection');
+      if (currentUserRole === 'admin') {
+        upperSection.classList.remove('hidden');
+      } else {
+        upperSection.classList.add('hidden');
+      }
 
       // 更新积分
       const manualI = getManualToday('isabella');
@@ -1626,11 +2270,9 @@
         }
       }
 
-      // 全局统计
-      updateGlobalStats();
-
-      // 渲染
+      // 全局统计（仅 admin 需要）
       if (currentUserRole === 'admin') {
+        updateGlobalStats();
         renderDaughtersOverview();
         renderAdmin();
       } else {
@@ -1644,7 +2286,7 @@
     //  事件绑定
     // ============================================================
     function bindEvents() {
-      // 角色选择（仅高亮，不登录）
+      // 角色选择（仅高亮）
       document.querySelectorAll('.login-btn').forEach(btn => {
         btn.addEventListener('click', function() {
           document.querySelectorAll('.login-btn').forEach(b => b.classList.remove('active'));
@@ -1786,7 +2428,6 @@
     //  初始化
     // ============================================================
     async function init() {
-      // 检查已有 session
       const { data: { session } } = await sb.auth.getSession();
       if (session) {
         const { data: profile } = await sb
@@ -1805,7 +2446,6 @@
           return;
         }
       }
-      // 未登录
       document.getElementById('loginPage').style.display = 'flex';
       document.getElementById('mainApp').classList.remove('visible');
       bindEvents();
