@@ -233,55 +233,67 @@
       background: #fecaca;
     }
 
-    /* ===== UPPER SECTION (admin only) ===== */
+    /* ===== UPPER SECTION (可折叠统计) ===== */
     .upper-section {
-      flex: 0 0 50%;
-      min-height: 200px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 16px;
+      flex: 0 0 auto;
+      min-height: 0;
+      margin-bottom: 12px;
     }
-    .upper-section.hidden {
-      display: none !important;
+    .upper-section.collapsed .stats-dashboard,
+    .upper-section.collapsed .daughters-overview {
+      display: none;
+    }
+    .upper-section .toggle-stats {
+      cursor: pointer;
+      background: #f0ecf5;
+      border: none;
+      border-radius: 20px;
+      padding: 4px 16px;
+      font-size: 13px;
+      color: #4a3a5e;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .upper-section .toggle-stats:hover {
+      background: #e4daf0;
     }
 
     .stats-dashboard {
       background: #faf8fc;
-      border-radius: 20px;
-      padding: 12px 16px;
+      border-radius: 16px;
+      padding: 10px 14px;
       border: 1px solid #ede6f5;
-      flex: 0 0 auto;
     }
     .stats-dashboard .stats-title {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 600;
       color: #3d2a4a;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
+      gap: 8px;
     }
     .stats-card {
       background: #fff;
-      border-radius: 14px;
-      padding: 10px 14px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      border-radius: 12px;
+      padding: 6px 10px;
       text-align: center;
-      border-left: 4px solid #7c3aed;
+      border-left: 3px solid #7c3aed;
     }
     .stats-card .period {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
       color: #4a3a5e;
     }
     .stats-card .numbers {
-      font-size: 20px;
+      font-size: 16px;
       font-weight: 700;
       color: #2d1b3d;
-      margin: 2px 0;
+      margin: 1px 0;
     }
     .stats-card .numbers .done {
       color: #0b6e4f;
@@ -291,11 +303,11 @@
     }
     .stats-card .progress-bar {
       width: 100%;
-      height: 5px;
+      height: 4px;
       background: #ede6f5;
       border-radius: 10px;
       overflow: hidden;
-      margin-top: 4px;
+      margin-top: 2px;
     }
     .stats-card .progress-bar .fill {
       height: 100%;
@@ -314,23 +326,24 @@
       100% { box-shadow: 0 0 16px #f59e0b; }
     }
     .stats-card .sub-text {
-      font-size: 11px;
+      font-size: 10px;
       color: #999;
-      margin-top: 3px;
+      margin-top: 1px;
     }
 
+    /* daughters overview (admin only) */
     .daughters-overview {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      flex: 1;
+      gap: 12px;
+      margin-top: 8px;
     }
     .daughter-card {
       background: #fff;
-      border-radius: 18px;
-      padding: 14px 18px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-      border-left: 6px solid #7c3aed;
+      border-radius: 14px;
+      padding: 10px 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      border-left: 4px solid #7c3aed;
       display: flex;
       flex-direction: column;
     }
@@ -338,45 +351,38 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
+      font-size: 14px;
     }
     .daughter-card .d-header .name {
       font-weight: 700;
-      font-size: 17px;
-      color: #2d1b3d;
     }
     .daughter-card .d-header .total-badge {
       background: #ede6f5;
-      padding: 0 12px;
+      padding: 0 10px;
       border-radius: 30px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
-      color: #4a3a5e;
     }
     .daughter-card .d-stats {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      gap: 8px;
-      flex: 1;
+      gap: 6px;
+      margin-top: 4px;
     }
     .daughter-card .d-stat {
       background: #faf8fc;
-      border-radius: 12px;
-      padding: 8px 6px;
+      border-radius: 10px;
+      padding: 4px 4px;
       text-align: center;
+      font-size: 12px;
     }
     .daughter-card .d-stat .label {
-      font-size: 11px;
-      font-weight: 600;
+      font-size: 10px;
       color: #888;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
     }
     .daughter-card .d-stat .num {
-      font-size: 18px;
+      font-size: 15px;
       font-weight: 700;
-      color: #2d1b3d;
-      margin: 2px 0;
     }
     .daughter-card .d-stat .num .done {
       color: #0b6e4f;
@@ -386,11 +392,10 @@
     }
     .daughter-card .d-stat .mini-bar {
       width: 100%;
-      height: 4px;
+      height: 3px;
       background: #ede6f5;
       border-radius: 10px;
       overflow: hidden;
-      margin-top: 4px;
     }
     .daughter-card .d-stat .mini-bar .fill {
       height: 100%;
@@ -405,115 +410,121 @@
       animation: glowBar 1.2s ease-in-out infinite alternate;
     }
     .daughter-card .d-recent {
-      font-size: 12px;
+      font-size: 11px;
       color: #999;
-      margin-top: 6px;
+      margin-top: 4px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       border-top: 1px solid #ede6f5;
-      padding-top: 6px;
+      padding-top: 4px;
     }
 
     /* ----- subject manager (admin only) ----- */
     .subject-manager {
       background: #faf8fc;
-      border-radius: 16px;
-      padding: 12px 16px;
-      margin: 8px 0 16px 0;
+      border-radius: 12px;
+      padding: 8px 12px;
+      margin: 4px 0 10px 0;
       border: 1px solid #ede6f5;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+    .subject-manager .label {
+      font-weight: 600;
+      font-size: 13px;
+      color: #4a3a5e;
+      margin-right: 6px;
     }
     .subject-manager .flex-row {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       flex-wrap: wrap;
       align-items: center;
-      margin-bottom: 8px;
     }
     .subject-manager .flex-row input {
-      flex: 1;
-      min-width: 120px;
-      padding: 6px 12px;
+      padding: 4px 10px;
       border: 2px solid #ede6f5;
-      border-radius: 14px;
-      font-size: 14px;
-      background: #fff;
-    }
-    .subject-manager .subject-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .subject-manager .subject-tag {
-      background: #ede6f5;
-      padding: 2px 12px;
-      border-radius: 30px;
+      border-radius: 20px;
       font-size: 13px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      background: #fff;
+      outline: none;
+      width: 140px;
     }
-    .subject-manager .subject-tag .del {
-      cursor: pointer;
-      color: #b91c1c;
-      font-weight: 700;
-      margin-left: 4px;
-      font-size: 16px;
-      line-height: 1;
-    }
-    .subject-manager .subject-tag .del:hover {
-      color: #7f1d1d;
+    .subject-manager .flex-row input:focus {
+      border-color: #7c3aed;
     }
     .btn-sm-add {
       background: #7c3aed;
       color: #fff;
       border: none;
-      padding: 6px 16px;
+      padding: 4px 14px;
       border-radius: 30px;
       font-weight: 600;
-      font-size: 13px;
+      font-size: 12px;
       cursor: pointer;
-      transition: background 0.15s;
     }
     .btn-sm-add:hover {
       background: #6d28d9;
     }
+    .subject-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .subject-tag {
+      background: #ede6f5;
+      padding: 0 10px;
+      border-radius: 30px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .subject-tag .del {
+      cursor: pointer;
+      color: #b91c1c;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 1;
+    }
 
-    /* ----- daughter personal progress ----- */
+    /* ----- daughter personal progress (only daughter view) ----- */
     .personal-progress {
       background: #faf8fc;
-      border-radius: 16px;
-      padding: 12px 16px;
-      margin: 8px 0 16px 0;
+      border-radius: 12px;
+      padding: 8px 12px;
+      margin: 4px 0 10px 0;
       border: 1px solid #ede6f5;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
     }
     .personal-progress .pp-header {
       font-weight: 600;
       color: #4a3a5e;
-      margin-bottom: 8px;
-      display: flex;
-      justify-content: space-between;
+      font-size: 13px;
     }
     .personal-progress .pp-stats {
       display: flex;
-      gap: 20px;
+      gap: 16px;
       flex-wrap: wrap;
-    }
-    .personal-progress .pp-stats .stat-item {
-      font-size: 14px;
-      color: #2d1b3d;
+      font-size: 13px;
     }
     .personal-progress .pp-stats .stat-item .num {
       font-weight: 700;
       color: #7c3aed;
     }
     .personal-progress .pp-bar {
-      width: 100%;
-      height: 8px;
+      flex: 1;
+      min-width: 80px;
+      height: 6px;
       background: #ede6f5;
       border-radius: 10px;
       overflow: hidden;
-      margin: 6px 0 4px 0;
     }
     .personal-progress .pp-bar .fill {
       height: 100%;
@@ -529,9 +540,12 @@
       animation: glowBar 1.2s ease-in-out infinite alternate;
     }
     .personal-progress .pp-recent {
-      font-size: 13px;
+      font-size: 12px;
       color: #888;
-      margin-top: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 150px;
     }
 
     /* ----- panels (task list) ----- */
@@ -554,194 +568,186 @@
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 8px;
+      margin-bottom: 8px;
       flex-shrink: 0;
     }
     .panel-header h2 {
-      font-size: 20px;
+      font-size: 18px;
       color: #2d1b3d;
     }
     .panel-header .filter {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       align-items: center;
     }
     .panel-header .filter select {
-      padding: 6px 12px;
+      padding: 4px 10px;
       border-radius: 20px;
       border: 1px solid #ddd;
       background: #fff;
-      font-size: 14px;
+      font-size: 13px;
     }
     .btn-primary {
       background: #7c3aed;
       color: #fff;
       border: none;
-      padding: 8px 20px;
+      padding: 6px 16px;
       border-radius: 30px;
       font-weight: 600;
-      font-size: 14px;
+      font-size: 13px;
       cursor: pointer;
       transition: background 0.2s, transform 0.1s;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
     }
     .btn-primary:hover {
       background: #6d28d9;
     }
     .btn-primary:active { transform: scale(0.96); }
-    .btn-secondary {
-      background: #f0ecf5;
-      color: #4a3a5e;
-      border: none;
-      padding: 6px 16px;
-      border-radius: 30px;
-      font-weight: 500;
-      font-size: 13px;
-      cursor: pointer;
-    }
-    .btn-secondary:hover { background: #e4daf0; }
 
-    /* ----- encouragement ----- */
+    /* ----- encouragement banner ----- */
     .encouragement-banner {
       background: linear-gradient(135deg, #fce7f3, #ede6f5);
-      border-radius: 18px;
-      padding: 14px 20px;
-      margin: 8px 0 16px 0;
-      border-left: 6px solid #7c3aed;
-      font-size: 16px;
-      line-height: 1.6;
+      border-radius: 14px;
+      padding: 10px 16px;
+      margin: 4px 0 10px 0;
+      border-left: 4px solid #7c3aed;
+      font-size: 14px;
+      line-height: 1.5;
       color: #2d1b3d;
     }
     .encouragement-banner .quote {
       font-style: italic;
       color: #6b5b7a;
-      margin-top: 4px;
-      font-size: 15px;
+      font-size: 13px;
+      margin-top: 2px;
     }
     .encouragement-banner .quote::before {
       content: "💬 ";
     }
 
+    /* ----- reflection ----- */
     .reflection-section {
       background: #faf8fc;
-      border-radius: 16px;
-      padding: 14px 18px;
-      margin-bottom: 16px;
+      border-radius: 12px;
+      padding: 8px 12px;
+      margin-bottom: 10px;
       border: 1px solid #ede6f5;
     }
     .reflection-section h4 {
-      font-size: 15px;
+      font-size: 14px;
       color: #4a3a5e;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
     .reflection-section textarea {
       width: 100%;
-      padding: 10px 12px;
+      padding: 6px 10px;
       border: 2px solid #ede6f5;
-      border-radius: 14px;
-      font-size: 14px;
+      border-radius: 12px;
+      font-size: 13px;
       font-family: inherit;
       background: #fff;
       resize: vertical;
-      min-height: 70px;
+      min-height: 50px;
       outline: none;
-      transition: border 0.2s;
     }
     .reflection-section textarea:focus {
       border-color: #7c3aed;
     }
     .reflection-section .reflection-actions {
       display: flex;
-      gap: 10px;
-      margin-top: 8px;
-      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
     }
     .reflection-section .reflection-history {
-      margin-top: 12px;
+      margin-top: 8px;
       border-top: 1px solid #ede6f5;
-      padding-top: 10px;
+      padding-top: 6px;
+      max-height: 80px;
+      overflow-y: auto;
     }
     .reflection-section .reflection-history .entry {
-      font-size: 14px;
-      padding: 6px 0;
+      font-size: 13px;
+      padding: 4px 0;
       border-bottom: 1px solid #f0ecf5;
       color: #2d1b3d;
     }
     .reflection-section .reflection-history .entry .date {
       color: #999;
-      font-size: 12px;
-      margin-right: 8px;
+      font-size: 11px;
+      margin-right: 6px;
     }
     .reflection-section .reflection-history .entry .text {
       display: block;
-      margin-top: 2px;
-      padding-left: 12px;
-      border-left: 3px solid #d4c4f0;
+      margin-top: 1px;
+      padding-left: 10px;
+      border-left: 2px solid #d4c4f0;
       color: #4a3a5e;
     }
 
+    /* ----- task grid ----- */
     .task-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 12px;
+      gap: 10px;
       overflow-y: auto;
-      padding-bottom: 8px;
+      padding-bottom: 6px;
     }
     .task-card {
       background: #faf8fc;
-      border-radius: 18px;
-      padding: 14px 16px;
-      border-left: 5px solid #d4c4f0;
+      border-radius: 14px;
+      padding: 10px 12px;
+      border-left: 4px solid #d4c4f0;
       transition: box-shadow 0.15s;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 3px;
     }
-    .task-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+    .task-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
     .task-card .task-title {
       font-weight: 600;
-      font-size: 15px;
+      font-size: 14px;
       color: #2d1b3d;
     }
     .task-card .task-desc {
       color: #6b5b7a;
-      font-size: 13px;
-      line-height: 1.4;
+      font-size: 12px;
+      line-height: 1.3;
     }
     .task-card .task-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 4px 12px;
-      font-size: 12px;
+      gap: 3px 10px;
+      font-size: 11px;
       color: #888;
-      margin: 2px 0;
+      margin: 1px 0;
     }
     .task-card .task-meta .badge {
       background: #ede6f5;
-      padding: 0 10px;
+      padding: 0 8px;
       border-radius: 30px;
       font-weight: 500;
       color: #4a3a5e;
-      font-size: 11px;
+      font-size: 10px;
     }
     .badge.done { background: #d1fae5; color: #0b6e4f; }
     .badge.pending { background: #fef3d7; color: #b45309; }
     .badge.creator { background: #dbeafe; color: #1e40af; }
     .badge.penalty { background: #fee2e2; color: #b91c1c; }
     .badge.repeat { background: #fce7f3; color: #9d174d; }
+    .badge.points { background: #fde68a; color: #92400e; }
 
     .task-card .reply-preview {
       background: #f1edf7;
-      border-radius: 12px;
-      padding: 8px 12px;
-      font-size: 13px;
-      border-left: 3px solid #7c3aed;
+      border-radius: 10px;
+      padding: 6px 10px;
+      font-size: 12px;
+      border-left: 2px solid #7c3aed;
       color: #2d1b3d;
       margin-top: 2px;
     }
@@ -751,12 +757,12 @@
       display: flex;
       flex-wrap: wrap;
       gap: 4px;
-      margin-top: 6px;
-      padding-top: 6px;
+      margin-top: 4px;
+      padding-top: 4px;
       border-top: 1px solid #ede6f5;
     }
     .task-actions .btn-sm {
-      padding: 3px 12px;
+      padding: 2px 10px;
       font-size: 11px;
       border-radius: 30px;
       border: none;
@@ -785,53 +791,46 @@
       gap: 16px;
       flex-wrap: wrap;
       background: #f1edf7;
-      padding: 6px 18px;
+      padding: 4px 16px;
       border-radius: 40px;
       font-weight: 600;
-      font-size: 15px;
+      font-size: 14px;
     }
     .points-bar .btn-redeem {
       background: #fbbf24;
       border: none;
-      padding: 4px 16px;
+      padding: 2px 14px;
       border-radius: 30px;
       font-weight: 600;
       cursor: pointer;
-      font-size: 13px;
+      font-size: 12px;
     }
     .points-bar .btn-redeem:hover { background: #f59e0b; }
     .points-bar .manual-today {
-      font-size: 13px;
+      font-size: 12px;
       color: #6b5b7a;
     }
 
     .history-section {
       background: #faf8fc;
-      border-radius: 16px;
-      padding: 12px 16px;
-      margin-top: 8px;
+      border-radius: 12px;
+      padding: 8px 12px;
+      margin-top: 6px;
       border: 1px solid #ede6f5;
     }
     .history-section h4 {
-      font-size: 14px;
+      font-size: 13px;
       color: #4a3a5e;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
     .history-section .history-item {
-      font-size: 13px;
-      padding: 4px 0;
+      font-size: 12px;
+      padding: 3px 0;
       border-bottom: 1px solid #ede6f5;
       color: #2d1b3d;
     }
     .history-section .history-item:last-child {
       border-bottom: none;
-    }
-    .history-section .history-item .badge-history {
-      background: #ede6f5;
-      padding: 0 8px;
-      border-radius: 12px;
-      font-size: 11px;
-      margin-left: 6px;
     }
 
     /* ----- modals ----- */
@@ -851,8 +850,8 @@
     .modal-box {
       background: #fff;
       border-radius: 28px;
-      padding: 24px 28px;
-      max-width: 560px;
+      padding: 20px 24px;
+      max-width: 500px;
       width: 100%;
       max-height: 90vh;
       overflow-y: auto;
@@ -863,23 +862,23 @@
       0% { transform: translateY(20px); opacity: 0; }
       100% { transform: translateY(0); opacity: 1; }
     }
-    .modal-box h2 { font-size: 22px; margin-bottom: 16px; color: #2d1b3d; }
-    .modal-box .field { margin-bottom: 14px; }
+    .modal-box h2 { font-size: 20px; margin-bottom: 12px; color: #2d1b3d; }
+    .modal-box .field { margin-bottom: 10px; }
     .modal-box .field label {
       display: block;
       font-weight: 500;
-      font-size: 14px;
+      font-size: 13px;
       color: #4a3a5e;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .modal-box .field input,
     .modal-box .field textarea,
     .modal-box .field select {
       width: 100%;
-      padding: 8px 12px;
+      padding: 6px 10px;
       border: 2px solid #ede6f5;
-      border-radius: 14px;
-      font-size: 15px;
+      border-radius: 12px;
+      font-size: 14px;
       font-family: inherit;
       background: #faf8fc;
       outline: none;
@@ -888,24 +887,19 @@
     .modal-box .field input:focus,
     .modal-box .field textarea:focus,
     .modal-box .field select:focus { border-color: #7c3aed; }
-    .modal-box .field textarea { resize: vertical; min-height: 50px; }
-    .modal-box .field .datalist-hint {
-      font-size: 12px;
-      color: #999;
-      margin-top: 2px;
-    }
+    .modal-box .field textarea { resize: vertical; min-height: 40px; }
     .modal-box .btns {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       justify-content: flex-end;
-      margin-top: 16px;
+      margin-top: 14px;
     }
     .modal-box .btns .btn {
-      padding: 8px 24px;
+      padding: 6px 20px;
       border-radius: 40px;
       border: none;
       font-weight: 600;
-      font-size: 15px;
+      font-size: 14px;
       cursor: pointer;
       transition: background 0.15s;
     }
@@ -917,20 +911,20 @@
     .reward-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin: 12px 0;
+      gap: 8px;
+      margin: 10px 0;
     }
     .reward-grid .reward-btn {
       background: #f0ecf5;
       border: 2px solid transparent;
-      border-radius: 16px;
-      padding: 12px 8px;
+      border-radius: 14px;
+      padding: 10px 6px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.15s;
       text-align: center;
-      font-size: 14px;
-      line-height: 1.4;
+      font-size: 13px;
+      line-height: 1.3;
     }
     .reward-grid .reward-btn:hover:not(:disabled) {
       background: #e4daf0;
@@ -943,9 +937,9 @@
     }
     .reward-grid .reward-btn .cost {
       display: block;
-      font-size: 13px;
+      font-size: 11px;
       color: #7c3aed;
-      margin-top: 4px;
+      margin-top: 2px;
     }
 
     /* responsive */
@@ -958,10 +952,9 @@
       .modal-box { padding: 16px; }
       .login-btn { min-width: 120px; padding: 14px 24px; font-size: 17px; }
       .reward-grid { grid-template-columns: 1fr 1fr; }
-      .personal-progress .pp-stats { flex-direction: column; gap: 4px; }
       .password-wrapper input { width: 150px; }
     }
-    .text-muted { color: #999; font-size: 13px; }
+    .text-muted { color: #999; font-size: 12px; }
     .mt-8 { margin-top: 8px; }
     .flex { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   </style>
@@ -980,7 +973,6 @@
       <button class="login-btn daughter2" data-role="natalie">👧 Natalie</button>
     </div>
 
-    <!-- 卡通风格密码输入区 -->
     <div class="login-password-area">
       <div class="password-wrapper">
         <span class="emoji">🔐</span>
@@ -1003,85 +995,54 @@
       <button class="btn-logout" id="logoutBtn">🚪 Logout</button>
     </div>
 
-    <!-- ===== UPPER SECTION (only for admin) ===== -->
+    <!-- ===== UPPER SECTION (可折叠统计) ===== -->
     <div class="upper-section" id="upperSection">
-      <!-- Global stats -->
-      <div class="stats-dashboard">
-        <div class="stats-title">📊 Overall Progress</div>
-        <div class="stats-grid">
-          <div class="stats-card" id="statToday">
-            <div class="period">📅 Today</div>
-            <div class="numbers"><span class="done" id="todayDone">0</span> / <span class="total" id="todayTotal">0</span></div>
-            <div class="progress-bar"><div class="fill" id="todayFill" style="width:0%;"></div></div>
-            <div class="sub-text" id="todaySub">No tasks due today</div>
-          </div>
-          <div class="stats-card" id="statWeek">
-            <div class="period">📆 This Week</div>
-            <div class="numbers"><span class="done" id="weekDone">0</span> / <span class="total" id="weekTotal">0</span></div>
-            <div class="progress-bar"><div class="fill" id="weekFill" style="width:0%;"></div></div>
-            <div class="sub-text" id="weekSub">Keep up the momentum!</div>
-          </div>
-          <div class="stats-card" id="statMonth">
-            <div class="period">📅 This Month</div>
-            <div class="numbers"><span class="done" id="monthDone">0</span> / <span class="total" id="monthTotal">0</span></div>
-            <div class="progress-bar"><div class="fill" id="monthFill" style="width:0%;"></div></div>
-            <div class="sub-text" id="monthSub">You're making progress!</div>
+      <button class="toggle-stats" id="toggleStatsBtn">📊 Hide Stats</button>
+      <!-- stats content -->
+      <div id="statsContent">
+        <div class="stats-dashboard">
+          <div class="stats-title">📊 Overall Progress</div>
+          <div class="stats-grid">
+            <div class="stats-card" id="statToday">
+              <div class="period">📅 Today</div>
+              <div class="numbers"><span class="done" id="todayDone">0</span> / <span class="total" id="todayTotal">0</span></div>
+              <div class="progress-bar"><div class="fill" id="todayFill" style="width:0%;"></div></div>
+              <div class="sub-text" id="todaySub">No tasks due today</div>
+            </div>
+            <div class="stats-card" id="statWeek">
+              <div class="period">📆 This Week</div>
+              <div class="numbers"><span class="done" id="weekDone">0</span> / <span class="total" id="weekTotal">0</span></div>
+              <div class="progress-bar"><div class="fill" id="weekFill" style="width:0%;"></div></div>
+              <div class="sub-text" id="weekSub">Keep up the momentum!</div>
+            </div>
+            <div class="stats-card" id="statMonth">
+              <div class="period">📅 This Month</div>
+              <div class="numbers"><span class="done" id="monthDone">0</span> / <span class="total" id="monthTotal">0</span></div>
+              <div class="progress-bar"><div class="fill" id="monthFill" style="width:0%;"></div></div>
+              <div class="sub-text" id="monthSub">You're making progress!</div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Daughters detailed overview -->
-      <div class="daughters-overview" id="daughtersOverview">
-        <!-- Isabella card -->
-        <div class="daughter-card" id="daughterCardIsabella">
-          <div class="d-header">
-            <span class="name">👧 Isabella</span>
-            <span class="total-badge" id="isabellaTotalBadge">0 tasks</span>
+        <div class="daughters-overview" id="daughtersOverview">
+          <div class="daughter-card" id="daughterCardIsabella">
+            <div class="d-header"><span class="name">👧 Isabella</span><span class="total-badge" id="isabellaTotalBadge">0 tasks</span></div>
+            <div class="d-stats">
+              <div class="d-stat"><div class="label">Today</div><div class="num"><span class="done" id="isabellaTodayDone">0</span>/<span class="total" id="isabellaTodayTotal">0</span></div><div class="mini-bar"><div class="fill" id="isabellaTodayBar" style="width:0%;"></div></div></div>
+              <div class="d-stat"><div class="label">Week</div><div class="num"><span class="done" id="isabellaWeekDone">0</span>/<span class="total" id="isabellaWeekTotal">0</span></div><div class="mini-bar"><div class="fill" id="isabellaWeekBar" style="width:0%;"></div></div></div>
+              <div class="d-stat"><div class="label">Month</div><div class="num"><span class="done" id="isabellaMonthDone">0</span>/<span class="total" id="isabellaMonthTotal">0</span></div><div class="mini-bar"><div class="fill" id="isabellaMonthBar" style="width:0%;"></div></div></div>
+            </div>
+            <div class="d-recent" id="isabellaRecent">No recent activity</div>
           </div>
-          <div class="d-stats">
-            <div class="d-stat">
-              <div class="label">Today</div>
-              <div class="num"><span class="done" id="isabellaTodayDone">0</span>/<span class="total" id="isabellaTodayTotal">0</span></div>
-              <div class="mini-bar"><div class="fill" id="isabellaTodayBar" style="width:0%;"></div></div>
+          <div class="daughter-card" id="daughterCardNatalie">
+            <div class="d-header"><span class="name">👧 Natalie</span><span class="total-badge" id="natalieTotalBadge">0 tasks</span></div>
+            <div class="d-stats">
+              <div class="d-stat"><div class="label">Today</div><div class="num"><span class="done" id="natalieTodayDone">0</span>/<span class="total" id="natalieTodayTotal">0</span></div><div class="mini-bar"><div class="fill" id="natalieTodayBar" style="width:0%;"></div></div></div>
+              <div class="d-stat"><div class="label">Week</div><div class="num"><span class="done" id="natalieWeekDone">0</span>/<span class="total" id="natalieWeekTotal">0</span></div><div class="mini-bar"><div class="fill" id="natalieWeekBar" style="width:0%;"></div></div></div>
+              <div class="d-stat"><div class="label">Month</div><div class="num"><span class="done" id="natalieMonthDone">0</span>/<span class="total" id="natalieMonthTotal">0</span></div><div class="mini-bar"><div class="fill" id="natalieMonthBar" style="width:0%;"></div></div></div>
             </div>
-            <div class="d-stat">
-              <div class="label">Week</div>
-              <div class="num"><span class="done" id="isabellaWeekDone">0</span>/<span class="total" id="isabellaWeekTotal">0</span></div>
-              <div class="mini-bar"><div class="fill" id="isabellaWeekBar" style="width:0%;"></div></div>
-            </div>
-            <div class="d-stat">
-              <div class="label">Month</div>
-              <div class="num"><span class="done" id="isabellaMonthDone">0</span>/<span class="total" id="isabellaMonthTotal">0</span></div>
-              <div class="mini-bar"><div class="fill" id="isabellaMonthBar" style="width:0%;"></div></div>
-            </div>
+            <div class="d-recent" id="natalieRecent">No recent activity</div>
           </div>
-          <div class="d-recent" id="isabellaRecent">No recent activity</div>
-        </div>
-
-        <!-- Natalie card -->
-        <div class="daughter-card" id="daughterCardNatalie">
-          <div class="d-header">
-            <span class="name">👧 Natalie</span>
-            <span class="total-badge" id="natalieTotalBadge">0 tasks</span>
-          </div>
-          <div class="d-stats">
-            <div class="d-stat">
-              <div class="label">Today</div>
-              <div class="num"><span class="done" id="natalieTodayDone">0</span>/<span class="total" id="natalieTodayTotal">0</span></div>
-              <div class="mini-bar"><div class="fill" id="natalieTodayBar" style="width:0%;"></div></div>
-            </div>
-            <div class="d-stat">
-              <div class="label">Week</div>
-              <div class="num"><span class="done" id="natalieWeekDone">0</span>/<span class="total" id="natalieWeekTotal">0</span></div>
-              <div class="mini-bar"><div class="fill" id="natalieWeekBar" style="width:0%;"></div></div>
-            </div>
-            <div class="d-stat">
-              <div class="label">Month</div>
-              <div class="num"><span class="done" id="natalieMonthDone">0</span>/<span class="total" id="natalieMonthTotal">0</span></div>
-              <div class="mini-bar"><div class="fill" id="natalieMonthBar" style="width:0%;"></div></div>
-            </div>
-          </div>
-          <div class="d-recent" id="natalieRecent">No recent activity</div>
         </div>
       </div>
     </div>
@@ -1095,28 +1056,41 @@
           <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
             <div class="filter"><label for="filterAssignee" style="margin-right:4px;">Filter:</label><select id="filterAssignee"><option value="all">All</option><option value="isabella">Isabella</option><option value="natalie">Natalie</option></select></div>
             <button class="btn-primary" id="btnAddTaskAdmin">➕ Add Task</button>
-            <button class="btn-primary" id="btnAwardPoints" style="background:#f59e0b;">🏆 Award Points</button>
+            <button class="btn-primary" id="btnAwardPoints" style="background:#f59e0b;">🏆 Award</button>
           </div>
         </div>
-        <div style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:12px;">
+        <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:8px;">
           <div class="points-bar" id="pointsBarAdmin">
             <span>⭐ Isabella: <span id="pointsIsabella">0</span> pts (today +<span id="manualTodayIsabella">0</span>)</span>
             <span>⭐ Natalie: <span id="pointsNatalie">0</span> pts (today +<span id="manualTodayNatalie">0</span>)</span>
           </div>
         </div>
-        <div class="subject-manager" id="subjectManager">
-          <div style="font-weight:600; margin-bottom:6px;">📚 Manage Subjects</div>
+        <!-- Subject Manager 改为更紧凑 -->
+        <div class="subject-manager">
+          <span class="label">📚 Subjects:</span>
           <div class="flex-row">
-            <input type="text" id="newSubjectInput" placeholder="New subject name" />
+            <input type="text" id="newSubjectInput" placeholder="New subject" />
             <button class="btn-sm-add" id="addSubjectBtn">+ Add</button>
           </div>
           <div class="subject-tags" id="subjectTagContainer"></div>
         </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:12px;">
-          <div class="history-section" id="redeemHistoryAdmin"><h4>🎁 Redemption History</h4><div id="redeemHistoryList"></div></div>
-          <div class="history-section" id="awardHistoryAdmin"><h4>🏆 Award History</h4><div id="awardHistoryList"></div></div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:8px;">
+          <div class="history-section"><h4>🎁 Redemption History</h4><div id="redeemHistoryList"></div></div>
+          <div class="history-section"><h4>🏆 Award History</h4><div id="awardHistoryList"></div></div>
         </div>
-        <div id="adminTaskList" class="task-grid"></div>
+
+        <!-- Admin 任务列表（按女儿分别显示） -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; flex:1; min-height:0;">
+          <div id="adminIsabellaContainer" style="display:flex; flex-direction:column; min-height:0;">
+            <h3 style="font-size:15px; margin-bottom:4px; color:#7c3aed;">👧 Isabella</h3>
+            <div id="adminIsabellaTaskList" class="task-grid" style="flex:1; overflow-y:auto;"></div>
+          </div>
+          <div id="adminNatalieContainer" style="display:flex; flex-direction:column; min-height:0;">
+            <h3 style="font-size:15px; margin-bottom:4px; color:#7c3aed;">👧 Natalie</h3>
+            <div id="adminNatalieTaskList" class="task-grid" style="flex:1; overflow-y:auto;"></div>
+          </div>
+        </div>
       </div>
 
       <!-- Isabella Panel -->
@@ -1125,30 +1099,34 @@
           <h2>👧 Isabella's Tasks</h2>
           <div style="display:flex; gap:8px; align-items:center;">
             <span class="points-bar" style="background:#fde68a;">⭐ <span id="pointsIsabellaDaughter">0</span> pts (today +<span id="manualTodayIsabellaD">0</span>) <button class="btn-redeem" data-child="isabella">🎁 Redeem</button></span>
-            <button class="btn-primary" id="btnAddTaskIsabella">➕ Add Task</button>
+            <button class="btn-primary" id="btnAddTaskIsabella">➕ Add</button>
           </div>
         </div>
+
         <div class="personal-progress" id="personalProgressIsabella">
-          <div class="pp-header"><span>📈 My Progress</span><span id="ppIsabellaDate"></span></div>
+          <span class="pp-header">📈 My Progress</span>
           <div class="pp-stats">
-            <span class="stat-item">📋 Total: <span class="num" id="ppIsabellaTotal">0</span></span>
-            <span class="stat-item">✅ Done: <span class="num" id="ppIsabellaDone">0</span></span>
-            <span class="stat-item">🎯 Rate: <span class="num" id="ppIsabellaRate">0</span>%</span>
+            <span class="stat-item">📋 <span class="num" id="ppIsabellaTotal">0</span></span>
+            <span class="stat-item">✅ <span class="num" id="ppIsabellaDone">0</span></span>
+            <span class="stat-item">🎯 <span class="num" id="ppIsabellaRate">0</span>%</span>
           </div>
           <div class="pp-bar"><div class="fill" id="ppIsabellaBar" style="width:0%;"></div></div>
           <div class="pp-recent" id="ppIsabellaRecent">No recent activity</div>
         </div>
+
         <div class="encouragement-banner" id="encouragementBanner">
           <div id="encouragementMessage">🌟 Keep going, you're doing great!</div>
           <div class="quote" id="quoteDisplay">💬 "Believe you can and you're halfway there." — Theodore Roosevelt</div>
         </div>
+
         <div class="reflection-section">
           <h4>📝 Daily Self-Reflection</h4>
           <textarea id="reflectionInput" placeholder="How was your day? What went well? What could be better?"></textarea>
-          <div class="reflection-actions"><button class="btn-primary" id="saveReflectionBtn" style="padding:6px 20px; font-size:13px;">💾 Save</button></div>
+          <div class="reflection-actions"><button class="btn-primary" id="saveReflectionBtn" style="padding:4px 16px; font-size:12px;">💾 Save</button></div>
           <div class="reflection-history" id="reflectionHistory"></div>
         </div>
-        <div id="isabellaTaskList" class="task-grid"></div>
+
+        <div id="isabellaTaskList" class="task-grid" style="flex:1; overflow-y:auto;"></div>
       </div>
 
       <!-- Natalie Panel -->
@@ -1157,30 +1135,34 @@
           <h2>👧 Natalie's Tasks</h2>
           <div style="display:flex; gap:8px; align-items:center;">
             <span class="points-bar" style="background:#a7f3d0;">⭐ <span id="pointsNatalieDaughter">0</span> pts (today +<span id="manualTodayNatalieD">0</span>) <button class="btn-redeem" data-child="natalie">🎁 Redeem</button></span>
-            <button class="btn-primary" id="btnAddTaskNatalie">➕ Add Task</button>
+            <button class="btn-primary" id="btnAddTaskNatalie">➕ Add</button>
           </div>
         </div>
+
         <div class="personal-progress" id="personalProgressNatalie">
-          <div class="pp-header"><span>📈 My Progress</span><span id="ppNatalieDate"></span></div>
+          <span class="pp-header">📈 My Progress</span>
           <div class="pp-stats">
-            <span class="stat-item">📋 Total: <span class="num" id="ppNatalieTotal">0</span></span>
-            <span class="stat-item">✅ Done: <span class="num" id="ppNatalieDone">0</span></span>
-            <span class="stat-item">🎯 Rate: <span class="num" id="ppNatalieRate">0</span>%</span>
+            <span class="stat-item">📋 <span class="num" id="ppNatalieTotal">0</span></span>
+            <span class="stat-item">✅ <span class="num" id="ppNatalieDone">0</span></span>
+            <span class="stat-item">🎯 <span class="num" id="ppNatalieRate">0</span>%</span>
           </div>
           <div class="pp-bar"><div class="fill" id="ppNatalieBar" style="width:0%;"></div></div>
           <div class="pp-recent" id="ppNatalieRecent">No recent activity</div>
         </div>
+
         <div class="encouragement-banner" id="encouragementBanner2">
           <div id="encouragementMessage2">🌟 Keep going, you're doing great!</div>
           <div class="quote" id="quoteDisplay2">💬 "Believe you can and you're halfway there." — Theodore Roosevelt</div>
         </div>
+
         <div class="reflection-section">
           <h4>📝 Daily Self-Reflection</h4>
           <textarea id="reflectionInput2" placeholder="How was your day? What went well? What could be better?"></textarea>
-          <div class="reflection-actions"><button class="btn-primary" id="saveReflectionBtn2" style="padding:6px 20px; font-size:13px;">💾 Save</button></div>
+          <div class="reflection-actions"><button class="btn-primary" id="saveReflectionBtn2" style="padding:4px 16px; font-size:12px;">💾 Save</button></div>
           <div class="reflection-history" id="reflectionHistory2"></div>
         </div>
-        <div id="natalieTaskList" class="task-grid"></div>
+
+        <div id="natalieTaskList" class="task-grid" style="flex:1; overflow-y:auto;"></div>
       </div>
     </div>
   </div>
@@ -1191,67 +1173,15 @@
     <div class="modal-box">
       <h2 id="taskFormTitle">✏️ Add Task</h2>
       <input type="hidden" id="editTaskId" value="" />
-      <div class="field">
-        <label>Title *</label>
-        <input type="text" id="taskFormTitleInput" placeholder="e.g. Math worksheet" list="taskTitleList" />
-        <datalist id="taskTitleList">
-          <option value="Violin">
-          <option value="Piano">
-          <option value="EP Language Arts">
-          <option value="EP Reading">
-          <option value="EP Maths">
-          <option value="IXL">
-          <option value="Spanish Course">
-          <option value="Spanish Duolingo">
-          <option value="Flexibility">
-          <option value="体能">
-          <option value="Read Chinese Book">
-          <option value="Read English Book">
-        </datalist>
-      </div>
-      <div class="field">
-        <label>Subject</label>
-        <input list="subjectList" id="taskFormSubject" placeholder="Choose or type subject" />
-        <datalist id="subjectList">
-          <option value="English">
-          <option value="Chinese">
-          <option value="Maths">
-          <option value="Science">
-          <option value="Music">
-          <option value="Others">
-        </datalist>
-        <div class="datalist-hint">You can type any custom subject.</div>
-      </div>
-      <div class="field">
-        <label>Description</label>
-        <textarea id="taskFormDesc" placeholder="Details..."></textarea>
-      </div>
-      <div class="field" id="taskFormAssignField">
-        <label>Assign to</label>
-        <select id="taskFormAssign">
-          <option value="isabella">Isabella</option>
-          <option value="natalie">Natalie</option>
-          <option value="both">Both</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Due Date</label>
-        <input type="date" id="taskFormDate" />
-      </div>
-      <!-- 重复选项 -->
-      <div class="field">
-        <label>Repeat</label>
-        <select id="taskFormRepeat">
-          <option value="none">None</option>
-          <option value="daily">Daily</option>
-          <option value="weekly">Weekly</option>
-          <option value="monthly">Monthly</option>
-        </select>
-      </div>
-      <div class="btns">
-        <button class="btn btn-cancel" id="taskFormCancel">Cancel</button>
-        <button class="btn btn-confirm" id="taskFormConfirm">Save</button>
-      </div>
+      <div class="field"><label>Title *</label><input type="text" id="taskFormTitleInput" placeholder="e.g. Math worksheet" list="taskTitleList" /><datalist id="taskTitleList">
+          <option value="Violin"><option value="Piano"><option value="EP Language Arts"><option value="EP Reading"><option value="EP Maths"><option value="IXL"><option value="Spanish Course"><option value="Spanish Duolingo"><option value="Flexibility"><option value="体能"><option value="Read Chinese Book"><option value="Read English Book">
+        </datalist></div>
+      <div class="field"><label>Subject</label><input list="subjectList" id="taskFormSubject" placeholder="Choose or type subject" /><datalist id="subjectList"><option value="English"><option value="Chinese"><option value="Maths"><option value="Science"><option value="Music"><option value="Others"></datalist><div class="text-muted">You can type any custom subject.</div></div>
+      <div class="field"><label>Description</label><textarea id="taskFormDesc" placeholder="Details..."></textarea></div>
+      <div class="field" id="taskFormAssignField"><label>Assign to</label><select id="taskFormAssign"><option value="isabella">Isabella</option><option value="natalie">Natalie</option><option value="both">Both</option></select></div>
+      <div class="field"><label>Due Date</label><input type="date" id="taskFormDate" /></div>
+      <div class="field"><label>Repeat</label><select id="taskFormRepeat"><option value="none">None</option><option value="daily">Daily</option><option value="weekly">Weekly</option><option value="monthly">Monthly</option></select></div>
+      <div class="btns"><button class="btn btn-cancel" id="taskFormCancel">Cancel</button><button class="btn btn-confirm" id="taskFormConfirm">Save</button></div>
     </div>
   </div>
 
@@ -1259,9 +1189,9 @@
   <div class="modal-overlay hidden" id="replyModal">
     <div class="modal-box">
       <h2>💬 Submit Reply</h2>
-      <div id="replyTaskInfo" class="text-muted" style="margin-bottom:12px;"></div>
+      <div id="replyTaskInfo" class="text-muted" style="margin-bottom:8px;"></div>
       <div class="field"><label>Your message</label><textarea id="replyText" placeholder="Write your reply..."></textarea></div>
-      <div class="field"><label>Attachment (optional)</label><div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;"><input type="file" id="replyFile" style="flex:1;" /><span id="fileNameDisplay" class="text-muted" style="font-size:13px;"></span></div></div>
+      <div class="field"><label>Attachment (optional)</label><div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;"><input type="file" id="replyFile" style="flex:1;" /><span id="fileNameDisplay" class="text-muted" style="font-size:12px;"></span></div></div>
       <div class="btns"><button class="btn btn-cancel" id="replyCancel">Cancel</button><button class="btn btn-confirm" id="replyConfirm">Submit Reply</button></div>
     </div>
   </div>
@@ -1279,7 +1209,7 @@
   <div class="modal-overlay hidden" id="scoreModal">
     <div class="modal-box">
       <h2>⭐ Rate Performance</h2>
-      <p class="text-muted" style="margin-bottom:12px;">Give extra points (0-10) for this task. Max 10 points per day per child.</p>
+      <p class="text-muted" style="margin-bottom:8px;">Give extra points (0-10). Max 10 points per day per child.</p>
       <div class="field"><label>Points (0-10)</label><input type="number" id="scoreInput" min="0" max="10" value="5" /><div class="text-muted" id="scoreRemainingMsg"></div></div>
       <div class="btns"><button class="btn btn-cancel" id="scoreCancel">Cancel</button><button class="btn btn-confirm" id="scoreConfirm">Save</button></div>
     </div>
@@ -1289,9 +1219,9 @@
   <div class="modal-overlay hidden" id="awardModal">
     <div class="modal-box">
       <h2>🏆 Award Points</h2>
-      <p class="text-muted" style="margin-bottom:12px;">Give bonus points for competition/performance.</p>
+      <p class="text-muted" style="margin-bottom:8px;">Give bonus points for competition/performance.</p>
       <div class="field"><label>Child</label><select id="awardChild"><option value="isabella">Isabella</option><option value="natalie">Natalie</option></select></div>
-      <div class="field"><label>Preset ranking</label><select id="awardRank"><option value="0">Custom</option><option value="2000">1st place (2000 pts)</option><option value="1000">2nd place (1000 pts)</option><option value="500">3rd place (500 pts)</option><option value="200">4th place (200 pts)</option></select></div>
+      <div class="field"><label>Preset ranking</label><select id="awardRank"><option value="0">Custom</option><option value="2000">1st (2000)</option><option value="1000">2nd (1000)</option><option value="500">3rd (500)</option><option value="200">4th (200)</option></select></div>
       <div class="field"><label>Points (custom)</label><input type="number" id="awardPoints" min="0" value="0" /></div>
       <div class="field"><label>Reason (optional)</label><input type="text" id="awardReason" placeholder="e.g. Spelling bee champion" /></div>
       <div class="btns"><button class="btn btn-cancel" id="awardCancel">Cancel</button><button class="btn btn-confirm" id="awardConfirm">Award</button></div>
@@ -1302,8 +1232,8 @@
   <div class="modal-overlay hidden" id="redeemModal">
     <div class="modal-box">
       <h2>🎁 Redeem Points</h2>
-      <p id="redeemChildInfo" style="margin-bottom:8px;"></p>
-      <p style="font-size:14px; color:#666;">Choose a reward:</p>
+      <p id="redeemChildInfo" style="margin-bottom:6px;"></p>
+      <p style="font-size:13px; color:#666;">Choose a reward:</p>
       <div class="reward-grid" id="rewardGrid"></div>
       <div class="btns"><button class="btn btn-cancel" id="redeemCancel">Cancel</button></div>
     </div>
@@ -1318,13 +1248,12 @@
     // ============================================================
     //  SUPABASE CONFIG - 请替换为您的实际值
     // ============================================================
-    const SUPABASE_URL = 'https://fetdirwyenqqchcpbhld.supabase.co';   // 替换
-    const SUPABASE_ANON_KEY = 'sb_publishable_AzMdS9DhKvQ5ty4TOm0_hA_tUnf2fNH';                 // 替换
+    const SUPABASE_URL = 'https://fetdirwyenqqchcpbhld.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_AzMdS9DhKvQ5ty4TOm0_hA_tUnf2fNH';
     // ============================================================
 
     const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // ===== 全局状态 =====
     let currentUser = null;
     let currentUserRole = null;
     let selectedRole = null;
@@ -1336,13 +1265,12 @@
     let awards = [];
     let reflections = { isabella: [], natalie: [] };
 
-    // ===== 常量 =====
     const REWARDS = [
       { label: '💰 HKD 20', cost: 100 },
       { label: '📱 iPad +15min', cost: 100 },
       { label: '🛏️ Sleepover (1 night)', cost: 3000 },
       { label: '🏞️ 主题公园一日游', cost: 3000 },
-      { label: '🤝 约同学Playdate (1次)', cost: 1000 },
+      { label: '🤝 Playdate (1次)', cost: 1000 },
       { label: '🍽️ 约同学吃饭 (1次)', cost: 500 },
       { label: '🏠 邀请同学来家玩 (1次)', cost: 1000 },
       { label: '🎬 去电影院看电影', cost: 1000 },
@@ -1350,7 +1278,7 @@
       { label: '📱 额外屏幕时间2小时', cost: 500 },
       { label: '🌙 周末晚睡半小时', cost: 300 },
       { label: '🍕 选择家庭晚餐菜单', cost: 200 },
-      { label: '🎮 游戏时间增加30分钟', cost: 400 },
+      { label: '🎮 游戏时间+30分钟', cost: 400 },
       { label: '🧸 买一个小玩具 (预算50元)', cost: 600 },
     ];
 
@@ -1369,12 +1297,8 @@
       '"Success is not final, failure is not fatal: it is the courage to continue that counts." — Winston Churchill',
     ];
 
-    // ============================================================
-    //  工具函数
-    // ============================================================
-    function getTodayStr() {
-      return new Date().toISOString().slice(0, 10);
-    }
+    // ===== 工具函数 =====
+    function getTodayStr() { return new Date().toISOString().slice(0, 10); }
 
     function formatDate(d) {
       const dt = new Date(d);
@@ -1395,9 +1319,7 @@
       return total;
     }
 
-    // ============================================================
-    //  登录 / 登出
-    // ============================================================
+    // ===== 登录 / 登出 =====
     async function login(role, password) {
       const emails = {
         admin: 'admin@example.com',
@@ -1410,14 +1332,12 @@
           password: password
         });
         if (error) throw error;
-
         const { data: profile, error: profileError } = await sb
           .from('profiles')
           .select('*')
           .eq('id', data.user.id)
           .single();
         if (profileError) throw profileError;
-
         currentUser = profile;
         currentUserRole = role;
         document.getElementById('loginPage').style.display = 'none';
@@ -1442,9 +1362,7 @@
       document.querySelectorAll('.login-btn').forEach(b => b.classList.remove('active'));
     }
 
-    // ============================================================
-    //  数据加载 (从 Supabase)
-    // ============================================================
+    // ===== 数据加载 =====
     async function loadAllData() {
       try {
         let query = sb.from('tasks').select('*');
@@ -1464,9 +1382,7 @@
           .select('role, points')
           .in('role', ['isabella', 'natalie']);
         if (profErr) throw profErr;
-        profiles.forEach(p => {
-          points[p.role] = p.points || 0;
-        });
+        profiles.forEach(p => { points[p.role] = p.points || 0; });
 
         const { data: logs, error: logsErr } = await sb.from('manual_logs').select('*');
         if (logsErr) throw logsErr;
@@ -1495,9 +1411,7 @@
       }
     }
 
-    // ============================================================
-    //  数据写入 (CRUD)
-    // ============================================================
+    // ===== CRUD =====
     async function saveTask(task) {
       try {
         if (task.id) {
@@ -1577,9 +1491,7 @@
       }
     }
 
-    // ============================================================
-    //  重复任务生成
-    // ============================================================
+    // ===== 重复任务生成 =====
     function getNextDate(currentDate, repeatType) {
       const dt = new Date(currentDate);
       if (repeatType === 'daily') dt.setDate(dt.getDate() + 1);
@@ -1593,8 +1505,6 @@
       if (!task.repeat_type || task.repeat_type === 'none') return;
       const nextDate = getNextDate(task.due_date, task.repeat_type);
       if (!nextDate) return;
-      // 如果设置了结束日期，且超过结束日期则停止
-      // 由于没有结束日期字段，我们简化：无限重复，直到用户手动停止（将repeat_type改为none）
       const newTask = {
         title: task.title,
         subject: task.subject,
@@ -1609,14 +1519,12 @@
         created_by: task.created_by,
         completed_at: null,
         user_id: task.user_id,
-        repeat_type: task.repeat_type // 保持相同重复类型
+        repeat_type: task.repeat_type
       };
       await saveTask(newTask);
     }
 
-    // ============================================================
-    //  渲染函数
-    // ============================================================
+    // ===== 渲染函数 =====
     function getEncouragementMessage(done, total) {
       if (total === 0) return '🌱 Start your journey with a small step today!';
       const ratio = done / total;
@@ -1631,7 +1539,7 @@
       return QUOTES[Math.floor(Math.random() * QUOTES.length)];
     }
 
-    // ----- 全局统计（仅 admin） -----
+    // ----- 统计更新 -----
     function updateGlobalStats() {
       let taskList = tasks;
       const today = getTodayStr();
@@ -1678,7 +1586,6 @@
       document.getElementById('monthSub').textContent = monthTotal === 0 ? 'No tasks this month' : (monthDone === monthTotal ? '🎊 Monthly goal achieved!' : `${monthDone} of ${monthTotal} done`);
     }
 
-    // ----- 女儿概览（admin） -----
     function renderDaughtersOverview() {
       const today = getTodayStr();
       const now = new Date();
@@ -1736,38 +1643,47 @@
       renderDaughter('natalie', 'natalie');
     }
 
-    // ----- 管理员任务列表 -----
-    function renderAdmin() {
-      const filter = document.getElementById('filterAssignee').value;
-      let list = tasks;
-      if (filter !== 'all') list = tasks.filter(t => t.assigned_to === filter || t.assigned_to === 'both');
-      const container = document.getElementById('adminTaskList');
-      if (list.length === 0) {
-        container.innerHTML = `<p class="text-muted">No tasks found.</p>`;
-      } else {
+    // ----- 渲染 Admin 专用任务列表（按女儿分开）-----
+    function renderAdminTasks() {
+      // 获取 Isabella 和 Natalie 各自的任务
+      const isabellaTasks = tasks.filter(t => t.assigned_to === 'isabella' || t.assigned_to === 'both');
+      const natalieTasks = tasks.filter(t => t.assigned_to === 'natalie' || t.assigned_to === 'both');
+
+      const renderList = (containerId, list, who) => {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        if (list.length === 0) {
+          container.innerHTML = `<p class="text-muted">No tasks for ${who}.</p>`;
+          return;
+        }
         let html = '';
         list.forEach(task => {
           const status = task.completed ? '✅ Done' : '⏳ Pending';
           const badgeClass = task.completed ? 'done' : 'pending';
           const replyInfo = task.reply ? '💬 Replied' : 'No reply';
           const replyAction = task.reply ?
-            `<button class="btn-sm view" data-action="viewReply" data-id="${task.id}">View Reply</button>` :
+            `<button class="btn-sm view" data-action="viewReply" data-id="${task.id}">View</button>` :
             `<span class="text-muted">—</span>`;
           const creator = task.created_by || 'admin';
           const scoreDisplay = task.score !== undefined && task.score > 0 ? `⭐ ${task.score}` : '⭐ 0';
           const penaltyBadge = task.penalty_applied ? `<span class="badge penalty">⚠️ -5</span>` : '';
           const subject = task.subject || '';
+          // 积分变动显示
+          let pointsChange = '';
+          if (task.completed && task.auto_score_applied) {
+            pointsChange = `<span class="badge points">+5</span>`;
+          } else if (task.penalty_applied) {
+            pointsChange = `<span class="badge penalty">-5</span>`;
+          }
           let repeatBadge = '';
           if (task.repeat_type && task.repeat_type !== 'none') {
-            const repeatEmoji = { daily: '🔁', weekly: '🔁', monthly: '🔁' };
-            repeatBadge = `<span class="badge repeat">${repeatEmoji[task.repeat_type] || '🔄'} ${task.repeat_type}</span>`;
+            repeatBadge = `<span class="badge repeat">🔁 ${task.repeat_type}</span>`;
           }
           html += `
             <div class="task-card">
               <div class="task-title">${task.title}</div>
               <div class="task-desc">${task.description || '—'} ${subject ? '📚 '+subject : ''}</div>
               <div class="task-meta">
-                <span>👤 ${task.assigned_to === 'both' ? 'Both' : task.assigned_to}</span>
                 <span>📅 ${formatDate(task.due_date)}</span>
                 <span class="badge ${badgeClass}">${status}</span>
                 <span class="badge">${replyInfo}</span>
@@ -1775,46 +1691,40 @@
                 <span class="badge" style="background:#fce7f3;">${scoreDisplay}</span>
                 ${penaltyBadge}
                 ${repeatBadge}
+                ${pointsChange}
               </div>
               <div class="task-actions">
                 ${replyAction}
-                <button class="btn-sm edit" data-action="editTask" data-id="${task.id}">✏️ Edit</button>
-                <button class="btn-sm duplicate" data-action="duplicateTask" data-id="${task.id}">📋 Copy</button>
-                <button class="btn-sm score" data-action="adjustScore" data-id="${task.id}">⭐ Rate</button>
-                <button class="btn-sm delete" data-action="deleteTask" data-id="${task.id}">🗑️ Delete</button>
+                <button class="btn-sm edit" data-action="editTask" data-id="${task.id}">✏️</button>
+                <button class="btn-sm duplicate" data-action="duplicateTask" data-id="${task.id}">📋</button>
+                <button class="btn-sm score" data-action="adjustScore" data-id="${task.id}">⭐</button>
+                <button class="btn-sm delete" data-action="deleteTask" data-id="${task.id}">🗑️</button>
               </div>
             </div>
           `;
         });
         container.innerHTML = html;
-        attachTaskEvents(container);
-      }
-
-      // History
-      const redeemList = document.getElementById('redeemHistoryList');
-      if (redemptions.length === 0) {
-        redeemList.innerHTML = '<div class="text-muted">No redemptions yet.</div>';
-      } else {
-        let html = '';
-        redemptions.slice().reverse().forEach(r => {
-          html += `<div class="history-item">${r.child}: ${r.reward} (${r.cost} pts) on ${formatDateTime(r.date)}</div>`;
+        // 绑定事件
+        container.querySelectorAll('[data-action]').forEach(el => {
+          el.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const action = this.dataset.action;
+            const id = parseInt(this.dataset.id, 10);
+            if (action === 'viewReply') viewReply(id);
+            else if (action === 'editTask') openEditModal(id);
+            else if (action === 'duplicateTask') openDuplicateModal(id);
+            else if (action === 'deleteTask') {
+              if (confirm('Delete this task?')) deleteTask(id);
+            } else if (action === 'adjustScore') openScoreModal(id);
+          });
         });
-        redeemList.innerHTML = html;
-      }
+      };
 
-      const awardList = document.getElementById('awardHistoryList');
-      if (awards.length === 0) {
-        awardList.innerHTML = '<div class="text-muted">No awards yet.</div>';
-      } else {
-        let html = '';
-        awards.slice().reverse().forEach(a => {
-          html += `<div class="history-item">${a.child}: +${a.amount} pts ${a.reason ? '("'+a.reason+'")' : ''} on ${formatDateTime(a.date)}</div>`;
-        });
-        awardList.innerHTML = html;
-      }
+      renderList('adminIsabellaTaskList', isabellaTasks, 'Isabella');
+      renderList('adminNatalieTaskList', natalieTasks, 'Natalie');
     }
 
-    // ----- 女儿任务列表 -----
+    // ----- 女儿任务列表（只有回复，无编辑，除非自己创建）-----
     function renderDaughter(who) {
       const container = document.getElementById(who + 'TaskList');
       const list = tasks.filter(t => t.assigned_to === who || t.assigned_to === 'both');
@@ -1835,28 +1745,36 @@
             </div>
           `;
         }
-        const canEditTask = (task.created_by === who || task.created_by === 'admin');
+        // 权限：只有自己创建的任务才能编辑/复制/删除
+        const canEdit = (task.created_by === who || task.created_by === 'admin' && currentUserRole === 'admin');
+        // 但要求：admin 创建的任务，女儿不能编辑，只能 reply。所以只有 created_by === who 才可编辑
+        const canModify = (task.created_by === who);
         let actionButtons = '';
         if (task.completed) {
           actionButtons += `<span class="btn-sm done-label">✔️ Done</span>`;
         } else {
           actionButtons += `<button class="btn-sm reply" data-action="replyTask" data-id="${task.id}">✏️ Reply</button>`;
         }
-        if (canEditTask) {
+        if (canModify) {
           actionButtons += `
-            <button class="btn-sm edit" data-action="editTask" data-id="${task.id}">✏️ Edit</button>
-            <button class="btn-sm duplicate" data-action="duplicateTask" data-id="${task.id}">📋 Copy</button>
-            <button class="btn-sm delete" data-action="deleteTask" data-id="${task.id}">🗑️ Delete</button>
+            <button class="btn-sm edit" data-action="editTask" data-id="${task.id}">✏️</button>
+            <button class="btn-sm duplicate" data-action="duplicateTask" data-id="${task.id}">📋</button>
+            <button class="btn-sm delete" data-action="deleteTask" data-id="${task.id}">🗑️</button>
           `;
         }
         const creator = task.created_by || 'admin';
         const scoreDisplay = task.score !== undefined && task.score > 0 ? `⭐ ${task.score}` : '';
         const penaltyBadge = task.penalty_applied ? `<span class="badge penalty">⚠️ -5</span>` : '';
         const subject = task.subject || '';
+        let pointsChange = '';
+        if (task.completed && task.auto_score_applied) {
+          pointsChange = `<span class="badge points">+5</span>`;
+        } else if (task.penalty_applied) {
+          pointsChange = `<span class="badge penalty">-5</span>`;
+        }
         let repeatBadge = '';
         if (task.repeat_type && task.repeat_type !== 'none') {
-          const repeatEmoji = { daily: '🔁', weekly: '🔁', monthly: '🔁' };
-          repeatBadge = `<span class="badge repeat">${repeatEmoji[task.repeat_type] || '🔄'} ${task.repeat_type}</span>`;
+          repeatBadge = `<span class="badge repeat">🔁 ${task.repeat_type}</span>`;
         }
         html += `
           <div class="task-card">
@@ -1869,6 +1787,7 @@
               ${scoreDisplay ? `<span class="badge" style="background:#fce7f3;">${scoreDisplay}</span>` : ''}
               ${penaltyBadge}
               ${repeatBadge}
+              ${pointsChange}
             </div>
             ${replyArea}
             <div class="task-actions">
@@ -1878,37 +1797,29 @@
         `;
       });
       container.innerHTML = html;
-      attachTaskEvents(container);
-    }
-
-    // ----- 绑定任务事件 -----
-    function attachTaskEvents(container) {
+      // 事件绑定
       container.querySelectorAll('[data-action]').forEach(el => {
         el.addEventListener('click', function(e) {
           e.stopPropagation();
           const action = this.dataset.action;
           const id = parseInt(this.dataset.id, 10);
           if (action === 'replyTask') openReplyModal(id);
-          else if (action === 'viewReply') viewReply(id);
           else if (action === 'editTask') openEditModal(id);
           else if (action === 'duplicateTask') openDuplicateModal(id);
           else if (action === 'deleteTask') {
-            if (confirm('Delete this task?')) {
-              deleteTask(id);
-            }
-          } else if (action === 'adjustScore') openScoreModal(id);
+            if (confirm('Delete this task?')) deleteTask(id);
+          }
         });
       });
     }
 
-    // ----- 个人进度（女儿） -----
+    // ----- 个人进度（女儿）-----
     function renderPersonalProgress(who) {
       const taskList = tasks.filter(t => t.assigned_to === who || t.assigned_to === 'both');
       const total = taskList.length;
       const done = taskList.filter(t => t.completed).length;
       const percent = total === 0 ? 0 : Math.round(done / total * 100);
       const capWho = who.charAt(0).toUpperCase() + who.slice(1);
-      document.getElementById('pp' + capWho + 'Date').textContent = new Date().toLocaleDateString();
       document.getElementById('pp' + capWho + 'Total').textContent = total;
       document.getElementById('pp' + capWho + 'Done').textContent = done;
       document.getElementById('pp' + capWho + 'Rate').textContent = percent;
@@ -1964,16 +1875,16 @@
       });
     }
 
-    // ----- 学科管理（admin） -----
+    // ----- 学科管理（admin）-----
     function renderSubjectTags() {
       const container = document.getElementById('subjectTagContainer');
       if (!container) return;
       if (subjects.length === 0) {
-        container.innerHTML = '<span class="text-muted">No subjects added yet.</span>';
+        container.innerHTML = '<span class="text-muted">No subjects.</span>';
         return;
       }
       let html = '';
-      subjects.forEach((s, idx) => {
+      subjects.forEach((s) => {
         html += `<span class="subject-tag">${s} <span class="del" data-name="${s}">✕</span></span>`;
       });
       container.innerHTML = html;
@@ -2003,10 +1914,7 @@
       });
     }
 
-    // ============================================================
-    //  模态框处理函数
-    // ============================================================
-
+    // ===== 模态框 =====
     function openAddModal(assignTo) {
       document.getElementById('editTaskId').value = '';
       document.getElementById('taskFormTitle').textContent = '✏️ Add Task';
@@ -2156,9 +2064,7 @@
         updatePoints('natalie', 5);
       }
       task.auto_score_applied = true;
-      // 先保存当前任务完成状态
       saveTask(task).then(() => {
-        // 然后生成重复任务（如果有）
         generateNextTask(task);
       });
       document.getElementById('replyModal').classList.add('hidden');
@@ -2312,19 +2218,19 @@
       redeemChild = null;
     }
 
-    // ============================================================
-    //  主渲染函数
-    // ============================================================
+    // ===== 主渲染 =====
     function render() {
       if (!currentUser) return;
 
+      // 折叠统计
       const upperSection = document.getElementById('upperSection');
       if (currentUserRole === 'admin') {
-        upperSection.classList.remove('hidden');
+        upperSection.style.display = 'block';
       } else {
-        upperSection.classList.add('hidden');
+        upperSection.style.display = 'none';
       }
 
+      // 更新积分显示
       const manualI = getManualToday('isabella');
       const manualN = getManualToday('natalie');
       document.getElementById('pointsIsabella').textContent = points.isabella || 0;
@@ -2336,6 +2242,7 @@
       document.getElementById('manualTodayIsabellaD').textContent = manualI;
       document.getElementById('manualTodayNatalieD').textContent = manualN;
 
+      // 切换面板
       document.querySelectorAll('.panel').forEach(el => el.classList.remove('active'));
       const panel = document.getElementById('panel-' + currentUserRole);
       if (panel) panel.classList.add('active');
@@ -2347,9 +2254,33 @@
       if (currentUserRole === 'admin') {
         renderSubjectTags();
         updateSubjectDatalist();
-      }
-
-      if (currentUserRole === 'isabella' || currentUserRole === 'natalie') {
+        // 历史记录
+        const redeemList = document.getElementById('redeemHistoryList');
+        if (redemptions.length === 0) {
+          redeemList.innerHTML = '<div class="text-muted">No redemptions.</div>';
+        } else {
+          let html = '';
+          redemptions.slice().reverse().forEach(r => {
+            html += `<div class="history-item">${r.child || 'Someone'}: ${r.reward} (${r.cost} pts) on ${formatDateTime(r.date)}</div>`;
+          });
+          redeemList.innerHTML = html;
+        }
+        const awardList = document.getElementById('awardHistoryList');
+        if (awards.length === 0) {
+          awardList.innerHTML = '<div class="text-muted">No awards.</div>';
+        } else {
+          let html = '';
+          awards.slice().reverse().forEach(a => {
+            html += `<div class="history-item">${a.child || 'Someone'}: +${a.amount} pts ${a.reason ? '("'+a.reason+'")' : ''} on ${formatDateTime(a.date)}</div>`;
+          });
+          awardList.innerHTML = html;
+        }
+        // 更新统计
+        updateGlobalStats();
+        renderDaughtersOverview();
+        renderAdminTasks();
+      } else {
+        // 女儿
         const tasksForUser = tasks.filter(t => t.assigned_to === currentUserRole || t.assigned_to === 'both');
         const total = tasksForUser.length;
         const done = tasksForUser.filter(t => t.completed).length;
@@ -2366,22 +2297,13 @@
           if (msgEl2) msgEl2.textContent = msg;
           if (quoteEl2) quoteEl2.textContent = '💬 ' + quote;
         }
-      }
-
-      if (currentUserRole === 'admin') {
-        updateGlobalStats();
-        renderDaughtersOverview();
-        renderAdmin();
-      } else {
         renderDaughter(currentUserRole);
         renderReflections(currentUserRole);
         renderPersonalProgress(currentUserRole);
       }
     }
 
-    // ============================================================
-    //  事件绑定
-    // ============================================================
+    // ===== 事件绑定 =====
     function bindEvents() {
       document.querySelectorAll('.login-btn').forEach(btn => {
         btn.addEventListener('click', function() {
@@ -2420,6 +2342,14 @@
       });
 
       document.getElementById('logoutBtn').addEventListener('click', logout);
+
+      // 统计折叠
+      let statsVisible = true;
+      document.getElementById('toggleStatsBtn').addEventListener('click', function() {
+        statsVisible = !statsVisible;
+        document.getElementById('statsContent').style.display = statsVisible ? 'block' : 'none';
+        this.textContent = statsVisible ? '📊 Hide Stats' : '📊 Show Stats';
+      });
 
       document.getElementById('btnAddTaskAdmin').addEventListener('click', () => openAddModal('isabella'));
       document.getElementById('btnAddTaskIsabella').addEventListener('click', () => openAddModal('isabella'));
@@ -2495,6 +2425,7 @@
         saveReflection('natalie');
       });
 
+      // 过滤功能（Admin 页面虽然不用 filter 切换，但保留）
       document.getElementById('filterAssignee').addEventListener('change', function() {
         if (currentUserRole === 'admin') render();
       });
@@ -2506,9 +2437,7 @@
       });
     }
 
-    // ============================================================
-    //  初始化
-    // ============================================================
+    // ===== 初始化 =====
     async function init() {
       const { data: { session } } = await sb.auth.getSession();
       if (session) {
