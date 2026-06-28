@@ -1200,12 +1200,60 @@
     <div class="modal-box">
       <h2 id="taskFormTitle">✏️ Add Task</h2>
       <input type="hidden" id="editTaskId" value="" />
-      <div class="field"><label>Title *</label><input type="text" id="taskFormTitleInput" placeholder="e.g. Math worksheet" /></div>
-      <div class="field"><label>Subject</label><input list="subjectList" id="taskFormSubject" placeholder="Choose or type subject" /><datalist id="subjectList"></datalist><div class="datalist-hint">You can type any custom subject.</div></div>
-      <div class="field"><label>Description</label><textarea id="taskFormDesc" placeholder="Details..."></textarea></div>
-      <div class="field" id="taskFormAssignField"><label>Assign to</label><select id="taskFormAssign"><option value="isabella">Isabella</option><option value="natalie">Natalie</option><option value="both">Both</option></select></div>
-      <div class="field"><label>Due Date</label><input type="date" id="taskFormDate" /></div>
-      <div class="btns"><button class="btn btn-cancel" id="taskFormCancel">Cancel</button><button class="btn btn-confirm" id="taskFormConfirm">Save</button></div>
+      <div class="field">
+        <label>Title *</label>
+        <!-- 添加 datalist 支持预设选项 -->
+        <input type="text" id="taskFormTitleInput" placeholder="e.g. Math worksheet" list="taskTitleList" />
+        <datalist id="taskTitleList">
+          <option value="Violin">
+          <option value="Piano">
+          <option value="EP Language Arts">
+          <option value="EP Reading">
+          <option value="EP Maths">
+          <option value="IXL">
+          <option value="Spanish Course">
+          <option value="Spanish Duolingo">
+          <option value="Flexibility">
+          <option value="体能">
+          <option value="Read Chinese Book">
+          <option value="Read English Book">
+        </datalist>
+      </div>
+      <div class="field">
+        <label>Subject</label>
+        <input list="subjectList" id="taskFormSubject" placeholder="Choose or type subject" />
+        <!-- subjectList 将在 JavaScript 中被动态填充，同时我们也会在 HTML 中预设固定选项 -->
+        <datalist id="subjectList">
+          <!-- 硬编码预设学科，同时 JS 会追加其他自定义学科 -->
+          <option value="English">
+          <option value="Chinese">
+          <option value="Maths">
+          <option value="Science">
+          <option value="Music">
+          <option value="Others">
+        </datalist>
+        <div class="datalist-hint">You can type any custom subject.</div>
+      </div>
+      <div class="field">
+        <label>Description</label>
+        <textarea id="taskFormDesc" placeholder="Details..."></textarea>
+      </div>
+      <div class="field" id="taskFormAssignField">
+        <label>Assign to</label>
+        <select id="taskFormAssign">
+          <option value="isabella">Isabella</option>
+          <option value="natalie">Natalie</option>
+          <option value="both">Both</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Due Date</label>
+        <input type="date" id="taskFormDate" />
+      </div>
+      <div class="btns">
+        <button class="btn btn-cancel" id="taskFormCancel">Cancel</button>
+        <button class="btn btn-confirm" id="taskFormConfirm">Save</button>
+      </div>
     </div>
   </div>
 
@@ -1893,14 +1941,24 @@
       });
     }
 
+    // 更新 subject datalist：保留硬编码的预设选项，同时追加数据库中的自定义学科
     function updateSubjectDatalist() {
       const datalist = document.getElementById('subjectList');
       if (!datalist) return;
-      datalist.innerHTML = '';
+      // 清空但保留硬编码选项（我们已在 HTML 中硬编码了 6 个预设，此处不再重复添加）
+      // 但我们需确保硬编码选项不会被清空，所以只追加数据库中的自定义学科（去重）
+      const existingOptions = new Set();
+      // 收集现有 option 值（硬编码的）
+      for (let opt of datalist.options) {
+        existingOptions.add(opt.value);
+      }
+      // 添加数据库中的 subjects（如果尚未存在）
       subjects.forEach(s => {
-        const opt = document.createElement('option');
-        opt.value = s;
-        datalist.appendChild(opt);
+        if (!existingOptions.has(s)) {
+          const opt = document.createElement('option');
+          opt.value = s;
+          datalist.appendChild(opt);
+        }
       });
     }
 
@@ -1924,7 +1982,7 @@
       }
       document.getElementById('taskFormModal').dataset.mode = 'add';
       document.getElementById('taskFormModal').classList.remove('hidden');
-      updateSubjectDatalist();
+      updateSubjectDatalist(); // 确保下拉选项最新
     }
 
     function openEditModal(taskId) {
@@ -2153,12 +2211,11 @@
       document.getElementById('awardModal').classList.add('hidden');
     }
 
-    // ----- 兑换（修改：始终显示所有奖励，积分不够时禁用） -----
+    // ----- 兑换 -----
     let redeemChild = null;
 
     function openRedeem(child) {
       const currentPoints = points[child] || 0;
-      // 不再提前检查是否有可负担的奖励，始终显示所有选项
       redeemChild = child;
       document.getElementById('redeemChildInfo').textContent =
         `${child} has ${currentPoints} points. Choose a reward:`;
@@ -2170,7 +2227,6 @@
         btn.innerHTML = `${reward.label} <span class="cost">${reward.cost} pts</span>`;
         btn.dataset.cost = reward.cost;
         btn.dataset.label = reward.label;
-        // 如果积分不足，禁用按钮并显示提示
         if (currentPoints < reward.cost) {
           btn.disabled = true;
           btn.title = `Need ${reward.cost} points, you have ${currentPoints}`;
@@ -2341,6 +2397,8 @@
         const name = input.value.trim();
         if (saveSubject(name)) {
           input.value = '';
+          renderSubjectTags();
+          updateSubjectDatalist();
         } else {
           alert('Subject already exists or invalid.');
         }
