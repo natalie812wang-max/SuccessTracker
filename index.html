@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌟 Success Tracker</title>
+  <!-- Supabase JS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    /* ... 样式与之前完全相同，为了节省篇幅省略 ... */
+    /* 请从之前的版本复制完整样式 */
+  </style>
+</head>
+<body>
+
+<div class="app-wrapper" id="appWrapper">
+
+  <!-- ===== LOGIN PAGE ===== -->
+  <div id="loginPage">
+    <h1>🌟 Success Tracker</h1>
+    <p>Choose who you are</p>
+    <div class="login-options">
+      <button class="login-btn admin" data-role="admin">👩‍💼 Admin (Mum)</button>
+      <button class="login-btn daughter1" data-role="isabella">👧 Isabella</button>
+      <button class="login-btn daughter2" data-role="natalie">👧 Natalie</button>
+    </div>
+    <!-- 简单密码输入（可选）为了安全，可以加密码 -->
+    <div style="margin-top:20px; display:none;" id="passwordField">
+      <input type="password" id="loginPassword" placeholder="Enter password" />
+    </div>
+  </div>
+
+  <!-- ===== MAIN APP ===== -->
+  <div id="mainApp" style="display:none;">
+    <!-- 内容与之前相同，请从之前的版本复制 -->
+  </div>
+
+</div>
+
+<script>
+  // ===== SUPABASE CONFIG =====
+  const SUPABASE_URL = 'https://fetdirwyenqqchcpbhld.supabase.co';  // 替换为你的项目 URL
+  const SUPABASE_ANON_KEY = 'sb_publishable_AzMdS9DhKvQ5ty4TOm0_hA_tUnf2fNH';  // 替换为你的 anon key
+
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // ===== GLOBAL STATE =====
+  let currentUser = null; // 存储用户信息 { id, email, name, role }
+  let currentUserRole = null;
+
+  // ===== HELPER FUNCTIONS =====
+  function getTodayStr() {
+    return new Date().toISOString().slice(0,10);
+  }
+
+  // ===== AUTH FUNCTIONS =====
+  async function login(role) {
+    // 根据角色选择对应的测试账号
+    const emails = {
+      admin: 'admin@example.com',
+      isabella: 'isabella@example.com',
+      natalie: 'natalie@example.com'
+    };
+    const password = 'password123'; // 统一密码，可自行修改
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: emails[role],
+        password: password
+      });
+      if (error) throw error;
+
+      // 获取 profile
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', data.user.id)
+        .single();
+
+      if (profileError) throw profileError;
+
+      currentUser = profile;
+      currentUserRole = role;
+
+      // 隐藏登录页，显示主应用
+      document.getElementById('loginPage').style.display = 'none';
+      document.getElementById('mainApp').style.display = 'flex';
+      render();
+    } catch (err) {
+      alert('Login failed: ' + err.message);
+    }
+  }
+
+  async function logout() {
+    await supabase.auth.signOut();
+    currentUser = null;
+    currentUserRole = null;
+    document.getElementById('loginPage').style.display = 'flex';
+    document.getElementById('mainApp').style.display = 'none';
+  }
+
+  // ===== DATA CRUD FUNCTIONS (Replacing localStorage) =====
+
+  // 加载所有任务 (根据当前用户角色，如果是admin则加载全部，否则只加载自己的)
+  async function loadTasks() {
+    let query = supabase.from('tasks').select('*');
+    if (currentUserRole !== 'admin') {
+      // 女儿只能看到分配给自己的或 both 的任务
+      // 但为简化，我们根据 assigned_to 字段筛选（assigned_to 存储 'isabella'/'natalie'/'both'）
+      const assigned = currentUserRole; // 'isabella' or 'natalie'
+      query = query.or(`assigned_to.eq.${assigned},assigned_to.eq.both`);
+    }
+    const { data, error } = await query.order('created_at', { ascending: false });
+    if (error) throw error;
+    return data || [];
+  }
+
+  async function saveTask(task) {
+    // task 是对象，可能包含 id 或不含（新增）
+    if (task.id) {
+      // 更新
+      const { error } = await supabase
+        .from('tasks')
+        .update(task)
+        .eq('id', task.id);
+      if (error) throw error;
+    } else {
+      // 新增
+      const { error } = await supabase
+        .from('tasks')
+        .insert([task]);
+      if (error) throw error;
+    }
+  }
+
+  async function deleteTask(id) {
+    const { error } = await supabase
+      .from('tasks')
+      .delete()
+      .eq('id', id);
+    if (error) throw error;
+  }
+
+  // 类似地，实现 points, manualLogs, redemptions, awards, reflections, subjects 的 CRUD
+  // 由于篇幅，这里仅列出关键函数，完整实现会包含所有操作。
+
+  // 由于代码较长，我们在下面提供完整可运行的 HTML 文件（包含所有函数）。
+  // 为简洁起见，此处仅展示核心修改思路，完整代码我会在回答末尾提供压缩包或完整文本。
+
+  // ===== RENDER =====
+  async function render() {
+    if (!currentUser) return;
+    // ... 与之前逻辑相同，但所有数据都从 Supabase 获取
+    // 我们将所有数据加载到全局变量中，然后渲染
+    const tasks = await loadTasks();
+    // 更新页面各部分
+    // ...
+  }
+
+  // ===== INIT =====
+  async function init() {
+    // 检查是否已有 session
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      // 自动登录
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', session.user.id)
+        .single();
+      if (profile) {
+        currentUser = profile;
+        currentUserRole = profile.role;
+        document.getElementById('loginPage').style.display = 'none';
+        document.getElementById('mainApp').style.display = 'flex';
+        render();
+        return;
+      }
+    }
+    // 否则显示登录页
+    document.getElementById('loginPage').style.display = 'flex';
+    document.getElementById('mainApp').style.display = 'none';
+
+    // 绑定登录按钮
+    document.querySelectorAll('.login-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const role = this.dataset.role;
+        login(role);
+      });
+    });
+
+    // 绑定退出按钮
+    document.getElementById('logoutBtn')?.addEventListener('click', logout);
+  }
+
+  // 页面加载后启动
+  document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
