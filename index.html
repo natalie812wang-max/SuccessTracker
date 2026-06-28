@@ -20,15 +20,15 @@
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      padding: 20px;
+      padding: 16px;
     }
     .app-wrapper {
-      max-width: 1200px;
+      max-width: 1280px;
       width: 100%;
       background: #fff;
-      border-radius: 32px;
+      border-radius: 28px;
       box-shadow: 0 20px 60px rgba(0,0,0,0.08);
-      padding: 24px 28px 32px;
+      padding: 20px 24px 28px;
       position: relative;
       height: 95vh;
       display: flex;
@@ -45,42 +45,42 @@
       text-align: center;
     }
     #loginPage h1 {
-      font-size: 36px;
+      font-size: 32px;
       color: #2d1b3d;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     #loginPage p {
       color: #888;
-      font-size: 18px;
-      margin-bottom: 40px;
+      font-size: 17px;
+      margin-bottom: 30px;
     }
     .login-options {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 20px;
+      gap: 16px;
     }
     .login-btn {
       background: #f0ecf5;
       border: none;
       border-radius: 60px;
-      padding: 18px 40px;
-      font-size: 20px;
+      padding: 14px 32px;
+      font-size: 18px;
       font-weight: 600;
       color: #2d1b3d;
       cursor: pointer;
       transition: all 0.25s;
-      min-width: 160px;
+      min-width: 140px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.04);
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 8px;
     }
     .login-btn:hover {
       background: #7c3aed;
       color: #fff;
-      transform: translateY(-3px);
+      transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(124,58,237,0.3);
     }
     .login-btn.admin {
@@ -101,13 +101,13 @@
       transform: scale(1.05);
     }
 
-    /* ----- 密码框样式 ---- */
+    /* ----- 密码框 ----- */
     .login-password-area {
-      margin-top: 30px;
+      margin-top: 24px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
     .password-wrapper {
       position: relative;
@@ -115,7 +115,7 @@
       align-items: center;
       background: #fff;
       border-radius: 50px;
-      padding: 4px 4px 4px 20px;
+      padding: 2px 2px 2px 18px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.10), inset 0 2px 4px rgba(255,255,255,0.6);
       border: 2px solid #f0ecf5;
       transition: border-color 0.3s, box-shadow 0.3s;
@@ -125,15 +125,15 @@
       box-shadow: 0 8px 30px rgba(124,58,237,0.25), inset 0 2px 4px rgba(255,255,255,0.6);
     }
     .password-wrapper .emoji {
-      font-size: 28px;
-      margin-right: 10px;
+      font-size: 24px;
+      margin-right: 8px;
       line-height: 1;
     }
     .password-wrapper input {
       border: none;
-      padding: 14px 12px 14px 0;
-      font-size: 18px;
-      width: 220px;
+      padding: 12px 10px 12px 0;
+      font-size: 16px;
+      width: 200px;
       background: transparent;
       outline: none;
       font-family: inherit;
@@ -147,9 +147,9 @@
     .password-wrapper .toggle-vis {
       background: none;
       border: none;
-      font-size: 22px;
+      font-size: 20px;
       cursor: pointer;
-      padding: 8px 12px 8px 4px;
+      padding: 6px 10px 6px 4px;
       color: #aaa;
       transition: color 0.2s;
     }
@@ -161,13 +161,13 @@
       color: #fff;
       border: none;
       border-radius: 60px;
-      padding: 14px 40px;
-      font-size: 18px;
+      padding: 12px 36px;
+      font-size: 17px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.25s;
       box-shadow: 0 8px 20px rgba(124,58,237,0.35);
-      margin-top: 8px;
+      margin-top: 6px;
     }
     #loginSubmitBtn:hover {
       background: #6d28d9;
@@ -179,9 +179,9 @@
     }
     #loginError {
       color: #b91c1c;
-      font-size: 15px;
-      min-height: 24px;
-      margin-top: 4px;
+      font-size: 14px;
+      min-height: 22px;
+      margin-top: 2px;
       font-weight: 500;
     }
 
@@ -200,34 +200,35 @@
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 12px 20px;
-      margin-bottom: 16px;
+      gap: 10px 16px;
+      margin-bottom: 12px;
       flex-shrink: 0;
     }
     .top-bar .user-info {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 16px;
+      gap: 10px;
+      font-size: 15px;
       font-weight: 600;
       color: #2d1b3d;
     }
     .top-bar .user-info .role-badge {
       background: #ede6f5;
-      padding: 4px 16px;
+      padding: 2px 14px;
       border-radius: 30px;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 500;
     }
     .btn-logout {
       background: #fee2e2;
       border: none;
-      padding: 8px 20px;
+      padding: 6px 18px;
       border-radius: 30px;
       font-weight: 600;
       color: #b91c1c;
       cursor: pointer;
       transition: background 0.15s;
+      font-size: 14px;
     }
     .btn-logout:hover {
       background: #fecaca;
@@ -237,24 +238,20 @@
     .upper-section {
       flex: 0 0 auto;
       min-height: 0;
-      margin-bottom: 12px;
-    }
-    .upper-section.collapsed .stats-dashboard,
-    .upper-section.collapsed .daughters-overview {
-      display: none;
+      margin-bottom: 10px;
     }
     .upper-section .toggle-stats {
       cursor: pointer;
       background: #f0ecf5;
       border: none;
       border-radius: 20px;
-      padding: 4px 16px;
-      font-size: 13px;
+      padding: 2px 14px;
+      font-size: 12px;
       color: #4a3a5e;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      margin-bottom: 6px;
+      gap: 4px;
+      margin-bottom: 4px;
     }
     .upper-section .toggle-stats:hover {
       background: #e4daf0;
@@ -262,35 +259,42 @@
 
     .stats-dashboard {
       background: #faf8fc;
-      border-radius: 16px;
-      padding: 10px 14px;
+      border-radius: 14px;
+      padding: 8px 12px;
       border: 1px solid #ede6f5;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px 20px;
     }
     .stats-dashboard .stats-title {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       color: #3d2a4a;
-      margin-bottom: 6px;
+      margin-right: 6px;
     }
     .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      flex: 1;
     }
     .stats-card {
       background: #fff;
-      border-radius: 12px;
-      padding: 6px 10px;
+      border-radius: 10px;
+      padding: 4px 10px;
       text-align: center;
       border-left: 3px solid #7c3aed;
+      min-width: 80px;
+      flex: 1;
     }
     .stats-card .period {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       color: #4a3a5e;
     }
     .stats-card .numbers {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       color: #2d1b3d;
       margin: 1px 0;
@@ -303,7 +307,7 @@
     }
     .stats-card .progress-bar {
       width: 100%;
-      height: 4px;
+      height: 3px;
       background: #ede6f5;
       border-radius: 10px;
       overflow: hidden;
@@ -331,18 +335,34 @@
       margin-top: 1px;
     }
 
-    /* daughters overview (admin only) */
+    .stats-dashboard .history-btn {
+      background: #ede6f5;
+      border: none;
+      border-radius: 30px;
+      padding: 4px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #4a3a5e;
+      cursor: pointer;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    .stats-dashboard .history-btn:hover {
+      background: #d4c4f0;
+    }
+
+    /* daughters overview (admin only) - 紧凑 */
     .daughters-overview {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 8px;
+      gap: 10px;
+      margin-top: 6px;
     }
     .daughter-card {
       background: #fff;
-      border-radius: 14px;
-      padding: 10px 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      border-radius: 12px;
+      padding: 8px 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
       border-left: 4px solid #7c3aed;
       display: flex;
       flex-direction: column;
@@ -351,37 +371,37 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 14px;
+      font-size: 13px;
     }
     .daughter-card .d-header .name {
       font-weight: 700;
     }
     .daughter-card .d-header .total-badge {
       background: #ede6f5;
-      padding: 0 10px;
+      padding: 0 8px;
       border-radius: 30px;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
     }
     .daughter-card .d-stats {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      gap: 6px;
-      margin-top: 4px;
+      gap: 4px;
+      margin-top: 2px;
     }
     .daughter-card .d-stat {
       background: #faf8fc;
-      border-radius: 10px;
-      padding: 4px 4px;
+      border-radius: 8px;
+      padding: 2px 4px;
       text-align: center;
-      font-size: 12px;
+      font-size: 11px;
     }
     .daughter-card .d-stat .label {
-      font-size: 10px;
+      font-size: 9px;
       color: #888;
     }
     .daughter-card .d-stat .num {
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 700;
     }
     .daughter-card .d-stat .num .done {
@@ -410,48 +430,47 @@
       animation: glowBar 1.2s ease-in-out infinite alternate;
     }
     .daughter-card .d-recent {
-      font-size: 11px;
+      font-size: 10px;
       color: #999;
-      margin-top: 4px;
+      margin-top: 3px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       border-top: 1px solid #ede6f5;
-      padding-top: 4px;
+      padding-top: 3px;
     }
 
-    /* ----- subject manager (admin only) ----- */
+    /* ----- subject manager ----- */
     .subject-manager {
       background: #faf8fc;
-      border-radius: 12px;
-      padding: 8px 12px;
-      margin: 4px 0 10px 0;
+      border-radius: 10px;
+      padding: 4px 10px;
+      margin: 2px 0 6px 0;
       border: 1px solid #ede6f5;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
     .subject-manager .label {
       font-weight: 600;
-      font-size: 13px;
+      font-size: 12px;
       color: #4a3a5e;
-      margin-right: 6px;
     }
     .subject-manager .flex-row {
       display: flex;
-      gap: 6px;
+      gap: 4px;
       flex-wrap: wrap;
       align-items: center;
     }
     .subject-manager .flex-row input {
-      padding: 4px 10px;
-      border: 2px solid #ede6f5;
+      padding: 2px 8px;
+      border: 1px solid #ede6f5;
       border-radius: 20px;
-      font-size: 13px;
+      font-size: 12px;
       background: #fff;
       outline: none;
-      width: 140px;
+      width: 120px;
     }
     .subject-manager .flex-row input:focus {
       border-color: #7c3aed;
@@ -460,10 +479,10 @@
       background: #7c3aed;
       color: #fff;
       border: none;
-      padding: 4px 14px;
+      padding: 2px 12px;
       border-radius: 30px;
       font-weight: 600;
-      font-size: 12px;
+      font-size: 11px;
       cursor: pointer;
     }
     .btn-sm-add:hover {
@@ -472,80 +491,162 @@
     .subject-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 4px;
+      gap: 3px;
     }
     .subject-tag {
       background: #ede6f5;
-      padding: 0 10px;
+      padding: 0 8px;
       border-radius: 30px;
-      font-size: 12px;
+      font-size: 11px;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
     }
     .subject-tag .del {
       cursor: pointer;
       color: #b91c1c;
       font-weight: 700;
-      font-size: 14px;
+      font-size: 13px;
       line-height: 1;
     }
 
-    /* ----- daughter personal progress (only daughter view) ----- */
-    .personal-progress {
-      background: #faf8fc;
-      border-radius: 12px;
-      padding: 8px 12px;
-      margin: 4px 0 10px 0;
-      border: 1px solid #ede6f5;
+    /* ----- daughter personal progress (left side) ----- */
+    .daughter-left-panel {
       display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 12px;
+      flex-direction: column;
+      gap: 8px;
+      padding-right: 10px;
+      min-width: 220px;
+      flex: 0 0 35%;
+      max-width: 40%;
+      overflow-y: auto;
     }
-    .personal-progress .pp-header {
+    .daughter-left-panel .personal-progress {
+      background: #faf8fc;
+      border-radius: 10px;
+      padding: 6px 10px;
+      border: 1px solid #ede6f5;
+      font-size: 12px;
+    }
+    .daughter-left-panel .personal-progress .pp-header {
       font-weight: 600;
       color: #4a3a5e;
       font-size: 13px;
     }
-    .personal-progress .pp-stats {
+    .daughter-left-panel .personal-progress .pp-stats {
       display: flex;
-      gap: 16px;
+      gap: 12px;
       flex-wrap: wrap;
-      font-size: 13px;
+      font-size: 12px;
     }
-    .personal-progress .pp-stats .stat-item .num {
+    .daughter-left-panel .personal-progress .pp-stats .stat-item .num {
       font-weight: 700;
       color: #7c3aed;
     }
-    .personal-progress .pp-bar {
-      flex: 1;
-      min-width: 80px;
-      height: 6px;
+    .daughter-left-panel .personal-progress .pp-bar {
+      width: 100%;
+      height: 5px;
       background: #ede6f5;
       border-radius: 10px;
       overflow: hidden;
+      margin: 2px 0;
     }
-    .personal-progress .pp-bar .fill {
+    .daughter-left-panel .personal-progress .pp-bar .fill {
       height: 100%;
       border-radius: 10px;
       background: linear-gradient(90deg, #a78bfa, #7c3aed);
       transition: width 0.5s;
     }
-    .personal-progress .pp-bar .fill.done {
+    .daughter-left-panel .personal-progress .pp-bar .fill.done {
       background: linear-gradient(90deg, #6ee7b7, #34d399);
     }
-    .personal-progress .pp-bar .fill.all-done {
+    .daughter-left-panel .personal-progress .pp-bar .fill.all-done {
       background: linear-gradient(90deg, #fcd34d, #f59e0b);
       animation: glowBar 1.2s ease-in-out infinite alternate;
     }
-    .personal-progress .pp-recent {
-      font-size: 12px;
+    .daughter-left-panel .personal-progress .pp-recent {
+      font-size: 11px;
       color: #888;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 150px;
+    }
+    .daughter-left-panel .encouragement-banner {
+      background: linear-gradient(135deg, #fce7f3, #ede6f5);
+      border-radius: 12px;
+      padding: 8px 12px;
+      border-left: 4px solid #7c3aed;
+      font-size: 13px;
+      line-height: 1.4;
+      color: #2d1b3d;
+    }
+    .daughter-left-panel .encouragement-banner .quote {
+      font-style: italic;
+      color: #6b5b7a;
+      font-size: 12px;
+      margin-top: 2px;
+    }
+    .daughter-left-panel .encouragement-banner .quote::before {
+      content: "💬 ";
+    }
+    .daughter-left-panel .reflection-section {
+      background: #faf8fc;
+      border-radius: 10px;
+      padding: 6px 10px;
+      border: 1px solid #ede6f5;
+    }
+    .daughter-left-panel .reflection-section h4 {
+      font-size: 13px;
+      color: #4a3a5e;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .daughter-left-panel .reflection-section textarea {
+      width: 100%;
+      padding: 4px 8px;
+      border: 1px solid #ede6f5;
+      border-radius: 8px;
+      font-size: 12px;
+      font-family: inherit;
+      background: #fff;
+      resize: vertical;
+      min-height: 40px;
+      outline: none;
+    }
+    .daughter-left-panel .reflection-section textarea:focus {
+      border-color: #7c3aed;
+    }
+    .daughter-left-panel .reflection-section .reflection-actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .daughter-left-panel .reflection-section .reflection-history {
+      margin-top: 6px;
+      border-top: 1px solid #ede6f5;
+      padding-top: 4px;
+      max-height: 80px;
+      overflow-y: auto;
+    }
+    .daughter-left-panel .reflection-section .reflection-history .entry {
+      font-size: 12px;
+      padding: 3px 0;
+      border-bottom: 1px solid #f0ecf5;
+      color: #2d1b3d;
+    }
+    .daughter-left-panel .reflection-section .reflection-history .entry .date {
+      color: #999;
+      font-size: 10px;
+      margin-right: 4px;
+    }
+    .daughter-left-panel .reflection-section .reflection-history .entry .text {
+      display: block;
+      margin-top: 1px;
+      padding-left: 8px;
+      border-left: 2px solid #d4c4f0;
+      color: #4a3a5e;
     }
 
     /* ----- panels (task list) ----- */
@@ -568,34 +669,34 @@
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 8px;
+      gap: 6px;
+      margin-bottom: 6px;
       flex-shrink: 0;
     }
     .panel-header h2 {
-      font-size: 18px;
+      font-size: 17px;
       color: #2d1b3d;
     }
     .panel-header .filter {
       display: flex;
-      gap: 6px;
+      gap: 4px;
       align-items: center;
     }
     .panel-header .filter select {
-      padding: 4px 10px;
+      padding: 2px 8px;
       border-radius: 20px;
       border: 1px solid #ddd;
       background: #fff;
-      font-size: 13px;
+      font-size: 12px;
     }
     .btn-primary {
       background: #7c3aed;
       color: #fff;
       border: none;
-      padding: 6px 16px;
+      padding: 4px 14px;
       border-radius: 30px;
       font-weight: 600;
-      font-size: 13px;
+      font-size: 12px;
       cursor: pointer;
       transition: background 0.2s, transform 0.1s;
       display: inline-flex;
@@ -607,133 +708,78 @@
     }
     .btn-primary:active { transform: scale(0.96); }
 
-    /* ----- encouragement banner ----- */
-    .encouragement-banner {
-      background: linear-gradient(135deg, #fce7f3, #ede6f5);
-      border-radius: 14px;
-      padding: 10px 16px;
-      margin: 4px 0 10px 0;
-      border-left: 4px solid #7c3aed;
-      font-size: 14px;
-      line-height: 1.5;
-      color: #2d1b3d;
-    }
-    .encouragement-banner .quote {
-      font-style: italic;
-      color: #6b5b7a;
-      font-size: 13px;
-      margin-top: 2px;
-    }
-    .encouragement-banner .quote::before {
-      content: "💬 ";
-    }
-
-    /* ----- reflection ----- */
-    .reflection-section {
-      background: #faf8fc;
-      border-radius: 12px;
-      padding: 8px 12px;
-      margin-bottom: 10px;
-      border: 1px solid #ede6f5;
-    }
-    .reflection-section h4 {
-      font-size: 14px;
-      color: #4a3a5e;
-      margin-bottom: 4px;
+    /* points bar */
+    .points-bar {
       display: flex;
       align-items: center;
-      gap: 6px;
-    }
-    .reflection-section textarea {
-      width: 100%;
-      padding: 6px 10px;
-      border: 2px solid #ede6f5;
-      border-radius: 12px;
+      gap: 12px;
+      flex-wrap: wrap;
+      background: #f1edf7;
+      padding: 2px 14px;
+      border-radius: 40px;
+      font-weight: 600;
       font-size: 13px;
-      font-family: inherit;
-      background: #fff;
-      resize: vertical;
-      min-height: 50px;
-      outline: none;
     }
-    .reflection-section textarea:focus {
-      border-color: #7c3aed;
-    }
-    .reflection-section .reflection-actions {
-      display: flex;
-      gap: 8px;
-      margin-top: 6px;
-    }
-    .reflection-section .reflection-history {
-      margin-top: 8px;
-      border-top: 1px solid #ede6f5;
-      padding-top: 6px;
-      max-height: 80px;
-      overflow-y: auto;
-    }
-    .reflection-section .reflection-history .entry {
-      font-size: 13px;
-      padding: 4px 0;
-      border-bottom: 1px solid #f0ecf5;
-      color: #2d1b3d;
-    }
-    .reflection-section .reflection-history .entry .date {
-      color: #999;
+    .points-bar .btn-redeem {
+      background: #fbbf24;
+      border: none;
+      padding: 2px 12px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
       font-size: 11px;
-      margin-right: 6px;
     }
-    .reflection-section .reflection-history .entry .text {
-      display: block;
-      margin-top: 1px;
-      padding-left: 10px;
-      border-left: 2px solid #d4c4f0;
-      color: #4a3a5e;
+    .points-bar .btn-redeem:hover { background: #f59e0b; }
+    .points-bar .manual-today {
+      font-size: 11px;
+      color: #6b5b7a;
     }
 
     /* ----- task grid ----- */
     .task-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 8px;
       overflow-y: auto;
-      padding-bottom: 6px;
+      padding-bottom: 4px;
     }
     .task-card {
       background: #faf8fc;
-      border-radius: 14px;
-      padding: 10px 12px;
-      border-left: 4px solid #d4c4f0;
+      border-radius: 12px;
+      padding: 8px 10px;
+      border-left: 3px solid #d4c4f0;
       transition: box-shadow 0.15s;
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 2px;
+      font-size: 12px;
     }
-    .task-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .task-card:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
     .task-card .task-title {
       font-weight: 600;
-      font-size: 14px;
+      font-size: 13px;
       color: #2d1b3d;
     }
     .task-card .task-desc {
       color: #6b5b7a;
-      font-size: 12px;
+      font-size: 11px;
       line-height: 1.3;
     }
     .task-card .task-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 3px 10px;
-      font-size: 11px;
+      gap: 2px 8px;
+      font-size: 10px;
       color: #888;
       margin: 1px 0;
     }
     .task-card .task-meta .badge {
       background: #ede6f5;
-      padding: 0 8px;
+      padding: 0 6px;
       border-radius: 30px;
       font-weight: 500;
       color: #4a3a5e;
-      font-size: 10px;
+      font-size: 9px;
     }
     .badge.done { background: #d1fae5; color: #0b6e4f; }
     .badge.pending { background: #fef3d7; color: #b45309; }
@@ -744,9 +790,9 @@
 
     .task-card .reply-preview {
       background: #f1edf7;
-      border-radius: 10px;
-      padding: 6px 10px;
-      font-size: 12px;
+      border-radius: 8px;
+      padding: 4px 8px;
+      font-size: 11px;
       border-left: 2px solid #7c3aed;
       color: #2d1b3d;
       margin-top: 2px;
@@ -756,14 +802,14 @@
     .task-card .task-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 4px;
-      margin-top: 4px;
-      padding-top: 4px;
+      gap: 3px;
+      margin-top: 3px;
+      padding-top: 3px;
       border-top: 1px solid #ede6f5;
     }
     .task-actions .btn-sm {
-      padding: 2px 10px;
-      font-size: 11px;
+      padding: 1px 8px;
+      font-size: 10px;
       border-radius: 30px;
       border: none;
       font-weight: 500;
@@ -784,52 +830,32 @@
     .btn-sm.score { background: #fce7f3; color: #9d174d; }
     .btn-sm.score:hover { background: #fbcfe8; }
 
-    /* points & redemption */
-    .points-bar {
-      display: flex;
-      align-items: center;
+    /* ----- history modal ----- */
+    .history-modal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 16px;
-      flex-wrap: wrap;
-      background: #f1edf7;
-      padding: 4px 16px;
-      border-radius: 40px;
-      font-weight: 600;
-      font-size: 14px;
+      max-height: 50vh;
+      overflow-y: auto;
     }
-    .points-bar .btn-redeem {
-      background: #fbbf24;
-      border: none;
-      padding: 2px 14px;
-      border-radius: 30px;
-      font-weight: 600;
-      cursor: pointer;
-      font-size: 12px;
-    }
-    .points-bar .btn-redeem:hover { background: #f59e0b; }
-    .points-bar .manual-today {
-      font-size: 12px;
-      color: #6b5b7a;
-    }
-
-    .history-section {
+    .history-modal-grid .history-section {
       background: #faf8fc;
       border-radius: 12px;
       padding: 8px 12px;
-      margin-top: 6px;
       border: 1px solid #ede6f5;
     }
-    .history-section h4 {
-      font-size: 13px;
+    .history-modal-grid .history-section h4 {
+      font-size: 14px;
       color: #4a3a5e;
       margin-bottom: 4px;
     }
-    .history-section .history-item {
+    .history-modal-grid .history-item {
       font-size: 12px;
       padding: 3px 0;
       border-bottom: 1px solid #ede6f5;
       color: #2d1b3d;
     }
-    .history-section .history-item:last-child {
+    .history-modal-grid .history-item:last-child {
       border-bottom: none;
     }
 
@@ -849,9 +875,9 @@
     .modal-overlay.hidden { display: none; }
     .modal-box {
       background: #fff;
-      border-radius: 28px;
-      padding: 20px 24px;
-      max-width: 500px;
+      border-radius: 24px;
+      padding: 18px 22px;
+      max-width: 520px;
       width: 100%;
       max-height: 90vh;
       overflow-y: auto;
@@ -862,23 +888,23 @@
       0% { transform: translateY(20px); opacity: 0; }
       100% { transform: translateY(0); opacity: 1; }
     }
-    .modal-box h2 { font-size: 20px; margin-bottom: 12px; color: #2d1b3d; }
-    .modal-box .field { margin-bottom: 10px; }
+    .modal-box h2 { font-size: 19px; margin-bottom: 10px; color: #2d1b3d; }
+    .modal-box .field { margin-bottom: 8px; }
     .modal-box .field label {
       display: block;
       font-weight: 500;
-      font-size: 13px;
+      font-size: 12px;
       color: #4a3a5e;
-      margin-bottom: 3px;
+      margin-bottom: 2px;
     }
     .modal-box .field input,
     .modal-box .field textarea,
     .modal-box .field select {
       width: 100%;
-      padding: 6px 10px;
+      padding: 5px 8px;
       border: 2px solid #ede6f5;
-      border-radius: 12px;
-      font-size: 14px;
+      border-radius: 10px;
+      font-size: 13px;
       font-family: inherit;
       background: #faf8fc;
       outline: none;
@@ -887,19 +913,19 @@
     .modal-box .field input:focus,
     .modal-box .field textarea:focus,
     .modal-box .field select:focus { border-color: #7c3aed; }
-    .modal-box .field textarea { resize: vertical; min-height: 40px; }
+    .modal-box .field textarea { resize: vertical; min-height: 36px; }
     .modal-box .btns {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       justify-content: flex-end;
-      margin-top: 14px;
+      margin-top: 12px;
     }
     .modal-box .btns .btn {
-      padding: 6px 20px;
+      padding: 5px 18px;
       border-radius: 40px;
       border: none;
       font-weight: 600;
-      font-size: 14px;
+      font-size: 13px;
       cursor: pointer;
       transition: background 0.15s;
     }
@@ -911,19 +937,19 @@
     .reward-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin: 10px 0;
+      gap: 6px;
+      margin: 8px 0;
     }
     .reward-grid .reward-btn {
       background: #f0ecf5;
       border: 2px solid transparent;
-      border-radius: 14px;
-      padding: 10px 6px;
+      border-radius: 12px;
+      padding: 8px 6px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.15s;
       text-align: center;
-      font-size: 13px;
+      font-size: 12px;
       line-height: 1.3;
     }
     .reward-grid .reward-btn:hover:not(:disabled) {
@@ -937,26 +963,75 @@
     }
     .reward-grid .reward-btn .cost {
       display: block;
-      font-size: 11px;
+      font-size: 10px;
       color: #7c3aed;
       margin-top: 2px;
     }
 
     /* responsive */
-    @media (max-width: 640px) {
+    @media (max-width: 768px) {
       .app-wrapper { padding: 12px; height: auto; min-height: 100vh; }
-      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .stats-grid { flex-wrap: wrap; }
       .daughters-overview { grid-template-columns: 1fr; }
       .daughter-card .d-stats { grid-template-columns: 1fr 1fr; }
       .task-grid { grid-template-columns: 1fr; }
-      .modal-box { padding: 16px; }
-      .login-btn { min-width: 120px; padding: 14px 24px; font-size: 17px; }
+      .modal-box { padding: 14px; }
+      .login-btn { min-width: 100px; padding: 12px 20px; font-size: 16px; }
       .reward-grid { grid-template-columns: 1fr 1fr; }
-      .password-wrapper input { width: 150px; }
+      .password-wrapper input { width: 130px; }
+      .daughter-left-panel {
+        flex: none;
+        max-width: 100%;
+        padding-right: 0;
+      }
+      .daughter-panel-layout {
+        flex-direction: column;
+      }
     }
-    .text-muted { color: #999; font-size: 12px; }
-    .mt-8 { margin-top: 8px; }
-    .flex { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .text-muted { color: #999; font-size: 11px; }
+    .mt-8 { margin-top: 6px; }
+    .flex { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+
+    /* daughter panel layout: left + right */
+    .daughter-panel-layout {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+      gap: 12px;
+    }
+    .daughter-right-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .daughter-right-panel .task-grid {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    /* admin panel: two columns for daughters */
+    .admin-daughters-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      flex: 1;
+      min-height: 0;
+    }
+    .admin-daughters-grid .admin-daughter-col {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .admin-daughters-grid .admin-daughter-col h3 {
+      font-size: 14px;
+      margin-bottom: 4px;
+      color: #7c3aed;
+    }
+    .admin-daughters-grid .admin-daughter-col .task-grid {
+      flex: 1;
+      overflow-y: auto;
+    }
   </style>
 </head>
 <body>
@@ -998,51 +1073,35 @@
     <!-- ===== UPPER SECTION (可折叠统计) ===== -->
     <div class="upper-section" id="upperSection">
       <button class="toggle-stats" id="toggleStatsBtn">📊 Hide Stats</button>
-      <!-- stats content -->
       <div id="statsContent">
         <div class="stats-dashboard">
-          <div class="stats-title">📊 Overall Progress</div>
+          <span class="stats-title">📊 Progress</span>
           <div class="stats-grid">
             <div class="stats-card" id="statToday">
               <div class="period">📅 Today</div>
-              <div class="numbers"><span class="done" id="todayDone">0</span> / <span class="total" id="todayTotal">0</span></div>
+              <div class="numbers"><span class="done" id="todayDone">0</span>/<span class="total" id="todayTotal">0</span></div>
               <div class="progress-bar"><div class="fill" id="todayFill" style="width:0%;"></div></div>
-              <div class="sub-text" id="todaySub">No tasks due today</div>
+              <div class="sub-text" id="todaySub">-</div>
             </div>
             <div class="stats-card" id="statWeek">
-              <div class="period">📆 This Week</div>
-              <div class="numbers"><span class="done" id="weekDone">0</span> / <span class="total" id="weekTotal">0</span></div>
+              <div class="period">📆 Week</div>
+              <div class="numbers"><span class="done" id="weekDone">0</span>/<span class="total" id="weekTotal">0</span></div>
               <div class="progress-bar"><div class="fill" id="weekFill" style="width:0%;"></div></div>
-              <div class="sub-text" id="weekSub">Keep up the momentum!</div>
+              <div class="sub-text" id="weekSub">-</div>
             </div>
             <div class="stats-card" id="statMonth">
-              <div class="period">📅 This Month</div>
-              <div class="numbers"><span class="done" id="monthDone">0</span> / <span class="total" id="monthTotal">0</span></div>
+              <div class="period">📅 Month</div>
+              <div class="numbers"><span class="done" id="monthDone">0</span>/<span class="total" id="monthTotal">0</span></div>
               <div class="progress-bar"><div class="fill" id="monthFill" style="width:0%;"></div></div>
-              <div class="sub-text" id="monthSub">You're making progress!</div>
+              <div class="sub-text" id="monthSub">-</div>
             </div>
           </div>
+          <!-- 历史按钮 -->
+          <button class="history-btn" id="showHistoryBtn">📜 History</button>
         </div>
 
         <div class="daughters-overview" id="daughtersOverview">
-          <div class="daughter-card" id="daughterCardIsabella">
-            <div class="d-header"><span class="name">👧 Isabella</span><span class="total-badge" id="isabellaTotalBadge">0 tasks</span></div>
-            <div class="d-stats">
-              <div class="d-stat"><div class="label">Today</div><div class="num"><span class="done" id="isabellaTodayDone">0</span>/<span class="total" id="isabellaTodayTotal">0</span></div><div class="mini-bar"><div class="fill" id="isabellaTodayBar" style="width:0%;"></div></div></div>
-              <div class="d-stat"><div class="label">Week</div><div class="num"><span class="done" id="isabellaWeekDone">0</span>/<span class="total" id="isabellaWeekTotal">0</span></div><div class="mini-bar"><div class="fill" id="isabellaWeekBar" style="width:0%;"></div></div></div>
-              <div class="d-stat"><div class="label">Month</div><div class="num"><span class="done" id="isabellaMonthDone">0</span>/<span class="total" id="isabellaMonthTotal">0</span></div><div class="mini-bar"><div class="fill" id="isabellaMonthBar" style="width:0%;"></div></div></div>
-            </div>
-            <div class="d-recent" id="isabellaRecent">No recent activity</div>
-          </div>
-          <div class="daughter-card" id="daughterCardNatalie">
-            <div class="d-header"><span class="name">👧 Natalie</span><span class="total-badge" id="natalieTotalBadge">0 tasks</span></div>
-            <div class="d-stats">
-              <div class="d-stat"><div class="label">Today</div><div class="num"><span class="done" id="natalieTodayDone">0</span>/<span class="total" id="natalieTodayTotal">0</span></div><div class="mini-bar"><div class="fill" id="natalieTodayBar" style="width:0%;"></div></div></div>
-              <div class="d-stat"><div class="label">Week</div><div class="num"><span class="done" id="natalieWeekDone">0</span>/<span class="total" id="natalieWeekTotal">0</span></div><div class="mini-bar"><div class="fill" id="natalieWeekBar" style="width:0%;"></div></div></div>
-              <div class="d-stat"><div class="label">Month</div><div class="num"><span class="done" id="natalieMonthDone">0</span>/<span class="total" id="natalieMonthTotal">0</span></div><div class="mini-bar"><div class="fill" id="natalieMonthBar" style="width:0%;"></div></div></div>
-            </div>
-            <div class="d-recent" id="natalieRecent">No recent activity</div>
-          </div>
+          <!-- 由 JS 动态填充 -->
         </div>
       </div>
     </div>
@@ -1053,19 +1112,17 @@
       <div class="panel" id="panel-admin">
         <div class="panel-header">
           <h2>📋 All Tasks</h2>
-          <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
-            <div class="filter"><label for="filterAssignee" style="margin-right:4px;">Filter:</label><select id="filterAssignee"><option value="all">All</option><option value="isabella">Isabella</option><option value="natalie">Natalie</option></select></div>
-            <button class="btn-primary" id="btnAddTaskAdmin">➕ Add Task</button>
+          <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+            <button class="btn-primary" id="btnAddTaskAdmin">➕ Add</button>
             <button class="btn-primary" id="btnAwardPoints" style="background:#f59e0b;">🏆 Award</button>
+            <div class="points-bar">
+              <span>⭐ Isabella: <span id="pointsIsabella">0</span> (today +<span id="manualTodayIsabella">0</span>)</span>
+              <span>⭐ Natalie: <span id="pointsNatalie">0</span> (today +<span id="manualTodayNatalie">0</span>)</span>
+            </div>
           </div>
         </div>
-        <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:8px;">
-          <div class="points-bar" id="pointsBarAdmin">
-            <span>⭐ Isabella: <span id="pointsIsabella">0</span> pts (today +<span id="manualTodayIsabella">0</span>)</span>
-            <span>⭐ Natalie: <span id="pointsNatalie">0</span> pts (today +<span id="manualTodayNatalie">0</span>)</span>
-          </div>
-        </div>
-        <!-- Subject Manager 改为更紧凑 -->
+
+        <!-- Subject Manager -->
         <div class="subject-manager">
           <span class="label">📚 Subjects:</span>
           <div class="flex-row">
@@ -1075,20 +1132,15 @@
           <div class="subject-tags" id="subjectTagContainer"></div>
         </div>
 
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:8px;">
-          <div class="history-section"><h4>🎁 Redemption History</h4><div id="redeemHistoryList"></div></div>
-          <div class="history-section"><h4>🏆 Award History</h4><div id="awardHistoryList"></div></div>
-        </div>
-
-        <!-- Admin 任务列表（按女儿分别显示） -->
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; flex:1; min-height:0;">
-          <div id="adminIsabellaContainer" style="display:flex; flex-direction:column; min-height:0;">
-            <h3 style="font-size:15px; margin-bottom:4px; color:#7c3aed;">👧 Isabella</h3>
-            <div id="adminIsabellaTaskList" class="task-grid" style="flex:1; overflow-y:auto;"></div>
+        <!-- Admin 任务列表：两栏分别显示女儿 -->
+        <div class="admin-daughters-grid">
+          <div class="admin-daughter-col">
+            <h3>👧 Isabella</h3>
+            <div id="adminIsabellaTaskList" class="task-grid"></div>
           </div>
-          <div id="adminNatalieContainer" style="display:flex; flex-direction:column; min-height:0;">
-            <h3 style="font-size:15px; margin-bottom:4px; color:#7c3aed;">👧 Natalie</h3>
-            <div id="adminNatalieTaskList" class="task-grid" style="flex:1; overflow-y:auto;"></div>
+          <div class="admin-daughter-col">
+            <h3>👧 Natalie</h3>
+            <div id="adminNatalieTaskList" class="task-grid"></div>
           </div>
         </div>
       </div>
@@ -1096,73 +1148,88 @@
       <!-- Isabella Panel -->
       <div class="panel" id="panel-isabella">
         <div class="panel-header">
-          <h2>👧 Isabella's Tasks</h2>
-          <div style="display:flex; gap:8px; align-items:center;">
-            <span class="points-bar" style="background:#fde68a;">⭐ <span id="pointsIsabellaDaughter">0</span> pts (today +<span id="manualTodayIsabellaD">0</span>) <button class="btn-redeem" data-child="isabella">🎁 Redeem</button></span>
+          <h2>👧 Isabella</h2>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <span class="points-bar">⭐ <span id="pointsIsabellaDaughter">0</span> pts (today +<span id="manualTodayIsabellaD">0</span>) <button class="btn-redeem" data-child="isabella">🎁 Redeem</button></span>
             <button class="btn-primary" id="btnAddTaskIsabella">➕ Add</button>
           </div>
         </div>
 
-        <div class="personal-progress" id="personalProgressIsabella">
-          <span class="pp-header">📈 My Progress</span>
-          <div class="pp-stats">
-            <span class="stat-item">📋 <span class="num" id="ppIsabellaTotal">0</span></span>
-            <span class="stat-item">✅ <span class="num" id="ppIsabellaDone">0</span></span>
-            <span class="stat-item">🎯 <span class="num" id="ppIsabellaRate">0</span>%</span>
+        <!-- 左右两栏布局 -->
+        <div class="daughter-panel-layout">
+          <!-- 左侧 -->
+          <div class="daughter-left-panel">
+            <div class="personal-progress" id="personalProgressIsabella">
+              <div class="pp-header">📈 My Progress</div>
+              <div class="pp-stats">
+                <span class="stat-item">📋 <span class="num" id="ppIsabellaTotal">0</span></span>
+                <span class="stat-item">✅ <span class="num" id="ppIsabellaDone">0</span></span>
+                <span class="stat-item">🎯 <span class="num" id="ppIsabellaRate">0</span>%</span>
+              </div>
+              <div class="pp-bar"><div class="fill" id="ppIsabellaBar" style="width:0%;"></div></div>
+              <div class="pp-recent" id="ppIsabellaRecent">No recent activity</div>
+            </div>
+
+            <div class="encouragement-banner" id="encouragementBanner">
+              <div id="encouragementMessage">🌟 Keep going, you're doing great!</div>
+              <div class="quote" id="quoteDisplay">💬 "Believe you can and you're halfway there." — Theodore Roosevelt</div>
+            </div>
+
+            <div class="reflection-section">
+              <h4>📝 Daily Self-Reflection</h4>
+              <textarea id="reflectionInput" placeholder="How was your day? What went well? What could be better?" rows="2"></textarea>
+              <div class="reflection-actions"><button class="btn-primary" id="saveReflectionBtn" style="padding:2px 12px; font-size:11px;">💾 Save</button></div>
+              <div class="reflection-history" id="reflectionHistory"></div>
+            </div>
           </div>
-          <div class="pp-bar"><div class="fill" id="ppIsabellaBar" style="width:0%;"></div></div>
-          <div class="pp-recent" id="ppIsabellaRecent">No recent activity</div>
-        </div>
 
-        <div class="encouragement-banner" id="encouragementBanner">
-          <div id="encouragementMessage">🌟 Keep going, you're doing great!</div>
-          <div class="quote" id="quoteDisplay">💬 "Believe you can and you're halfway there." — Theodore Roosevelt</div>
+          <!-- 右侧：任务列表 -->
+          <div class="daughter-right-panel">
+            <div id="isabellaTaskList" class="task-grid"></div>
+          </div>
         </div>
-
-        <div class="reflection-section">
-          <h4>📝 Daily Self-Reflection</h4>
-          <textarea id="reflectionInput" placeholder="How was your day? What went well? What could be better?"></textarea>
-          <div class="reflection-actions"><button class="btn-primary" id="saveReflectionBtn" style="padding:4px 16px; font-size:12px;">💾 Save</button></div>
-          <div class="reflection-history" id="reflectionHistory"></div>
-        </div>
-
-        <div id="isabellaTaskList" class="task-grid" style="flex:1; overflow-y:auto;"></div>
       </div>
 
       <!-- Natalie Panel -->
       <div class="panel" id="panel-natalie">
         <div class="panel-header">
-          <h2>👧 Natalie's Tasks</h2>
-          <div style="display:flex; gap:8px; align-items:center;">
-            <span class="points-bar" style="background:#a7f3d0;">⭐ <span id="pointsNatalieDaughter">0</span> pts (today +<span id="manualTodayNatalieD">0</span>) <button class="btn-redeem" data-child="natalie">🎁 Redeem</button></span>
+          <h2>👧 Natalie</h2>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <span class="points-bar">⭐ <span id="pointsNatalieDaughter">0</span> pts (today +<span id="manualTodayNatalieD">0</span>) <button class="btn-redeem" data-child="natalie">🎁 Redeem</button></span>
             <button class="btn-primary" id="btnAddTaskNatalie">➕ Add</button>
           </div>
         </div>
 
-        <div class="personal-progress" id="personalProgressNatalie">
-          <span class="pp-header">📈 My Progress</span>
-          <div class="pp-stats">
-            <span class="stat-item">📋 <span class="num" id="ppNatalieTotal">0</span></span>
-            <span class="stat-item">✅ <span class="num" id="ppNatalieDone">0</span></span>
-            <span class="stat-item">🎯 <span class="num" id="ppNatalieRate">0</span>%</span>
+        <div class="daughter-panel-layout">
+          <div class="daughter-left-panel">
+            <div class="personal-progress" id="personalProgressNatalie">
+              <div class="pp-header">📈 My Progress</div>
+              <div class="pp-stats">
+                <span class="stat-item">📋 <span class="num" id="ppNatalieTotal">0</span></span>
+                <span class="stat-item">✅ <span class="num" id="ppNatalieDone">0</span></span>
+                <span class="stat-item">🎯 <span class="num" id="ppNatalieRate">0</span>%</span>
+              </div>
+              <div class="pp-bar"><div class="fill" id="ppNatalieBar" style="width:0%;"></div></div>
+              <div class="pp-recent" id="ppNatalieRecent">No recent activity</div>
+            </div>
+
+            <div class="encouragement-banner" id="encouragementBanner2">
+              <div id="encouragementMessage2">🌟 Keep going, you're doing great!</div>
+              <div class="quote" id="quoteDisplay2">💬 "Believe you can and you're halfway there." — Theodore Roosevelt</div>
+            </div>
+
+            <div class="reflection-section">
+              <h4>📝 Daily Self-Reflection</h4>
+              <textarea id="reflectionInput2" placeholder="How was your day? What went well? What could be better?" rows="2"></textarea>
+              <div class="reflection-actions"><button class="btn-primary" id="saveReflectionBtn2" style="padding:2px 12px; font-size:11px;">💾 Save</button></div>
+              <div class="reflection-history" id="reflectionHistory2"></div>
+            </div>
           </div>
-          <div class="pp-bar"><div class="fill" id="ppNatalieBar" style="width:0%;"></div></div>
-          <div class="pp-recent" id="ppNatalieRecent">No recent activity</div>
-        </div>
 
-        <div class="encouragement-banner" id="encouragementBanner2">
-          <div id="encouragementMessage2">🌟 Keep going, you're doing great!</div>
-          <div class="quote" id="quoteDisplay2">💬 "Believe you can and you're halfway there." — Theodore Roosevelt</div>
+          <div class="daughter-right-panel">
+            <div id="natalieTaskList" class="task-grid"></div>
+          </div>
         </div>
-
-        <div class="reflection-section">
-          <h4>📝 Daily Self-Reflection</h4>
-          <textarea id="reflectionInput2" placeholder="How was your day? What went well? What could be better?"></textarea>
-          <div class="reflection-actions"><button class="btn-primary" id="saveReflectionBtn2" style="padding:4px 16px; font-size:12px;">💾 Save</button></div>
-          <div class="reflection-history" id="reflectionHistory2"></div>
-        </div>
-
-        <div id="natalieTaskList" class="task-grid" style="flex:1; overflow-y:auto;"></div>
       </div>
     </div>
   </div>
@@ -1189,9 +1256,9 @@
   <div class="modal-overlay hidden" id="replyModal">
     <div class="modal-box">
       <h2>💬 Submit Reply</h2>
-      <div id="replyTaskInfo" class="text-muted" style="margin-bottom:8px;"></div>
+      <div id="replyTaskInfo" class="text-muted" style="margin-bottom:6px;"></div>
       <div class="field"><label>Your message</label><textarea id="replyText" placeholder="Write your reply..."></textarea></div>
-      <div class="field"><label>Attachment (optional)</label><div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;"><input type="file" id="replyFile" style="flex:1;" /><span id="fileNameDisplay" class="text-muted" style="font-size:12px;"></span></div></div>
+      <div class="field"><label>Attachment (optional)</label><div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;"><input type="file" id="replyFile" style="flex:1;" /><span id="fileNameDisplay" class="text-muted" style="font-size:11px;"></span></div></div>
       <div class="btns"><button class="btn btn-cancel" id="replyCancel">Cancel</button><button class="btn btn-confirm" id="replyConfirm">Submit Reply</button></div>
     </div>
   </div>
@@ -1209,7 +1276,7 @@
   <div class="modal-overlay hidden" id="scoreModal">
     <div class="modal-box">
       <h2>⭐ Rate Performance</h2>
-      <p class="text-muted" style="margin-bottom:8px;">Give extra points (0-10). Max 10 points per day per child.</p>
+      <p class="text-muted" style="margin-bottom:6px;">Give extra points (0-10). Max 10 pts/day/child.</p>
       <div class="field"><label>Points (0-10)</label><input type="number" id="scoreInput" min="0" max="10" value="5" /><div class="text-muted" id="scoreRemainingMsg"></div></div>
       <div class="btns"><button class="btn btn-cancel" id="scoreCancel">Cancel</button><button class="btn btn-confirm" id="scoreConfirm">Save</button></div>
     </div>
@@ -1219,7 +1286,7 @@
   <div class="modal-overlay hidden" id="awardModal">
     <div class="modal-box">
       <h2>🏆 Award Points</h2>
-      <p class="text-muted" style="margin-bottom:8px;">Give bonus points for competition/performance.</p>
+      <p class="text-muted" style="margin-bottom:6px;">Give bonus points for competition/performance.</p>
       <div class="field"><label>Child</label><select id="awardChild"><option value="isabella">Isabella</option><option value="natalie">Natalie</option></select></div>
       <div class="field"><label>Preset ranking</label><select id="awardRank"><option value="0">Custom</option><option value="2000">1st (2000)</option><option value="1000">2nd (1000)</option><option value="500">3rd (500)</option><option value="200">4th (200)</option></select></div>
       <div class="field"><label>Points (custom)</label><input type="number" id="awardPoints" min="0" value="0" /></div>
@@ -1233,9 +1300,27 @@
     <div class="modal-box">
       <h2>🎁 Redeem Points</h2>
       <p id="redeemChildInfo" style="margin-bottom:6px;"></p>
-      <p style="font-size:13px; color:#666;">Choose a reward:</p>
+      <p style="font-size:12px; color:#666;">Choose a reward:</p>
       <div class="reward-grid" id="rewardGrid"></div>
       <div class="btns"><button class="btn btn-cancel" id="redeemCancel">Cancel</button></div>
+    </div>
+  </div>
+
+  <!-- History Modal -->
+  <div class="modal-overlay hidden" id="historyModal">
+    <div class="modal-box" style="max-width:600px;">
+      <h2>📜 History</h2>
+      <div class="history-modal-grid">
+        <div class="history-section">
+          <h4>🎁 Redemption History</h4>
+          <div id="historyRedeemList"></div>
+        </div>
+        <div class="history-section">
+          <h4>🏆 Award History</h4>
+          <div id="historyAwardList"></div>
+        </div>
+      </div>
+      <div class="btns"><button class="btn btn-cancel" id="historyCloseBtn">Close</button></div>
     </div>
   </div>
 
@@ -1299,6 +1384,12 @@
 
     // ===== 工具函数 =====
     function getTodayStr() { return new Date().toISOString().slice(0, 10); }
+    // 新增：获取明天的日期
+    function getTomorrowStr() {
+      const d = new Date();
+      d.setDate(d.getDate() + 1);
+      return d.toISOString().slice(0, 10);
+    }
 
     function formatDate(d) {
       const dt = new Date(d);
@@ -1569,21 +1660,21 @@
       const todayFill = document.getElementById('todayFill');
       todayFill.style.width = todayTotal === 0 ? '0%' : (todayDone / todayTotal * 100) + '%';
       todayFill.className = 'fill' + (todayTotal > 0 && todayDone === todayTotal ? ' all-done' : (todayDone > 0 ? ' done' : ''));
-      document.getElementById('todaySub').textContent = todayTotal === 0 ? 'No tasks due today' : (todayDone === todayTotal ? '🎉 All done!' : `${todayDone} of ${todayTotal} done`);
+      document.getElementById('todaySub').textContent = todayTotal === 0 ? 'No tasks' : (todayDone === todayTotal ? '🎉 All done!' : `${todayDone}/${todayTotal}`);
 
       document.getElementById('weekDone').textContent = weekDone;
       document.getElementById('weekTotal').textContent = weekTotal;
       const weekFill = document.getElementById('weekFill');
       weekFill.style.width = weekTotal === 0 ? '0%' : (weekDone / weekTotal * 100) + '%';
       weekFill.className = 'fill' + (weekTotal > 0 && weekDone === weekTotal ? ' all-done' : (weekDone > 0 ? ' done' : ''));
-      document.getElementById('weekSub').textContent = weekTotal === 0 ? 'No tasks this week' : (weekDone === weekTotal ? '🌟 Perfect week!' : `${weekDone} of ${weekTotal} done`);
+      document.getElementById('weekSub').textContent = weekTotal === 0 ? 'No tasks' : (weekDone === weekTotal ? '🌟 Perfect!' : `${weekDone}/${weekTotal}`);
 
       document.getElementById('monthDone').textContent = monthDone;
       document.getElementById('monthTotal').textContent = monthTotal;
       const monthFill = document.getElementById('monthFill');
       monthFill.style.width = monthTotal === 0 ? '0%' : (monthDone / monthTotal * 100) + '%';
       monthFill.className = 'fill' + (monthTotal > 0 && monthDone === monthTotal ? ' all-done' : (monthDone > 0 ? ' done' : ''));
-      document.getElementById('monthSub').textContent = monthTotal === 0 ? 'No tasks this month' : (monthDone === monthTotal ? '🎊 Monthly goal achieved!' : `${monthDone} of ${monthTotal} done`);
+      document.getElementById('monthSub').textContent = monthTotal === 0 ? 'No tasks' : (monthDone === monthTotal ? '🎊 Goal!' : `${monthDone}/${monthTotal}`);
     }
 
     function renderDaughtersOverview() {
@@ -1639,21 +1730,38 @@
           recentEl.textContent = `✅ ${latest.title} (${date})`;
         }
       };
-      renderDaughter('isabella', 'isabella');
-      renderDaughter('natalie', 'natalie');
+      const container = document.getElementById('daughtersOverview');
+      container.innerHTML = '';
+      ['isabella', 'natalie'].forEach(who => {
+        const idPrefix = who;
+        const card = document.createElement('div');
+        card.className = 'daughter-card';
+        card.id = 'daughterCard' + who.charAt(0).toUpperCase() + who.slice(1);
+        card.innerHTML = `
+          <div class="d-header"><span class="name">👧 ${who.charAt(0).toUpperCase()+who.slice(1)}</span><span class="total-badge" id="${idPrefix}TotalBadge">0 tasks</span></div>
+          <div class="d-stats">
+            <div class="d-stat"><div class="label">Today</div><div class="num"><span class="done" id="${idPrefix}TodayDone">0</span>/<span class="total" id="${idPrefix}TodayTotal">0</span></div><div class="mini-bar"><div class="fill" id="${idPrefix}TodayBar" style="width:0%;"></div></div></div>
+            <div class="d-stat"><div class="label">Week</div><div class="num"><span class="done" id="${idPrefix}WeekDone">0</span>/<span class="total" id="${idPrefix}WeekTotal">0</span></div><div class="mini-bar"><div class="fill" id="${idPrefix}WeekBar" style="width:0%;"></div></div></div>
+            <div class="d-stat"><div class="label">Month</div><div class="num"><span class="done" id="${idPrefix}MonthDone">0</span>/<span class="total" id="${idPrefix}MonthTotal">0</span></div><div class="mini-bar"><div class="fill" id="${idPrefix}MonthBar" style="width:0%;"></div></div></div>
+          </div>
+          <div class="d-recent" id="${idPrefix}Recent">No recent activity</div>
+        `;
+        container.appendChild(card);
+        // 填充数据
+        renderDaughter(who, idPrefix);
+      });
     }
 
     // ----- 渲染 Admin 专用任务列表（按女儿分开）-----
     function renderAdminTasks() {
-      // 获取 Isabella 和 Natalie 各自的任务
       const isabellaTasks = tasks.filter(t => t.assigned_to === 'isabella' || t.assigned_to === 'both');
       const natalieTasks = tasks.filter(t => t.assigned_to === 'natalie' || t.assigned_to === 'both');
 
-      const renderList = (containerId, list, who) => {
+      const renderList = (containerId, list) => {
         const container = document.getElementById(containerId);
         if (!container) return;
         if (list.length === 0) {
-          container.innerHTML = `<p class="text-muted">No tasks for ${who}.</p>`;
+          container.innerHTML = `<p class="text-muted">No tasks.</p>`;
           return;
         }
         let html = '';
@@ -1668,7 +1776,6 @@
           const scoreDisplay = task.score !== undefined && task.score > 0 ? `⭐ ${task.score}` : '⭐ 0';
           const penaltyBadge = task.penalty_applied ? `<span class="badge penalty">⚠️ -5</span>` : '';
           const subject = task.subject || '';
-          // 积分变动显示
           let pointsChange = '';
           if (task.completed && task.auto_score_applied) {
             pointsChange = `<span class="badge points">+5</span>`;
@@ -1720,11 +1827,11 @@
         });
       };
 
-      renderList('adminIsabellaTaskList', isabellaTasks, 'Isabella');
-      renderList('adminNatalieTaskList', natalieTasks, 'Natalie');
+      renderList('adminIsabellaTaskList', isabellaTasks);
+      renderList('adminNatalieTaskList', natalieTasks);
     }
 
-    // ----- 女儿任务列表（只有回复，无编辑，除非自己创建）-----
+    // ----- 女儿任务列表（权限控制）-----
     function renderDaughter(who) {
       const container = document.getElementById(who + 'TaskList');
       const list = tasks.filter(t => t.assigned_to === who || t.assigned_to === 'both');
@@ -1746,8 +1853,6 @@
           `;
         }
         // 权限：只有自己创建的任务才能编辑/复制/删除
-        const canEdit = (task.created_by === who || task.created_by === 'admin' && currentUserRole === 'admin');
-        // 但要求：admin 创建的任务，女儿不能编辑，只能 reply。所以只有 created_by === who 才可编辑
         const canModify = (task.created_by === who);
         let actionButtons = '';
         if (task.completed) {
@@ -1844,7 +1949,7 @@
       const container = document.getElementById(containerId);
       const entries = reflections[who] || [];
       if (entries.length === 0) {
-        container.innerHTML = '<div class="text-muted">No reflections yet. Write your first one!</div>';
+        container.innerHTML = '<div class="text-muted">No reflections yet.</div>';
         return;
       }
       let html = '';
@@ -1921,7 +2026,8 @@
       document.getElementById('taskFormTitleInput').value = '';
       document.getElementById('taskFormSubject').value = '';
       document.getElementById('taskFormDesc').value = '';
-      document.getElementById('taskFormDate').value = getTodayStr();
+      // 默认设置为明天
+      document.getElementById('taskFormDate').value = getTomorrowStr();
       document.getElementById('taskFormRepeat').value = 'none';
       const assignField = document.getElementById('taskFormAssignField');
       if (currentUserRole === 'admin') {
@@ -1943,7 +2049,7 @@
       document.getElementById('taskFormTitleInput').value = task.title;
       document.getElementById('taskFormSubject').value = task.subject || '';
       document.getElementById('taskFormDesc').value = task.description || '';
-      document.getElementById('taskFormDate').value = task.due_date;
+      document.getElementById('taskFormDate').value = task.due_date || getTomorrowStr();
       document.getElementById('taskFormRepeat').value = task.repeat_type || 'none';
       const assignField = document.getElementById('taskFormAssignField');
       if (currentUserRole === 'admin') {
@@ -1965,7 +2071,7 @@
       document.getElementById('taskFormTitleInput').value = task.title + ' (copy)';
       document.getElementById('taskFormSubject').value = task.subject || '';
       document.getElementById('taskFormDesc').value = task.description || '';
-      document.getElementById('taskFormDate').value = task.due_date;
+      document.getElementById('taskFormDate').value = task.due_date || getTomorrowStr();
       document.getElementById('taskFormRepeat').value = task.repeat_type || 'none';
       const assignField = document.getElementById('taskFormAssignField');
       if (currentUserRole === 'admin') {
@@ -2218,6 +2324,31 @@
       redeemChild = null;
     }
 
+    // ===== 历史模态框 =====
+    function showHistory() {
+      const redeemList = document.getElementById('historyRedeemList');
+      if (redemptions.length === 0) {
+        redeemList.innerHTML = '<div class="text-muted">No redemptions.</div>';
+      } else {
+        let html = '';
+        redemptions.slice().reverse().forEach(r => {
+          html += `<div class="history-item">${r.child || 'Someone'}: ${r.reward} (${r.cost} pts) on ${formatDateTime(r.date)}</div>`;
+        });
+        redeemList.innerHTML = html;
+      }
+      const awardList = document.getElementById('historyAwardList');
+      if (awards.length === 0) {
+        awardList.innerHTML = '<div class="text-muted">No awards.</div>';
+      } else {
+        let html = '';
+        awards.slice().reverse().forEach(a => {
+          html += `<div class="history-item">${a.child || 'Someone'}: +${a.amount} pts ${a.reason ? '("'+a.reason+'")' : ''} on ${formatDateTime(a.date)}</div>`;
+        });
+        awardList.innerHTML = html;
+      }
+      document.getElementById('historyModal').classList.remove('hidden');
+    }
+
     // ===== 主渲染 =====
     function render() {
       if (!currentUser) return;
@@ -2254,33 +2385,10 @@
       if (currentUserRole === 'admin') {
         renderSubjectTags();
         updateSubjectDatalist();
-        // 历史记录
-        const redeemList = document.getElementById('redeemHistoryList');
-        if (redemptions.length === 0) {
-          redeemList.innerHTML = '<div class="text-muted">No redemptions.</div>';
-        } else {
-          let html = '';
-          redemptions.slice().reverse().forEach(r => {
-            html += `<div class="history-item">${r.child || 'Someone'}: ${r.reward} (${r.cost} pts) on ${formatDateTime(r.date)}</div>`;
-          });
-          redeemList.innerHTML = html;
-        }
-        const awardList = document.getElementById('awardHistoryList');
-        if (awards.length === 0) {
-          awardList.innerHTML = '<div class="text-muted">No awards.</div>';
-        } else {
-          let html = '';
-          awards.slice().reverse().forEach(a => {
-            html += `<div class="history-item">${a.child || 'Someone'}: +${a.amount} pts ${a.reason ? '("'+a.reason+'")' : ''} on ${formatDateTime(a.date)}</div>`;
-          });
-          awardList.innerHTML = html;
-        }
-        // 更新统计
         updateGlobalStats();
         renderDaughtersOverview();
         renderAdminTasks();
       } else {
-        // 女儿
         const tasksForUser = tasks.filter(t => t.assigned_to === currentUserRole || t.assigned_to === 'both');
         const total = tasksForUser.length;
         const done = tasksForUser.filter(t => t.completed).length;
@@ -2349,6 +2457,12 @@
         statsVisible = !statsVisible;
         document.getElementById('statsContent').style.display = statsVisible ? 'block' : 'none';
         this.textContent = statsVisible ? '📊 Hide Stats' : '📊 Show Stats';
+      });
+
+      // 历史按钮
+      document.getElementById('showHistoryBtn').addEventListener('click', showHistory);
+      document.getElementById('historyCloseBtn').addEventListener('click', function() {
+        document.getElementById('historyModal').classList.add('hidden');
       });
 
       document.getElementById('btnAddTaskAdmin').addEventListener('click', () => openAddModal('isabella'));
@@ -2423,11 +2537,6 @@
       });
       document.getElementById('saveReflectionBtn2').addEventListener('click', function() {
         saveReflection('natalie');
-      });
-
-      // 过滤功能（Admin 页面虽然不用 filter 切换，但保留）
-      document.getElementById('filterAssignee').addEventListener('change', function() {
-        if (currentUserRole === 'admin') render();
       });
 
       document.querySelectorAll('.modal-overlay').forEach(overlay => {
