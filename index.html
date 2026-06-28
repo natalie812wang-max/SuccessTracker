@@ -1551,7 +1551,7 @@
 
     // ----- 全局统计（仅 admin） -----
     function updateGlobalStats() {
-      let taskList = tasks; // admin 看到所有任务
+      let taskList = tasks;
       const today = getTodayStr();
       const now = new Date();
       const dayOfWeek = now.getDay();
@@ -2153,18 +2153,15 @@
       document.getElementById('awardModal').classList.add('hidden');
     }
 
-    // ----- 兑换 -----
+    // ----- 兑换（修改：始终显示所有奖励，积分不够时禁用） -----
     let redeemChild = null;
 
     function openRedeem(child) {
       const currentPoints = points[child] || 0;
-      const affordable = REWARDS.some(r => currentPoints >= r.cost);
-      if (!affordable) {
-        alert(`Not enough points! ${child} has only ${currentPoints} points. Need at least ${Math.min(...REWARDS.map(r=>r.cost))} points.`);
-        return;
-      }
+      // 不再提前检查是否有可负担的奖励，始终显示所有选项
       redeemChild = child;
-      document.getElementById('redeemChildInfo').textContent = `${child} has ${currentPoints} points. Choose a reward:`;
+      document.getElementById('redeemChildInfo').textContent =
+        `${child} has ${currentPoints} points. Choose a reward:`;
       const grid = document.getElementById('rewardGrid');
       grid.innerHTML = '';
       REWARDS.forEach(reward => {
@@ -2173,6 +2170,7 @@
         btn.innerHTML = `${reward.label} <span class="cost">${reward.cost} pts</span>`;
         btn.dataset.cost = reward.cost;
         btn.dataset.label = reward.label;
+        // 如果积分不足，禁用按钮并显示提示
         if (currentPoints < reward.cost) {
           btn.disabled = true;
           btn.title = `Need ${reward.cost} points, you have ${currentPoints}`;
