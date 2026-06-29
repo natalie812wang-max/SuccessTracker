@@ -34,7 +34,6 @@
       display: flex;
       flex-direction: column;
     }
-
     /* ----- LOGIN PAGE ----- */
     #loginPage {
       display: flex;
@@ -1035,7 +1034,7 @@
       overflow-y: auto;
     }
 
-    /* 新增：Admin 每日奖励与查看 Reflection 按钮区 */
+    /* Admin Daily Bonus & Reflection View */
     .admin-daily-area {
       display: flex;
       flex-wrap: wrap;
@@ -1149,9 +1148,7 @@
           <button class="history-btn" id="showHistoryBtn">📜 History</button>
         </div>
 
-        <div class="daughters-overview" id="daughtersOverview">
-          <!-- 由 JS 动态填充 -->
-        </div>
+        <div class="daughters-overview" id="daughtersOverview"></div>
       </div>
     </div>
 
@@ -1222,7 +1219,6 @@
           </div>
         </div>
 
-        <!-- 左右两栏布局 -->
         <div class="daughter-panel-layout">
           <!-- 左侧 -->
           <div class="daughter-left-panel">
@@ -1471,17 +1467,14 @@
       d.setDate(d.getDate() + 1);
       return d.toISOString().slice(0, 10);
     }
-
     function formatDate(d) {
       const dt = new Date(d);
       return `${dt.getMonth()+1}/${dt.getDate()}`;
     }
-
     function formatDateTime(d) {
       const dt = new Date(d);
       return `${dt.getMonth()+1}/${dt.getDate()} ${dt.getHours()}:${String(dt.getMinutes()).padStart(2, '0')}`;
     }
-
     function getManualToday(child) {
       const today = getTodayStr();
       let total = 0;
@@ -1504,12 +1497,32 @@
           password: password
         });
         if (error) throw error;
-        const { data: profile, error: profileError } = await sb
+
+        // 查询 profile，若无则创建
+        let { data: profile, error: profileError } = await sb
           .from('profiles')
           .select('*')
           .eq('id', data.user.id)
-          .single();
+          .maybeSingle();
+
         if (profileError) throw profileError;
+
+        if (!profile) {
+          // 自动创建 profile
+          const { data: newProfile, error: insertError } = await sb
+            .from('profiles')
+            .insert([{
+              id: data.user.id,
+              email: data.user.email,
+              role: role,
+              points: 0
+            }])
+            .select()
+            .single();
+          if (insertError) throw insertError;
+          profile = newProfile;
+        }
+
         currentUser = profile;
         currentUserRole = role;
         document.getElementById('loginPage').style.display = 'none';
@@ -1549,12 +1562,15 @@
         if (subErr) throw subErr;
         subjects = subData.map(s => s.name) || [];
 
+        // 加载积分
         const { data: profiles, error: profErr } = await sb
           .from('profiles')
           .select('role, points')
           .in('role', ['isabella', 'natalie']);
         if (profErr) throw profErr;
-        profiles.forEach(p => { points[p.role] = p.points || 0; });
+        profiles.forEach(p => {
+          points[p.role] = p.points || 0;
+        });
 
         const { data: logs, error: logsErr } = await sb.from('manual_logs').select('*');
         if (logsErr) throw logsErr;
@@ -1568,7 +1584,7 @@
         if (awdsErr) throw awdsErr;
         awards = awds || [];
 
-        // ===== 加载 reflections =====
+        // 加载 reflections
         const { data: refsData, error: refsErr } = await sb
           .from('reflections')
           .select('*')
@@ -1576,7 +1592,6 @@
         if (refsErr) throw refsErr;
 
         if (currentUserRole === 'admin') {
-          // Admin: 需要将 user_id 映射到角色
           const { data: profilesAll, error: profAllErr } = await sb
             .from('profiles')
             .select('id, role')
@@ -1592,7 +1607,6 @@
             }
           });
         } else {
-          // 女儿视图：只保留自己的
           reflections[currentUserRole] = refsData.filter(r => r.user_id === currentUser.id);
         }
 
@@ -1660,20 +1674,40 @@
       }
     }
 
+    // ===== 更新积分（修复版，使用 maybeSingle） =====
     async function updatePoints(child, delta) {
       try {
-        const { data: profile, error } = await sb
+        // 查询该角色是否存在
+        let { data: profile, error } = await sb
           .from('profiles')
           .select('points')
           .eq('role', child)
-          .single();
+          .maybeSingle();
+
         if (error) throw error;
-        const newPoints = (profile.points || 0) + delta;
-        const { error: updateErr } = await sb
-          .from('profiles')
-          .update({ points: newPoints })
-          .eq('role', child);
-        if (updateErr) throw updateErr;
+
+        let newPoints = (profile ? profile.points : 0) + delta;
+        if (newPoints < 0) newPoints = 0;
+
+        if (profile) {
+          const { error: updateErr } = await sb
+            .from('profiles')
+            .update({ points: newPoints })
+            .eq('role', child);
+          if (updateErr) throw updateErr;
+        } else {
+          // 该角色不存在，插入新记录
+          const { error: insertErr } = await sb
+            .from('profiles')
+            .insert([{
+              role: child,
+              points: newPoints,
+              email: child + '@example.com',
+              // id 由 Supabase 自动生成
+            }]);
+          if (insertErr) throw insertErr;
+        }
+
         await loadAllData();
         render();
       } catch (err) {
@@ -1916,7 +1950,7 @@
       });
     }
 
-    // ----- 渲染 Admin 专用任务列表（按女儿分开）-----
+    // ----- 渲染 Admin 任务列表（按女儿分开）-----
     function renderAdminTasks() {
       const isabellaTasks = tasks.filter(t => t.assigned_to === 'isabella' || t.assigned_to === 'both');
       const natalieTasks = tasks.filter(t => t.assigned_to === 'natalie' || t.assigned_to === 'both');
@@ -2008,10 +2042,7 @@
     // ----- 女儿任务列表（权限控制）-----
     function renderDaughter(who) {
       const container = document.getElementById(who + 'TaskList');
-      if (!container) {
-        console.warn('Task list container not found for', who);
-        return;
-      }
+      if (!container) return;
       const list = tasks.filter(t => t.assigned_to === who || t.assigned_to === 'both');
       if (list.length === 0) {
         container.innerHTML = `<p class="text-muted">No homework assigned yet. 😊</p>`;
@@ -2779,11 +2810,12 @@
       try {
         const { data: { session } } = await sb.auth.getSession();
         if (session) {
-          const { data: profile } = await sb
+          const { data: profile, error: profileError } = await sb
             .from('profiles')
             .select('*')
             .eq('id', session.user.id)
-            .single();
+            .maybeSingle();
+          if (profileError) throw profileError;
           if (profile) {
             currentUser = profile;
             currentUserRole = profile.role;
