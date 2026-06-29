@@ -34,7 +34,6 @@
       display: flex;
       flex-direction: column;
     }
-
     /* ----- LOGIN PAGE ----- */
     #loginPage {
       display: flex;
@@ -1671,7 +1670,7 @@
       }
     }
 
-    // ===== 更新积分（修复版） =====
+    // ===== 更新积分（使用单独查询+插入，避免唯一冲突） =====
     async function updatePoints(child, delta) {
       try {
         let { data: profile, error } = await sb
