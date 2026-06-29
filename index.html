@@ -1455,6 +1455,9 @@
       .admin-daughter-col .collapsible-module .module-body .task-grid {
         padding-bottom: 30px;
       }
+      .panel-header h2 {
+        font-size: 14px;
+      }
     }
   </style>
 </head>
@@ -1633,11 +1636,11 @@
         </div>
 
         <!-- =============================================================
-             ISABELLA PANEL
+             ISABELLA PANEL — "Isabella's Success Pathway"
              ============================================================= -->
         <div class="panel" id="panel-isabella">
           <div class="panel-header">
-            <h2>👧 Isabella</h2>
+            <h2>🌸 Isabella's Success Pathway</h2>
             <div style="display:flex; gap:6px; align-items:center;">
               <span class="points-bar">⭐ <span id="pointsIsabellaDaughter">0</span> pts <button class="btn-redeem"
                   data-child="isabella">🎁 Redeem</button></span>
@@ -1647,21 +1650,21 @@
           <div class="daughter-panel-layout">
             <!-- 左侧面板 -->
             <div class="daughter-left-panel">
-              <!-- 折叠：个人进度 -->
+              <!-- 折叠：今日进度 -->
               <div class="collapsible-module" data-module="isabella-progress">
                 <div class="module-header" data-toggle="isabella-progress">
-                  <span class="module-title">📈 我的进度</span>
+                  <span class="module-title">📈 今日进度</span>
                   <span class="module-toggle">▼</span>
                 </div>
                 <div class="module-body" data-body="isabella-progress">
                   <div class="personal-progress" style="border:none;background:transparent;padding:0;">
                     <div class="pp-stats">
-                      <span class="stat-item">📋 <span class="num" id="ppIsabellaTotal">0</span></span>
-                      <span class="stat-item">✅ <span class="num" id="ppIsabellaDone">0</span></span>
-                      <span class="stat-item">🎯 <span class="num" id="ppIsabellaRate">0</span>%</span>
+                      <span class="stat-item">📋 今日 <span class="num" id="ppIsabellaTotal">0</span></span>
+                      <span class="stat-item">✅ 已完成 <span class="num" id="ppIsabellaDone">0</span></span>
+                      <span class="stat-item">🎯 完成率 <span class="num" id="ppIsabellaRate">0</span>%</span>
                     </div>
                     <div class="pp-bar"><div class="fill" id="ppIsabellaBar" style="width:0%;"></div></div>
-                    <div class="pp-recent" id="ppIsabellaRecent" style="font-size:11px;color:#999;margin-top:2px;">No recent activity</div>
+                    <div class="pp-recent" id="ppIsabellaRecent" style="font-size:11px;color:#999;margin-top:2px;">📭 今天没有任务</div>
                   </div>
                 </div>
               </div>
@@ -1715,11 +1718,11 @@
         </div>
 
         <!-- =============================================================
-             NATALIE PANEL
+             NATALIE PANEL — "Natalie's Success Pathway"
              ============================================================= -->
         <div class="panel" id="panel-natalie">
           <div class="panel-header">
-            <h2>👧 Natalie</h2>
+            <h2>🌺 Natalie's Success Pathway</h2>
             <div style="display:flex; gap:6px; align-items:center;">
               <span class="points-bar">⭐ <span id="pointsNatalieDaughter">0</span> pts <button class="btn-redeem"
                   data-child="natalie">🎁 Redeem</button></span>
@@ -1731,18 +1734,18 @@
             <div class="daughter-left-panel">
               <div class="collapsible-module" data-module="natalie-progress">
                 <div class="module-header" data-toggle="natalie-progress">
-                  <span class="module-title">📈 我的进度</span>
+                  <span class="module-title">📈 今日进度</span>
                   <span class="module-toggle">▼</span>
                 </div>
                 <div class="module-body" data-body="natalie-progress">
                   <div class="personal-progress" style="border:none;background:transparent;padding:0;">
                     <div class="pp-stats">
-                      <span class="stat-item">📋 <span class="num" id="ppNatalieTotal">0</span></span>
-                      <span class="stat-item">✅ <span class="num" id="ppNatalieDone">0</span></span>
-                      <span class="stat-item">🎯 <span class="num" id="ppNatalieRate">0</span>%</span>
+                      <span class="stat-item">📋 今日 <span class="num" id="ppNatalieTotal">0</span></span>
+                      <span class="stat-item">✅ 已完成 <span class="num" id="ppNatalieDone">0</span></span>
+                      <span class="stat-item">🎯 完成率 <span class="num" id="ppNatalieRate">0</span>%</span>
                     </div>
                     <div class="pp-bar"><div class="fill" id="ppNatalieBar" style="width:0%;"></div></div>
-                    <div class="pp-recent" id="ppNatalieRecent" style="font-size:11px;color:#999;margin-top:2px;">No recent activity</div>
+                    <div class="pp-recent" id="ppNatalieRecent" style="font-size:11px;color:#999;margin-top:2px;">📭 今天没有任务</div>
                   </div>
                 </div>
               </div>
@@ -3020,25 +3023,32 @@
         else if (action === 'selfDelete') { if (confirm('删除你自己创建的任务？')) deleteTask(id); }
       }
 
+      // ===== 今日进度（只显示当天的任务）=====
       function renderPersonalProgress(who) {
-        const taskList = tasks.filter(t => t.assigned_to === who || t.assigned_to === 'both');
-        const total = taskList.length;
-        const done = taskList.filter(t => t.completed).length;
+        const today = getTodayStr();
+        const allTasks = tasks.filter(t => t.assigned_to === who || t.assigned_to === 'both');
+        const todayTasks = allTasks.filter(t => t.due_date === today);
+        const total = todayTasks.length;
+        const done = todayTasks.filter(t => t.completed).length;
         const percent = total === 0 ? 0 : Math.round(done / total * 100);
         const capWho = who.charAt(0).toUpperCase() + who.slice(1);
+
         document.getElementById('pp' + capWho + 'Total').textContent = total;
         document.getElementById('pp' + capWho + 'Done').textContent = done;
         document.getElementById('pp' + capWho + 'Rate').textContent = percent;
+
         const barEl = document.getElementById('pp' + capWho + 'Bar');
         if (barEl) {
           barEl.style.width = percent + '%';
           barEl.className = 'fill' + (percent === 100 ? ' all-done' : (percent > 0 ? ' done' : ''));
         }
-        const recent = taskList.filter(t => t.completed).sort((a, b) => (b.completed_at || b.id) - (a.completed_at || a.id));
+
+        const recent = todayTasks.filter(t => t.completed).sort((a, b) => (b.completed_at || b.id) - (a.completed_at || a.id));
         const recentEl = document.getElementById('pp' + capWho + 'Recent');
         if (recentEl) {
-          if (recent.length === 0) recentEl.textContent = 'No recent activity';
-          else {
+          if (recent.length === 0) {
+            recentEl.textContent = total === 0 ? '📭 今天没有任务' : '⏳ 今日任务尚未完成';
+          } else {
             const latest = recent[0];
             const date = latest.completed_at ? formatDate(latest.completed_at) : formatDate(latest.due_date);
             recentEl.textContent = `✅ ${latest.title} (${date})`;
@@ -3083,6 +3093,7 @@
         }
       }
 
+      // ===== 主渲染 =====
       function render() {
         if (!currentUser) return;
 
