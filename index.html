@@ -34,6 +34,7 @@
       display: flex;
       flex-direction: column;
     }
+
     /* ----- LOGIN PAGE ----- */
     #loginPage {
       display: flex;
@@ -1498,7 +1499,6 @@
         });
         if (error) throw error;
 
-        // 查询 profile，若无则创建
         let { data: profile, error: profileError } = await sb
           .from('profiles')
           .select('*')
@@ -1508,7 +1508,6 @@
         if (profileError) throw profileError;
 
         if (!profile) {
-          // 自动创建 profile
           const { data: newProfile, error: insertError } = await sb
             .from('profiles')
             .insert([{
@@ -1562,7 +1561,6 @@
         if (subErr) throw subErr;
         subjects = subData.map(s => s.name) || [];
 
-        // 加载积分
         const { data: profiles, error: profErr } = await sb
           .from('profiles')
           .select('role, points')
@@ -1584,7 +1582,6 @@
         if (awdsErr) throw awdsErr;
         awards = awds || [];
 
-        // 加载 reflections
         const { data: refsData, error: refsErr } = await sb
           .from('reflections')
           .select('*')
@@ -1674,10 +1671,9 @@
       }
     }
 
-    // ===== 更新积分（修复版，使用 maybeSingle） =====
+    // ===== 更新积分（修复版） =====
     async function updatePoints(child, delta) {
       try {
-        // 查询该角色是否存在
         let { data: profile, error } = await sb
           .from('profiles')
           .select('points')
@@ -1696,14 +1692,15 @@
             .eq('role', child);
           if (updateErr) throw updateErr;
         } else {
-          // 该角色不存在，插入新记录
+          // 生成 UUID
+          const newId = crypto.randomUUID ? crypto.randomUUID() : '00000000-0000-0000-0000-000000000000';
           const { error: insertErr } = await sb
             .from('profiles')
             .insert([{
+              id: newId,
               role: child,
               points: newPoints,
               email: child + '@example.com',
-              // id 由 Supabase 自动生成
             }]);
           if (insertErr) throw insertErr;
         }
