@@ -1431,8 +1431,6 @@
     let redemptions = [];
     let awards = [];
     let reflections = { isabella: [], natalie: [] };
-    // 用于每日奖励
-    let todayStr = getTodayStr();
 
     const REWARDS = [
       { label: '💰 HKD 20', cost: 100 },
@@ -1570,41 +1568,15 @@
         if (awdsErr) throw awdsErr;
         awards = awds || [];
 
-        if (currentUserRole !== 'admin') {
-          const { data: refs, error: refsErr } = await sb
-            .from('reflections')
-            .select('*')
-            .eq('user_id', currentUser.id)
-            .order('date', { ascending: false });
-          if (refsErr) throw refsErr;
-          reflections[currentUserRole] = refs || [];
-        } else {
-          // Admin 加载所有女儿的 reflections
-          const { data: allRefs, error: allRefsErr } = await sb
-            .from('reflections')
-            .select('*')
-            .order('date', { ascending: false });
-          if (allRefsErr) throw allRefsErr;
-          // 按角色分组
-          reflections = { isabella: [], natalie: [] };
-          allRefs.forEach(r => {
-            // 需要知道谁写的，但 reflections 表只有 user_id，我们可能需要通过 profiles 表获取 role
-            // 简单处理：我们通过 currentUser 的 role 来匹配？但这是 admin 视图，我们需要区分
-            // 更好的方式：在 reflections 表中我们存储了 user_id，我们可以通过 profiles 表查询
-            // 但为了简便，我们在插入 reflection 时额外存储 child 字段？但表结构没有。
-            // 我们可以在前端加载 profiles 映射 user_id -> role
-            // 但为了不增加复杂度，我们在插入 reflection 时，我们存储 user_id，并在前端通过 user_id 匹配角色
-            // 由于我们已经有了 currentUser，但 admin 不是那两个女儿，我们需要从 profiles 表获取 user_id 对应的角色
-            // 我们可以在 loadAllData 中另外加载 profiles 列表，但之前我们只加载了 points
-            // 我们可以再加载一次 profiles 映射
-            // 这里我们简单修改：在 loadAllData 中加载 profiles 列表（包括 id, role）
-            // 由于之前我们只加载了 role, points，没有 id
-            // 我重新加载 profiles 表以获取 id 映射
-            // 但为了减少改动，我们在 render 时查询？
-            // 为简化，我们修改 loadAllData，获取完整的 profiles
-            // 之前已经获取 profiles 但只取了 role, points，现在改为取 id, role
-          });
-          // 重新加载 profiles 获取 id
+        // ===== 加载 reflections =====
+        const { data: refsData, error: refsErr } = await sb
+          .from('reflections')
+          .select('*')
+          .order('date', { ascending: false });
+        if (refsErr) throw refsErr;
+
+        if (currentUserRole === 'admin') {
+          // Admin: 需要将 user_id 映射到角色
           const { data: profilesAll, error: profAllErr } = await sb
             .from('profiles')
             .select('id, role')
@@ -1612,15 +1584,18 @@
           if (profAllErr) throw profAllErr;
           const userMap = {};
           profilesAll.forEach(p => { userMap[p.id] = p.role; });
-          // 分组
           reflections = { isabella: [], natalie: [] };
-          allRefs.forEach(r => {
+          refsData.forEach(r => {
             const role = userMap[r.user_id];
             if (role && reflections[role]) {
               reflections[role].push(r);
             }
           });
+        } else {
+          // 女儿视图：只保留自己的
+          reflections[currentUserRole] = refsData.filter(r => r.user_id === currentUser.id);
         }
+
       } catch (err) {
         console.error('Load data error:', err);
         alert('数据加载失败，请检查 Supabase 配置和表结构。');
@@ -1770,21 +1745,17 @@
         alert('Please write something about your day.');
         return;
       }
-      // 检查今天是否已经提交过
       const today = getTodayStr();
-      // 从当前用户已有的 reflections 中检查
       const existing = reflections[who] || [];
       const todayEntry = existing.find(r => {
         const d = new Date(r.date);
-        const dStr = d.toISOString().slice(0, 10);
-        return dStr === today;
+        return d.toISOString().slice(0, 10) === today;
       });
       if (todayEntry) {
         alert('You have already submitted a reflection today. You can only submit once per day.');
         return;
       }
 
-      // 插入新 reflection
       const { error } = await sb.from('reflections').insert([{
         user_id: currentUser.id,
         text: text,
@@ -1794,7 +1765,6 @@
         alert('Failed to save reflection: ' + error.message);
         return;
       }
-      // +3 分
       await updatePoints(who, 3);
       input.value = '';
       await loadAllData();
@@ -1815,9 +1785,7 @@
         return;
       }
       await updatePoints(child, val);
-      // 记录到 manualLog（以便显示今日加分）
       manualLog.push({ child, date: getTodayStr(), amount: val });
-      // 重新加载数据并刷新界面
       await loadAllData();
       render();
       alert(`✅ ${val} points awarded to ${child} as daily bonus.`);
@@ -1906,76 +1874,45 @@
     }
 
     function renderDaughtersOverview() {
-      const today = getTodayStr();
-      const now = new Date();
-      const dayOfWeek = now.getDay();
-      const diffToMon = (dayOfWeek === 0 ? 6 : dayOfWeek - 1);
-      const weekStart = new Date(now);
-      weekStart.setDate(now.getDate() - diffToMon);
-      const weekStartStr = weekStart.toISOString().slice(0, 10);
-      const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-      const monthStartStr = monthStart.toISOString().slice(0, 10);
-
-      const renderDaughter = (who, idPrefix) => {
+      const container = document.getElementById('daughtersOverview');
+      if (!container) return;
+      container.innerHTML = '';
+      ['isabella', 'natalie'].forEach(who => {
         const allTasks = tasks.filter(t => t.assigned_to === who || t.assigned_to === 'both');
         const total = allTasks.length;
-        document.getElementById(idPrefix + 'TotalBadge').textContent = total + ' tasks';
-
+        const today = getTodayStr();
         const todayTasks = allTasks.filter(t => t.due_date === today);
         const todayDone = todayTasks.filter(t => t.completed).length;
         const todayTotal = todayTasks.length;
-        document.getElementById(idPrefix + 'TodayDone').textContent = todayDone;
-        document.getElementById(idPrefix + 'TodayTotal').textContent = todayTotal;
-        const todayBar = document.getElementById(idPrefix + 'TodayBar');
-        todayBar.style.width = todayTotal === 0 ? '0%' : (todayDone / todayTotal * 100) + '%';
-        todayBar.className = 'fill' + (todayTotal > 0 && todayDone === todayTotal ? ' all-done' : (todayDone > 0 ? ' done' : ''));
-
+        const now = new Date();
+        const dayOfWeek = now.getDay();
+        const diffToMon = (dayOfWeek === 0 ? 6 : dayOfWeek - 1);
+        const weekStart = new Date(now);
+        weekStart.setDate(now.getDate() - diffToMon);
+        const weekStartStr = weekStart.toISOString().slice(0, 10);
         const weekTasks = allTasks.filter(t => t.due_date >= weekStartStr && t.due_date <= today);
         const weekDone = weekTasks.filter(t => t.completed).length;
         const weekTotal = weekTasks.length;
-        document.getElementById(idPrefix + 'WeekDone').textContent = weekDone;
-        document.getElementById(idPrefix + 'WeekTotal').textContent = weekTotal;
-        const weekBar = document.getElementById(idPrefix + 'WeekBar');
-        weekBar.style.width = weekTotal === 0 ? '0%' : (weekDone / weekTotal * 100) + '%';
-        weekBar.className = 'fill' + (weekTotal > 0 && weekDone === weekTotal ? ' all-done' : (weekDone > 0 ? ' done' : ''));
-
+        const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+        const monthStartStr = monthStart.toISOString().slice(0, 10);
         const monthTasks = allTasks.filter(t => t.due_date >= monthStartStr && t.due_date <= today);
         const monthDone = monthTasks.filter(t => t.completed).length;
         const monthTotal = monthTasks.length;
-        document.getElementById(idPrefix + 'MonthDone').textContent = monthDone;
-        document.getElementById(idPrefix + 'MonthTotal').textContent = monthTotal;
-        const monthBar = document.getElementById(idPrefix + 'MonthBar');
-        monthBar.style.width = monthTotal === 0 ? '0%' : (monthDone / monthTotal * 100) + '%';
-        monthBar.className = 'fill' + (monthTotal > 0 && monthDone === monthTotal ? ' all-done' : (monthDone > 0 ? ' done' : ''));
-
         const recent = allTasks.filter(t => t.completed).sort((a, b) => (b.completed_at || b.id) - (a.completed_at || a.id));
-        const recentEl = document.getElementById(idPrefix + 'Recent');
-        if (recent.length === 0) {
-          recentEl.textContent = 'No recent activity';
-        } else {
-          const latest = recent[0];
-          const date = latest.completed_at ? formatDate(latest.completed_at) : formatDate(latest.due_date);
-          recentEl.textContent = `✅ ${latest.title} (${date})`;
-        }
-      };
-      const container = document.getElementById('daughtersOverview');
-      container.innerHTML = '';
-      ['isabella', 'natalie'].forEach(who => {
-        const idPrefix = who;
+        const recentText = recent.length === 0 ? 'No recent activity' : `✅ ${recent[0].title} (${formatDate(recent[0].completed_at || recent[0].due_date)})`;
+
         const card = document.createElement('div');
         card.className = 'daughter-card';
-        card.id = 'daughterCard' + who.charAt(0).toUpperCase() + who.slice(1);
         card.innerHTML = `
-          <div class="d-header"><span class="name">👧 ${who.charAt(0).toUpperCase()+who.slice(1)}</span><span class="total-badge" id="${idPrefix}TotalBadge">0 tasks</span></div>
+          <div class="d-header"><span class="name">👧 ${who.charAt(0).toUpperCase()+who.slice(1)}</span><span class="total-badge">${total} tasks</span></div>
           <div class="d-stats">
-            <div class="d-stat"><div class="label">Today</div><div class="num"><span class="done" id="${idPrefix}TodayDone">0</span>/<span class="total" id="${idPrefix}TodayTotal">0</span></div><div class="mini-bar"><div class="fill" id="${idPrefix}TodayBar" style="width:0%;"></div></div></div>
-            <div class="d-stat"><div class="label">Week</div><div class="num"><span class="done" id="${idPrefix}WeekDone">0</span>/<span class="total" id="${idPrefix}WeekTotal">0</span></div><div class="mini-bar"><div class="fill" id="${idPrefix}WeekBar" style="width:0%;"></div></div></div>
-            <div class="d-stat"><div class="label">Month</div><div class="num"><span class="done" id="${idPrefix}MonthDone">0</span>/<span class="total" id="${idPrefix}MonthTotal">0</span></div><div class="mini-bar"><div class="fill" id="${idPrefix}MonthBar" style="width:0%;"></div></div></div>
+            <div class="d-stat"><div class="label">Today</div><div class="num"><span class="done">${todayDone}</span>/<span class="total">${todayTotal}</span></div><div class="mini-bar"><div class="fill" style="width:${todayTotal===0?'0%':(todayDone/todayTotal*100)+'%'};"></div></div></div>
+            <div class="d-stat"><div class="label">Week</div><div class="num"><span class="done">${weekDone}</span>/<span class="total">${weekTotal}</span></div><div class="mini-bar"><div class="fill" style="width:${weekTotal===0?'0%':(weekDone/weekTotal*100)+'%'};"></div></div></div>
+            <div class="d-stat"><div class="label">Month</div><div class="num"><span class="done">${monthDone}</span>/<span class="total">${monthTotal}</span></div><div class="mini-bar"><div class="fill" style="width:${monthTotal===0?'0%':(monthDone/monthTotal*100)+'%'};"></div></div></div>
           </div>
-          <div class="d-recent" id="${idPrefix}Recent">No recent activity</div>
+          <div class="d-recent">${recentText}</div>
         `;
         container.appendChild(card);
-        renderDaughter(who, idPrefix);
       });
     }
 
@@ -2071,6 +2008,10 @@
     // ----- 女儿任务列表（权限控制）-----
     function renderDaughter(who) {
       const container = document.getElementById(who + 'TaskList');
+      if (!container) {
+        console.warn('Task list container not found for', who);
+        return;
+      }
       const list = tasks.filter(t => t.assigned_to === who || t.assigned_to === 'both');
       if (list.length === 0) {
         container.innerHTML = `<p class="text-muted">No homework assigned yet. 😊</p>`;
@@ -2165,17 +2106,21 @@
       document.getElementById('pp' + capWho + 'Done').textContent = done;
       document.getElementById('pp' + capWho + 'Rate').textContent = percent;
       const barEl = document.getElementById('pp' + capWho + 'Bar');
-      barEl.style.width = percent + '%';
-      barEl.className = 'fill' + (percent === 100 ? ' all-done' : (percent > 0 ? ' done' : ''));
+      if (barEl) {
+        barEl.style.width = percent + '%';
+        barEl.className = 'fill' + (percent === 100 ? ' all-done' : (percent > 0 ? ' done' : ''));
+      }
 
       const recent = taskList.filter(t => t.completed).sort((a, b) => (b.completed_at || b.id) - (a.completed_at || a.id));
       const recentEl = document.getElementById('pp' + capWho + 'Recent');
-      if (recent.length === 0) {
-        recentEl.textContent = 'No recent activity';
-      } else {
-        const latest = recent[0];
-        const date = latest.completed_at ? formatDate(latest.completed_at) : formatDate(latest.due_date);
-        recentEl.textContent = `✅ ${latest.title} (${date})`;
+      if (recentEl) {
+        if (recent.length === 0) {
+          recentEl.textContent = 'No recent activity';
+        } else {
+          const latest = recent[0];
+          const date = latest.completed_at ? formatDate(latest.completed_at) : formatDate(latest.due_date);
+          recentEl.textContent = `✅ ${latest.title} (${date})`;
+        }
       }
     }
 
@@ -2183,6 +2128,7 @@
     function renderReflections(who) {
       const containerId = who === 'isabella' ? 'reflectionHistory' : 'reflectionHistory2';
       const container = document.getElementById(containerId);
+      if (!container) return;
       const entries = reflections[who] || [];
       if (entries.length === 0) {
         container.innerHTML = '<div class="text-muted">No reflections yet.</div>';
@@ -2210,7 +2156,6 @@
       });
       if (todayEntry) {
         statusEl.textContent = '✅ You have already submitted today\'s reflection.';
-        // 禁用文本框和按钮
         const inputId = who === 'isabella' ? 'reflectionInput' : 'reflectionInput2';
         const input = document.getElementById(inputId);
         const btnId = who === 'isabella' ? 'saveReflectionBtn' : 'saveReflectionBtn2';
@@ -2428,6 +2373,7 @@
       const task = tasks.find(t => t.id === taskId);
       if (!task || !task.reply) return;
       const content = document.getElementById('viewReplyContent');
+      if (!content) return;
       let html = `<p><strong>Task:</strong> ${task.title}</p>`;
       html += `<p><strong>Reply:</strong> ${task.reply.text || '—'}</p>`;
       if (task.reply.fileName) {
@@ -2602,10 +2548,12 @@
 
       // 折叠统计
       const upperSection = document.getElementById('upperSection');
-      if (currentUserRole === 'admin') {
-        upperSection.style.display = 'block';
-      } else {
-        upperSection.style.display = 'none';
+      if (upperSection) {
+        if (currentUserRole === 'admin') {
+          upperSection.style.display = 'block';
+        } else {
+          upperSection.style.display = 'none';
+        }
       }
 
       // 更新积分显示
@@ -2635,14 +2583,15 @@
         updateGlobalStats();
         renderDaughtersOverview();
         renderAdminTasks();
-        // 更新 Admin 每日奖励区域显示今日完成情况
+        // 更新 Admin 每日奖励区域
         const today = getTodayStr();
         ['isabella', 'natalie'].forEach(child => {
           const tasksForChild = tasks.filter(t => t.assigned_to === child || t.assigned_to === 'both');
           const todayTasks = tasksForChild.filter(t => t.due_date === today);
           const done = todayTasks.filter(t => t.completed).length;
           const total = todayTasks.length;
-          document.getElementById('admin' + child.charAt(0).toUpperCase() + child.slice(1) + 'Today').textContent = `${done}/${total}`;
+          const el = document.getElementById('admin' + child.charAt(0).toUpperCase() + child.slice(1) + 'Today');
+          if (el) el.textContent = `${done}/${total}`;
         });
       } else {
         // 女儿
@@ -2665,7 +2614,6 @@
         renderDaughter(currentUserRole);
         renderReflections(currentUserRole);
         renderPersonalProgress(currentUserRole);
-        // Reflection 状态
         renderReflectionStatus(currentUserRole);
       }
     }
@@ -2714,7 +2662,8 @@
       let statsVisible = true;
       document.getElementById('toggleStatsBtn').addEventListener('click', function() {
         statsVisible = !statsVisible;
-        document.getElementById('statsContent').style.display = statsVisible ? 'block' : 'none';
+        const content = document.getElementById('statsContent');
+        if (content) content.style.display = statsVisible ? 'block' : 'none';
         this.textContent = statsVisible ? '📊 Hide Stats' : '📊 Show Stats';
       });
 
@@ -2827,23 +2776,28 @@
 
     // ===== 初始化 =====
     async function init() {
-      const { data: { session } } = await sb.auth.getSession();
-      if (session) {
-        const { data: profile } = await sb
-          .from('profiles')
-          .select('*')
-          .eq('id', session.user.id)
-          .single();
-        if (profile) {
-          currentUser = profile;
-          currentUserRole = profile.role;
-          document.getElementById('loginPage').style.display = 'none';
-          document.getElementById('mainApp').classList.add('visible');
-          await loadAllData();
-          render();
-          bindEvents();
-          return;
+      try {
+        const { data: { session } } = await sb.auth.getSession();
+        if (session) {
+          const { data: profile } = await sb
+            .from('profiles')
+            .select('*')
+            .eq('id', session.user.id)
+            .single();
+          if (profile) {
+            currentUser = profile;
+            currentUserRole = profile.role;
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('mainApp').classList.add('visible');
+            await loadAllData();
+            render();
+            bindEvents();
+            return;
+          }
         }
+      } catch (e) {
+        console.error('Init error:', e);
+        alert('初始化失败，请刷新页面或检查 Supabase 配置。');
       }
       document.getElementById('loginPage').style.display = 'flex';
       document.getElementById('mainApp').classList.remove('visible');
