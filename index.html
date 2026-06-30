@@ -700,6 +700,10 @@
       background: #dbeafe;
       color: #1e40af;
     }
+    .badge.expired-badge {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
     .task-card .reply-preview {
       background: #f1edf7;
       border-radius: 8px;
@@ -872,6 +876,88 @@
       background: #faf8fc;
       border-radius: 10px;
       border: 1px dashed #ede6f5;
+    }
+
+    /* ===== 过期任务折叠模块（特殊样式） ===== */
+    .expired-module {
+      margin-top: 4px;
+      border-radius: 10px;
+      border: 1px solid #fecaca;
+      overflow: hidden;
+      background: #fef2f2;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .expired-module .module-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 12px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s;
+      background: #fee2e2;
+      border-radius: 10px 10px 0 0;
+      flex-shrink: 0;
+    }
+    .expired-module .module-header:hover {
+      background: #fecaca;
+    }
+    .expired-module .module-header .module-title {
+      font-weight: 600;
+      font-size: 12px;
+      color: #991b1b;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .expired-module .module-header .module-toggle {
+      font-size: 14px;
+      font-weight: 300;
+      color: #dc2626;
+      transition: transform 0.25s ease;
+      min-width: 24px;
+      text-align: center;
+    }
+    .expired-module .module-header .module-toggle.open {
+      transform: rotate(180deg);
+    }
+    .expired-module .module-body {
+      padding: 4px 8px 8px 8px;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      background: #fff;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .expired-module .module-body.collapsed {
+      display: none;
+    }
+    .expired-module .module-body .task-grid {
+      flex: 1;
+      overflow-y: auto;
+      padding: 4px 2px 12px 2px;
+      max-height: none;
+      min-height: 0;
+      overscroll-behavior: contain;
+    }
+    .expired-module .module-body .task-grid::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .expired-module .module-body .task-grid::-webkit-scrollbar-track {
+      background: #f5f0fa;
+      border-radius: 10px;
+    }
+    .expired-module .module-body .task-grid::-webkit-scrollbar-thumb {
+      background: #fca5a5;
+      border-radius: 10px;
+    }
+    .expired-module .module-body .task-grid::-webkit-scrollbar-thumb:hover {
+      background: #f87171;
     }
 
     /* ===== ADMIN DAUGHTERS GRID ===== */
@@ -2054,7 +2140,7 @@
 
       function applyAllCollapseStates() {
         const state = getCollapseState();
-        document.querySelectorAll('.collapsible-module').forEach(mod => {
+        document.querySelectorAll('.collapsible-module, .expired-module').forEach(mod => {
           const moduleId = mod.dataset.module;
           if (!moduleId) return;
           const body = mod.querySelector(`[data-body="${moduleId}"]`);
@@ -2176,9 +2262,11 @@
         const isPendingConfirm = task.completed && !task.auto_score_applied;
         const isDouble = task.double_points === true;
         const isSelfCreated = task.created_by === currentUserRole && currentUserRole !== 'admin';
+        const isExpired = isDateOverdue(task.due_date) && !task.completed;
 
-        const status = task.completed ? (isPendingConfirm ? '⏳ 待确认' : '✅ Done') : '⏳ Pending';
-        const badgeClass = task.completed ? (isPendingConfirm ? 'pending-confirm-label' : 'done') : 'pending';
+        const status = task.completed ? (isPendingConfirm ? '⏳ 待确认' : '✅ Done') : (isExpired ? '⏳ 已过期' : '⏳ Pending');
+        const badgeClass = task.completed ? (isPendingConfirm ? 'pending-confirm-label' : 'done') :
+          (isExpired ? 'expired-badge' : 'pending');
         const replyInfo = task.reply ? '💬 Replied' : 'No reply';
         const replyAction = task.reply ?
           `<button class="btn-sm view" data-action="viewReply" data-id="${task.id}">View</button>` :
@@ -2302,8 +2390,10 @@
         `;
       }
 
-      // ===== 按日期分组渲染任务列表 =====
-      function renderGroupedTasks(containerId, taskList) {
+      // ============================================================
+      // 按日期分组渲染任务列表（支持过期任务折叠）
+      // ============================================================
+      function renderGroupedTasks(containerId, taskList, contextId) {
         const container = document.getElementById(containerId);
         if (!container) return;
 
@@ -2312,26 +2402,37 @@
           return;
         }
 
-        const groups = {};
         const today = getTodayStr();
-        const sortedDates = [...new Set(taskList.map(t => t.due_date))].sort((a, b) => {
+
+        // 分离过期和非过期任务
+        const activeTasks = taskList.filter(t => !isDateOverdue(t.due_date) || t.completed);
+        const expiredTasks = taskList.filter(t => isDateOverdue(t.due_date) && !t.completed);
+
+        // 排序活跃任务（今天优先，然后按日期）
+        const sortedActive = sortTasks(activeTasks);
+
+        // 按日期分组活跃任务
+        const groups = {};
+        const activeDates = [...new Set(sortedActive.map(t => t.due_date))].sort((a, b) => {
           if (a === today) return -1;
           if (b === today) return 1;
           return new Date(a) - new Date(b);
         });
 
-        sortedDates.forEach(date => {
-          groups[date] = taskList.filter(t => t.due_date === date);
+        activeDates.forEach(date => {
+          groups[date] = sortedActive.filter(t => t.due_date === date);
         });
 
         let html = '';
-        sortedDates.forEach((date, index) => {
+
+        // 渲染活跃任务（按日期分组）
+        activeDates.forEach((date, index) => {
           const tasksForDate = groups[date];
           if (!tasksForDate || tasksForDate.length === 0) return;
 
           const label = getDateLabel(date);
-          const isOverdue = isDateOverdue(date) && !isDateToday(date);
-          const badgeClass = isDateToday(date) ? 'today' : (isOverdue ? 'overdue' : '');
+          const isToday = isDateToday(date);
+          const badgeClass = isToday ? 'today' : '';
           const taskCount = tasksForDate.length;
 
           html += `
@@ -2339,7 +2440,6 @@
               <div class="date-header">
                 <span>${label}</span>
                 <span class="date-badge ${badgeClass}">${taskCount} 项</span>
-                ${isOverdue ? '<span style="color:#ef4444;font-size:11px;">⚠️ 已过期</span>' : ''}
               </div>
           `;
 
@@ -2348,12 +2448,99 @@
           });
 
           html += `</div>`;
-          if (index < sortedDates.length - 1) {
+          if (index < activeDates.length - 1) {
             html += `<hr class="date-divider" />`;
           }
         });
 
+        // ===== 渲染过期任务（折叠模块，默认收起）=====
+        if (expiredTasks.length > 0) {
+          // 对过期任务按日期排序（从近到远）
+          const sortedExpired = sortTasks(expiredTasks);
+          const expiredGroups = {};
+          const expiredDates = [...new Set(sortedExpired.map(t => t.due_date))].sort((a, b) => new Date(b) - new Date(a));
+
+          expiredDates.forEach(date => {
+            expiredGroups[date] = sortedExpired.filter(t => t.due_date === date);
+          });
+
+          // 生成唯一的折叠模块 ID
+          const moduleId = contextId ? `expired-tasks-${contextId}` : `expired-tasks-${containerId}`;
+
+          // 默认收起：检查 localStorage 状态
+          const state = getCollapseState();
+          const isCollapsed = state[moduleId] !== false; // 默认收起
+
+          html += `
+            <div class="expired-module" data-module="${moduleId}">
+              <div class="module-header" data-toggle="${moduleId}">
+                <span class="module-title">📂 已过期 (${expiredTasks.length} 项)</span>
+                <span class="module-toggle ${isCollapsed ? '' : 'open'}">${isCollapsed ? '▼' : '▲'}</span>
+              </div>
+              <div class="module-body ${isCollapsed ? 'collapsed' : ''}" data-body="${moduleId}">
+                <div class="task-grid">
+          `;
+
+          expiredDates.forEach((date, index) => {
+            const tasksForDate = expiredGroups[date];
+            if (!tasksForDate || tasksForDate.length === 0) return;
+
+            const label = getDateLabel(date);
+            const taskCount = tasksForDate.length;
+
+            html += `
+              <div class="date-group">
+                <div class="date-header">
+                  <span>${label}</span>
+                  <span class="date-badge overdue">${taskCount} 项</span>
+                  <span style="color:#ef4444;font-size:11px;">⚠️ 已过期</span>
+                </div>
+            `;
+
+            tasksForDate.forEach(task => {
+              html += renderTaskCard(task);
+            });
+
+            html += `</div>`;
+            if (index < expiredDates.length - 1) {
+              html += `<hr class="date-divider" />`;
+            }
+          });
+
+          html += `
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
         container.innerHTML = html;
+
+        // 绑定过期模块的折叠事件
+        container.querySelectorAll('.expired-module .module-header[data-toggle]').forEach(header => {
+          header.addEventListener('click', function(e) {
+            if (e.target.closest('button') || e.target.closest('input')) return;
+            const moduleId = this.dataset.toggle;
+            if (moduleId) {
+              const state = getCollapseState();
+              state[moduleId] = !state[moduleId];
+              saveCollapseState(state);
+              const body = document.querySelector(`[data-body="${moduleId}"]`);
+              const toggle = this.querySelector('.module-toggle');
+              if (body) {
+                if (state[moduleId]) {
+                  body.classList.add('collapsed');
+                  if (toggle) toggle.textContent = '▼';
+                } else {
+                  body.classList.remove('collapsed');
+                  if (toggle) toggle.textContent = '▲';
+                }
+              }
+            }
+          });
+        });
+
+        // 绑定任务操作事件（由外部统一处理）
       }
 
       // ============================================================
@@ -2970,8 +3157,8 @@
 
       // ===== Admin 任务渲染 =====
       function renderAdminTasks() {
-        const isabellaTasks = sortTasks(tasks.filter(t => t.assigned_to === 'isabella' || t.assigned_to === 'both'));
-        const natalieTasks = sortTasks(tasks.filter(t => t.assigned_to === 'natalie' || t.assigned_to === 'both'));
+        const isabellaTasks = tasks.filter(t => t.assigned_to === 'isabella' || t.assigned_to === 'both');
+        const natalieTasks = tasks.filter(t => t.assigned_to === 'natalie' || t.assigned_to === 'both');
 
         const pendingConfirm = tasks.filter(t => t.completed && !t.auto_score_applied);
         const countEl = document.getElementById('pendingConfirmCount');
@@ -2980,9 +3167,11 @@
           countEl.className = 'count' + (pendingConfirm.length === 0 ? ' zero' : '');
         }
 
-        renderGroupedTasks('adminIsabellaTaskList', isabellaTasks);
-        renderGroupedTasks('adminNatalieTaskList', natalieTasks);
+        // 使用新的分组渲染，传入 contextId
+        renderGroupedTasks('adminIsabellaTaskList', isabellaTasks, 'admin-isabella');
+        renderGroupedTasks('adminNatalieTaskList', natalieTasks, 'admin-natalie');
 
+        // 绑定任务操作事件
         document.querySelectorAll('#adminIsabellaTaskList [data-action], #adminNatalieTaskList [data-action]').forEach(el => {
           el.addEventListener('click', function(e) {
             e.stopPropagation();
@@ -2995,8 +3184,8 @@
 
       // ===== 女儿任务渲染 =====
       function renderDaughter(who) {
-        const list = sortTasks(tasks.filter(t => t.assigned_to === who || t.assigned_to === 'both'));
-        renderGroupedTasks(who + 'TaskList', list);
+        const list = tasks.filter(t => t.assigned_to === who || t.assigned_to === 'both');
+        renderGroupedTasks(who + 'TaskList', list, who);
 
         document.querySelectorAll(`#${who}TaskList [data-action]`).forEach(el => {
           el.addEventListener('click', function(e) {
