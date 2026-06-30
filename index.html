@@ -704,6 +704,11 @@
       background: #fee2e2;
       color: #b91c1c;
     }
+    .badge.expired-done-badge {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #f59e0b;
+    }
     .task-card .reply-preview {
       background: #f1edf7;
       border-radius: 8px;
@@ -786,6 +791,17 @@
     .btn-sm.confirm:hover {
       background: #059669;
       box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+    }
+    .btn-sm.confirm-expired {
+      background: #f59e0b;
+      color: #fff;
+      font-weight: 700;
+      padding: 1px 12px;
+      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+    }
+    .btn-sm.confirm-expired:hover {
+      background: #d97706;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
     }
     .btn-sm.revert {
       background: #fee2e2;
@@ -878,22 +894,23 @@
       border: 1px dashed #ede6f5;
     }
 
-    /* ===== 过期任务折叠模块（特殊样式） ===== */
+    /* ===== 过期任务折叠模块（保留但不再强调） ===== */
     .expired-module {
       margin-top: 4px;
       border-radius: 10px;
-      border: 1px solid #fecaca;
+      border: 2px solid #ef4444;
       overflow: hidden;
       background: #fef2f2;
       display: flex;
       flex-direction: column;
       min-height: 0;
+      scroll-margin-top: 80px;
     }
     .expired-module .module-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 4px 12px;
+      padding: 6px 12px;
       cursor: pointer;
       user-select: none;
       transition: background 0.15s;
@@ -905,12 +922,18 @@
       background: #fecaca;
     }
     .expired-module .module-header .module-title {
-      font-weight: 600;
-      font-size: 12px;
+      font-weight: 700;
+      font-size: 13px;
       color: #991b1b;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .expired-module .module-header .module-title .stats {
+      font-weight: 400;
+      font-size: 11px;
+      color: #666;
     }
     .expired-module .module-header .module-toggle {
       font-size: 14px;
@@ -940,7 +963,7 @@
       flex: 1;
       overflow-y: auto;
       padding: 4px 2px 12px 2px;
-      max-height: none;
+      max-height: 400px;
       min-height: 0;
       overscroll-behavior: contain;
     }
@@ -958,6 +981,60 @@
     }
     .expired-module .module-body .task-grid::-webkit-scrollbar-thumb:hover {
       background: #f87171;
+    }
+
+    /* ===== 过期统计条（顶部提示，点击打开遗忘弹窗） ===== */
+    .expired-stats-bar {
+      background: #fee2e2;
+      border: 1px solid #ef4444;
+      border-radius: 8px;
+      padding: 4px 12px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 4px 10px;
+      font-size: 12px;
+      color: #991b1b;
+      cursor: pointer;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .expired-stats-bar:hover {
+      background: #fecaca;
+    }
+    .expired-stats-bar .expired-label {
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .expired-stats-bar .expired-details {
+      display: flex;
+      gap: 10px;
+      font-size: 11px;
+    }
+    .expired-stats-bar .expired-details span {
+      background: #fff;
+      padding: 0 8px;
+      border-radius: 12px;
+      border: 1px solid #fca5a5;
+    }
+    .expired-stats-bar .expired-scroll-hint {
+      font-size: 10px;
+      color: #dc2626;
+      font-weight: 500;
+      animation: blinkHint 2s infinite;
+    }
+    @keyframes blinkHint {
+      0%,
+      100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.3;
+      }
     }
 
     /* ===== ADMIN DAUGHTERS GRID ===== */
@@ -1544,6 +1621,17 @@
       .panel-header h2 {
         font-size: 14px;
       }
+      .expired-stats-bar {
+        font-size: 11px;
+        padding: 4px 8px;
+      }
+      .expired-stats-bar .expired-details {
+        font-size: 10px;
+        gap: 4px;
+      }
+      .expired-module .module-body .task-grid {
+        max-height: 250px;
+      }
     }
   </style>
 </head>
@@ -2036,6 +2124,23 @@
     </div>
   </div>
 
+  <!-- ===== 遗忘任务模态框 ===== -->
+  <div class="modal-overlay hidden" id="forgottenTasksModal">
+    <div class="modal-box" style="max-width:700px;">
+      <h2>📋 遗忘的任务 <span style="font-size:14px;font-weight:400;color:#888;" id="forgottenTasksCount"></span></h2>
+      <div style="font-size:12px;color:#888;margin-bottom:6px;display:flex;gap:12px;flex-wrap:wrap;">
+        <span>💡 过期任务完成后 <strong style="color:#f59e0b;">仅得 2 分</strong></span>
+        <span>✅ 已完成 · ⏳ 未完成</span>
+      </div>
+      <div id="forgottenTasksList" style="max-height:55vh;overflow-y:auto;padding-right:4px;">
+        <div class="text-muted">加载中...</div>
+      </div>
+      <div class="btns">
+        <button class="btn btn-cancel" id="forgottenTasksCloseBtn">关闭</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     (function() {
       'use strict';
@@ -2257,16 +2362,102 @@
         });
       }
 
+      // ===== 打开遗忘任务弹窗（由顶部统计条触发） =====
+      window.showForgottenTasks = function() {
+        renderForgottenTasks();
+        document.getElementById('forgottenTasksModal').classList.remove('hidden');
+      };
+
+      // ===== 渲染遗忘任务弹窗（显示所有过期任务，不显示红色警告标签） =====
+      function renderForgottenTasks() {
+        const list = document.getElementById('forgottenTasksList');
+        const count = document.getElementById('forgottenTasksCount');
+
+        const today = getTodayStr();
+        let expiredTasks = [];
+        if (currentUserRole === 'admin') {
+          expiredTasks = tasks.filter(t => t.due_date < today);
+        } else if (currentUser) {
+          expiredTasks = tasks.filter(t => (t.assigned_to === currentUserRole || t.assigned_to === 'both') && t.due_date <
+            today);
+        }
+
+        expiredTasks.sort((a, b) => new Date(b.due_date) - new Date(a.due_date));
+
+        const completed = expiredTasks.filter(t => t.completed);
+        const pending = expiredTasks.filter(t => !t.completed);
+
+        count.textContent = `(总计 ${expiredTasks.length} 项 · ✅ ${completed.length} 已完成 · ⏳ ${pending.length} 未完成)`;
+
+        if (expiredTasks.length === 0) {
+          list.innerHTML =
+            '<div class="text-muted" style="padding:20px;text-align:center;">🎉 太棒了！没有任何过期任务！</div>';
+          return;
+        }
+
+        let html = '';
+        const groups = {};
+        expiredTasks.forEach(t => {
+          const d = t.due_date;
+          if (!groups[d]) groups[d] = [];
+          groups[d].push(t);
+        });
+        const sortedDates = Object.keys(groups).sort((a, b) => new Date(b) - new Date(a));
+
+        sortedDates.forEach(date => {
+          const label = getDateLabel(date);
+          const tasksForDate = groups[date];
+          const doneCount = tasksForDate.filter(t => t.completed).length;
+          const pendingCount2 = tasksForDate.filter(t => !t.completed).length;
+
+          html +=
+            `<div class="date-group"><div class="date-header"><span>${label}</span><span class="date-badge overdue">${tasksForDate.length} 项</span><span style="color:#ef4444;font-size:11px;">⚠️ 已过期</span><span style="font-size:10px;color:#888;margin-left:auto;">✅ ${doneCount} 已完成 · ⏳ ${pendingCount2} 未完成</span></div>`;
+
+          tasksForDate.forEach(task => {
+            // 弹窗中不显示红色警告标签（showExpiredLabel = false）
+            html += renderTaskCard(task, false);
+          });
+          html += `</div>`;
+        });
+        list.innerHTML = html;
+
+        // 绑定事件
+        list.querySelectorAll('[data-action]').forEach(el => {
+          el.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const action = this.dataset.action;
+            const id = parseInt(this.dataset.id, 10);
+            handleTaskAction(action, id);
+            setTimeout(() => {
+              renderForgottenTasks();
+              render();
+            }, 300);
+          });
+        });
+      }
+
       // ===== 渲染单个任务卡片 =====
-      function renderTaskCard(task) {
+      // showExpiredLabel: 是否显示 "⚠️ 过期任务 · 完成仅得2分" 标签（主界面显示，弹窗不显示）
+      function renderTaskCard(task, showExpiredLabel) {
         const isPendingConfirm = task.completed && !task.auto_score_applied;
         const isDouble = task.double_points === true;
         const isSelfCreated = task.created_by === currentUserRole && currentUserRole !== 'admin';
-        const isExpired = isDateOverdue(task.due_date) && !task.completed;
+        const isExpired = isDateOverdue(task.due_date);
 
-        const status = task.completed ? (isPendingConfirm ? '⏳ 待确认' : '✅ Done') : (isExpired ? '⏳ 已过期' : '⏳ Pending');
+        const status = task.completed ? (isPendingConfirm ? '⏳ 待确认' : '✅ Done') :
+          (isExpired ? '⏳ 已过期' : '⏳ Pending');
         const badgeClass = task.completed ? (isPendingConfirm ? 'pending-confirm-label' : 'done') :
           (isExpired ? 'expired-badge' : 'pending');
+
+        let expiredDoneBadge = '';
+        if (isExpired && task.completed && task.auto_score_applied) {
+          expiredDoneBadge = `<span class="badge expired-done-badge">⏳ 过期完成 (+2分)</span>`;
+        } else if (isExpired && task.completed && !task.auto_score_applied) {
+          expiredDoneBadge = `<span class="badge expired-done-badge">⏳ 过期完成 (待确认 +2分)</span>`;
+        } else if (isExpired && !task.completed) {
+          expiredDoneBadge = `<span class="badge expired-badge">⏳ 已过期</span>`;
+        }
+
         const replyInfo = task.reply ? '💬 Replied' : 'No reply';
         const replyAction = task.reply ?
           `<button class="btn-sm view" data-action="viewReply" data-id="${task.id}">View</button>` :
@@ -2279,7 +2470,7 @@
         let pointsChange = '';
         let rewardStatus = '';
         if (task.completed && task.auto_score_applied) {
-          const pts = task.double_points ? 10 : 5;
+          const pts = task.double_points && !isExpired ? 10 : (isExpired ? 2 : 5);
           pointsChange = `<span class="badge points">+${pts}</span>`;
           rewardStatus = `<span class="badge done">✅ 已确认</span>`;
         } else if (task.completed && !task.auto_score_applied) {
@@ -2295,7 +2486,7 @@
           bothBadge = `<span class="badge both-task">👥 Both</span>`;
         }
         let doubleBadge = '';
-        if (isDouble) {
+        if (isDouble && !isExpired) {
           doubleBadge = `<span class="badge double-badge">✨ 2x</span>`;
         }
         let selfBadge = '';
@@ -2303,12 +2494,23 @@
           selfBadge = `<span class="badge self-created">📝 自己添加</span>`;
         }
 
+        // 只有 showExpiredLabel 为 true 且任务过期时才显示红色警告
+        let expiredLabel = '';
+        if (showExpiredLabel && isExpired) {
+          expiredLabel = `<div style="font-size:10px;color:#ef4444;font-weight:600;margin-top:2px;">⚠️ 过期任务 · 完成仅得2分</div>`;
+        }
+
         let actionButtons = '';
         if (currentUserRole === 'admin') {
           if (task.completed) {
             if (!task.auto_score_applied) {
-              actionButtons +=
-                `<button class="btn-sm confirm" data-action="confirmReward" data-id="${task.id}">✅ 确认</button>`;
+              if (isExpired) {
+                actionButtons +=
+                  `<button class="btn-sm confirm-expired" data-action="confirmReward" data-id="${task.id}">✅ 确认 (2分)</button>`;
+              } else {
+                actionButtons +=
+                  `<button class="btn-sm confirm" data-action="confirmReward" data-id="${task.id}">✅ 确认</button>`;
+              }
             } else {
               actionButtons += `<span class="btn-sm reward-given">✅ 已奖励</span>`;
             }
@@ -2334,7 +2536,8 @@
                 `<button class="btn-sm edit-reply" data-action="editReply" data-id="${task.id}">✏️ Edit Reply</button>`;
             }
           } else {
-            actionButtons += `<button class="btn-sm reply" data-action="replyTask" data-id="${task.id}">✏️ Reply</button>`;
+            actionButtons +=
+            `<button class="btn-sm reply" data-action="replyTask" data-id="${task.id}">✏️ Reply</button>`;
           }
           if (isSelfCreated) {
             actionButtons += `
@@ -2362,7 +2565,7 @@
         }
 
         const cardClass = isPendingConfirm ? 'task-card pending-confirm' :
-          (isDouble ? 'task-card double-points' : 'task-card');
+          (isDouble && !isExpired ? 'task-card double-points' : 'task-card');
 
         return `
           <div class="${cardClass}">
@@ -2371,6 +2574,7 @@
             <div class="task-meta">
               <span>📅 ${formatDate(task.due_date)}</span>
               <span class="badge ${badgeClass}">${status}</span>
+              ${expiredDoneBadge}
               <span class="badge">${replyInfo}</span>
               ${task.created_by ? `<span class="badge creator">by ${creator}</span>` : ''}
               ${selfBadge}
@@ -2381,6 +2585,7 @@
               ${pointsChange}
               ${rewardStatus}
             </div>
+            ${expiredLabel}
             ${replyArea}
             <div class="task-actions">
               ${replyAction}
@@ -2390,9 +2595,7 @@
         `;
       }
 
-      // ============================================================
-      // 按日期分组渲染任务列表（支持过期任务折叠）
-      // ============================================================
+      // ===== 按日期分组渲染任务列表（主界面，显示红色警告） =====
       function renderGroupedTasks(containerId, taskList, contextId) {
         const container = document.getElementById(containerId);
         if (!container) return;
@@ -2404,14 +2607,11 @@
 
         const today = getTodayStr();
 
-        // 分离过期和非过期任务
-        const activeTasks = taskList.filter(t => !isDateOverdue(t.due_date) || t.completed);
-        const expiredTasks = taskList.filter(t => isDateOverdue(t.due_date) && !t.completed);
+        const activeTasks = taskList.filter(t => t.due_date >= today);
+        const expiredTasks = taskList.filter(t => t.due_date < today);
 
-        // 排序活跃任务（今天优先，然后按日期）
         const sortedActive = sortTasks(activeTasks);
 
-        // 按日期分组活跃任务
         const groups = {};
         const activeDates = [...new Set(sortedActive.map(t => t.due_date))].sort((a, b) => {
           if (a === today) return -1;
@@ -2425,7 +2625,24 @@
 
         let html = '';
 
-        // 渲染活跃任务（按日期分组）
+        // ----- 过期统计条（点击打开弹窗） -----
+        if (expiredTasks.length > 0) {
+          const completedCount = expiredTasks.filter(t => t.completed).length;
+          const pendingCount = expiredTasks.filter(t => !t.completed).length;
+          html += `
+            <div class="expired-stats-bar" onclick="window.showForgottenTasks()">
+              <span class="expired-label">🔴 过期任务提醒</span>
+              <span class="expired-details">
+                <span>总计 ${expiredTasks.length}</span>
+                <span>✅ ${completedCount} 已完成</span>
+                <span>⏳ ${pendingCount} 未完成</span>
+              </span>
+              <span class="expired-scroll-hint">▼ 点击查看全部</span>
+            </div>
+          `;
+        }
+
+        // 活跃任务
         activeDates.forEach((date, index) => {
           const tasksForDate = groups[date];
           if (!tasksForDate || tasksForDate.length === 0) return;
@@ -2444,7 +2661,8 @@
           `;
 
           tasksForDate.forEach(task => {
-            html += renderTaskCard(task);
+            // 主界面显示红色警告标签 (showExpiredLabel = true)
+            html += renderTaskCard(task, true);
           });
 
           html += `</div>`;
@@ -2453,9 +2671,8 @@
           }
         });
 
-        // ===== 渲染过期任务（折叠模块，默认收起）=====
+        // 过期任务（折叠模块，同样显示红色警告）
         if (expiredTasks.length > 0) {
-          // 对过期任务按日期排序（从近到远）
           const sortedExpired = sortTasks(expiredTasks);
           const expiredGroups = {};
           const expiredDates = [...new Set(sortedExpired.map(t => t.due_date))].sort((a, b) => new Date(b) - new Date(a));
@@ -2464,17 +2681,21 @@
             expiredGroups[date] = sortedExpired.filter(t => t.due_date === date);
           });
 
-          // 生成唯一的折叠模块 ID
           const moduleId = contextId ? `expired-tasks-${contextId}` : `expired-tasks-${containerId}`;
 
-          // 默认收起：检查 localStorage 状态
           const state = getCollapseState();
-          const isCollapsed = state[moduleId] !== false; // 默认收起
+          const isCollapsed = state[moduleId] === true;
+
+          const completedCount = expiredTasks.filter(t => t.completed).length;
+          const pendingCount = expiredTasks.filter(t => !t.completed).length;
 
           html += `
-            <div class="expired-module" data-module="${moduleId}">
+            <div class="expired-module" data-module="${moduleId}" id="${moduleId}">
               <div class="module-header" data-toggle="${moduleId}">
-                <span class="module-title">📂 已过期 (${expiredTasks.length} 项)</span>
+                <span class="module-title">
+                  🔴 已过期 (${expiredTasks.length} 项)
+                  <span class="stats">✅ ${completedCount} 已完成 · ⏳ ${pendingCount} 未完成</span>
+                </span>
                 <span class="module-toggle ${isCollapsed ? '' : 'open'}">${isCollapsed ? '▼' : '▲'}</span>
               </div>
               <div class="module-body ${isCollapsed ? 'collapsed' : ''}" data-body="${moduleId}">
@@ -2498,7 +2719,7 @@
             `;
 
             tasksForDate.forEach(task => {
-              html += renderTaskCard(task);
+              html += renderTaskCard(task, true);
             });
 
             html += `</div>`;
@@ -2516,31 +2737,34 @@
 
         container.innerHTML = html;
 
-        // 绑定过期模块的折叠事件
+        // 绑定折叠事件
         container.querySelectorAll('.expired-module .module-header[data-toggle]').forEach(header => {
-          header.addEventListener('click', function(e) {
-            if (e.target.closest('button') || e.target.closest('input')) return;
-            const moduleId = this.dataset.toggle;
-            if (moduleId) {
-              const state = getCollapseState();
-              state[moduleId] = !state[moduleId];
-              saveCollapseState(state);
-              const body = document.querySelector(`[data-body="${moduleId}"]`);
-              const toggle = this.querySelector('.module-toggle');
-              if (body) {
-                if (state[moduleId]) {
-                  body.classList.add('collapsed');
-                  if (toggle) toggle.textContent = '▼';
-                } else {
-                  body.classList.remove('collapsed');
-                  if (toggle) toggle.textContent = '▲';
+          header.replaceWith(header.cloneNode(true));
+          const newHeader = container.querySelector(
+            `.expired-module .module-header[data-toggle="${header.dataset.toggle}"]`);
+          if (newHeader) {
+            newHeader.addEventListener('click', function(e) {
+              if (e.target.closest('button') || e.target.closest('input')) return;
+              const moduleId = this.dataset.toggle;
+              if (moduleId) {
+                const state = getCollapseState();
+                state[moduleId] = !state[moduleId];
+                saveCollapseState(state);
+                const body = document.querySelector(`[data-body="${moduleId}"]`);
+                const toggle = this.querySelector('.module-toggle');
+                if (body) {
+                  if (state[moduleId]) {
+                    body.classList.add('collapsed');
+                    if (toggle) toggle.textContent = '▼';
+                  } else {
+                    body.classList.remove('collapsed');
+                    if (toggle) toggle.textContent = '▲';
+                  }
                 }
               }
-            }
-          });
+            });
+          }
         });
-
-        // 绑定任务操作事件（由外部统一处理）
       }
 
       // ============================================================
@@ -2858,25 +3082,35 @@
       }
 
       // ============================================================
-      // 确认奖励 / Revert / Penalty
+      // 确认奖励（过期任务只给2分）
       // ============================================================
       async function confirmReward(taskId) {
         const task = tasks.find(t => t.id === taskId);
         if (!task) return;
         if (!task.completed) { alert('Task is not completed.'); return; }
         if (task.auto_score_applied) { alert('Reward already confirmed.'); return; }
+
         const child = task.assigned_to === 'both' ? null : task.assigned_to;
-        const pointsToAward = task.double_points ? 10 : 5;
+        const isExpired = isDateOverdue(task.due_date);
+
+        let pointsToAward;
+        if (isExpired) {
+          pointsToAward = 2;
+        } else {
+          pointsToAward = task.double_points ? 10 : 5;
+        }
+
         if (child) {
           await updatePoints(child, pointsToAward);
         } else {
           await updatePoints('isabella', pointsToAward);
           await updatePoints('natalie', pointsToAward);
         }
+
         task.auto_score_applied = true;
         await saveTask(task);
         await generateNextTask(task);
-        alert(`✅ Reward confirmed. ${pointsToAward} points added.${task.double_points ? ' (2x bonus!)' : ''}`);
+        alert(`✅ Reward confirmed. ${pointsToAward} points added.${isExpired ? ' (过期任务仅得2分)' : (task.double_points ? ' (2x bonus!)' : '')}`);
       }
 
       async function revertTask(taskId) {
@@ -3167,11 +3401,9 @@
           countEl.className = 'count' + (pendingConfirm.length === 0 ? ' zero' : '');
         }
 
-        // 使用新的分组渲染，传入 contextId
         renderGroupedTasks('adminIsabellaTaskList', isabellaTasks, 'admin-isabella');
         renderGroupedTasks('adminNatalieTaskList', natalieTasks, 'admin-natalie');
 
-        // 绑定任务操作事件
         document.querySelectorAll('#adminIsabellaTaskList [data-action], #adminNatalieTaskList [data-action]').forEach(el => {
           el.addEventListener('click', function(e) {
             e.stopPropagation();
@@ -3852,6 +4084,11 @@
           overlay.addEventListener('click', function(e) {
             if (e.target === this) this.classList.add('hidden');
           });
+        });
+
+        // 遗忘任务关闭按钮
+        document.getElementById('forgottenTasksCloseBtn').addEventListener('click', function() {
+          document.getElementById('forgottenTasksModal').classList.add('hidden');
         });
 
         initCollapsibleModules();
