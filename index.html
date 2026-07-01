@@ -435,7 +435,7 @@
       background: #f59e0b;
     }
 
-    /* ===== 过期任务按钮（改进） ===== */
+    /* ===== 过期任务按钮 ===== */
     .expired-btn {
       background: #fee2e2;
       color: #991b1b;
@@ -492,6 +492,7 @@
       color: #92400e;
       border: 1px solid #f59e0b;
       cursor: default;
+      transition: all 0.3s;
     }
     .pending-confirm-banner .count {
       background: #f59e0b;
@@ -505,6 +506,55 @@
     .pending-confirm-banner .count.zero {
       background: #d1d5db;
       color: #666;
+    }
+    .pending-confirm-banner.has-tasks {
+      background: #fbbf24;
+      border-color: #d97706;
+      animation: pulseBanner 1.5s ease-in-out infinite;
+    }
+    @keyframes pulseBanner {
+      0%,
+      100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.7;
+      }
+    }
+
+    /* ===== 桌面通知权限状态 ===== */
+    .notification-status {
+      font-size: 11px;
+      color: #888;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: 4px;
+    }
+    .notification-status .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .notification-status .dot.on {
+      background: #22c55e;
+    }
+    .notification-status .dot.off {
+      background: #ef4444;
+    }
+    .notification-status .dot.pending {
+      background: #f59e0b;
+      animation: blinkDot 1s infinite;
+    }
+    @keyframes blinkDot {
+      0%,
+      100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.3;
+      }
     }
 
     /* ================================================================
@@ -1396,6 +1446,49 @@
       background: transparent;
     }
 
+    /* ===== Toast 通知 ===== */
+    .pending-toast {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fef3c7;
+      border: 2px solid #f59e0b;
+      border-radius: 12px;
+      padding: 12px 24px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      z-index: 10000;
+      font-size: 15px;
+      font-weight: 500;
+      color: #92400e;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      animation: slideDown 0.4s ease;
+      max-width: 90%;
+    }
+    @keyframes slideDown {
+      0% {
+        transform: translateX(-50%) translateY(-20px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+    }
+    .pending-toast button {
+      background: none;
+      border: none;
+      color: #666;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 0 4px;
+    }
+    .pending-toast button:hover {
+      color: #b91c1c;
+    }
+
     /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
       .app-wrapper {
@@ -1469,6 +1562,11 @@
         font-size: 10px;
         padding: 2px 10px;
       }
+      .pending-toast {
+        font-size: 13px;
+        padding: 10px 16px;
+        top: 10px;
+      }
     }
   </style>
 </head>
@@ -1502,6 +1600,10 @@
         <div class="user-info">
           <span id="currentUserDisplay">👤 Admin</span>
           <span class="role-badge" id="currentRoleBadge">Admin</span>
+          <span class="notification-status" id="notificationStatus">
+            <span class="dot pending" id="notifDot"></span>
+            <span id="notifText">通知请求中...</span>
+          </span>
         </div>
         <button class="btn-logout" id="logoutBtn">🚪 Logout</button>
       </div>
@@ -2019,6 +2121,10 @@
       let redeemChild = null;
       let customRewards = [];
 
+      // ===== 桌面通知相关变量 =====
+      let lastPendingCount = 0;
+      let notificationPermission = Notification.permission || 'default';
+
       const DEFAULT_REWARDS = [
         { label: '💰 HKD 20', cost: 100 },
         { label: '📱 iPad +15min', cost: 100 },
@@ -2050,6 +2156,128 @@
         '"Be stronger than your excuses." — Unknown',
         '"Success is not final, failure is not fatal: it is the courage to continue that counts." — Winston Churchill',
       ];
+
+      // ============================================================
+      // 桌面通知功能
+      // ============================================================
+      function updateNotificationStatusUI() {
+        const dot = document.getElementById('notifDot');
+        const text = document.getElementById('notifText');
+        if (!dot || !text) return;
+        const status = Notification.permission || 'default';
+        if (status === 'granted') {
+          dot.className = 'dot on';
+          text.textContent = '🔔 桌面通知已开启';
+        } else if (status === 'denied') {
+          dot.className = 'dot off';
+          text.textContent = '🔕 桌面通知已关闭';
+        } else {
+          dot.className = 'dot pending';
+          text.textContent = '🔔 点击请求通知权限';
+        }
+        notificationPermission = status;
+      }
+
+      // 请求通知权限
+      function requestNotificationPermission() {
+        if (!('Notification' in window)) {
+          document.getElementById('notifText').textContent = '⚠️ 浏览器不支持桌面通知';
+          return Promise.resolve('unsupported');
+        }
+        if (Notification.permission === 'granted') {
+          updateNotificationStatusUI();
+          return Promise.resolve('granted');
+        }
+        if (Notification.permission === 'denied') {
+          updateNotificationStatusUI();
+          return Promise.resolve('denied');
+        }
+        return Notification.requestPermission().then(status => {
+          updateNotificationStatusUI();
+          return status;
+        });
+      }
+
+      // 发送桌面通知
+      function sendDesktopNotification(title, body, onClickUrl) {
+        if (!('Notification' in window)) return;
+        if (Notification.permission !== 'granted') return;
+
+        try {
+          const notification = new Notification(title, {
+            body: body,
+            icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" fill="%237c3aed" rx="20"/%3E%3Ctext x="50" y="68" font-size="50" text-anchor="middle" fill="%23fff"%3E🌟%3C/text%3E%3C/svg%3E',
+            silent: false,
+            tag: 'pending-confirm-' + Date.now(),
+            requireInteraction: true
+          });
+
+          // 点击通知聚焦到页面
+          notification.onclick = function() {
+            window.focus();
+            this.close();
+            // 如果有特定URL，跳转
+            if (onClickUrl) {
+              window.location.href = onClickUrl;
+            }
+          };
+
+          // 5秒后自动关闭
+          setTimeout(() => notification.close(), 8000);
+        } catch (e) {
+          console.log('桌面通知发送失败（可忽略）:', e);
+        }
+      }
+
+      // 检查并触发待确认通知
+      function checkAndNotifyPendingTasks() {
+        if (currentUserRole !== 'admin') return;
+
+        const pendingConfirm = tasks.filter(t => t.completed && !t.auto_score_applied);
+        const currentCount = pendingConfirm.length;
+
+        // 如果数量增加且 > 0，发送通知
+        if (currentCount > lastPendingCount && currentCount > 0) {
+          // 桌面通知
+          const title = `📋 ${currentCount} 个任务待确认`;
+          const body = `有 ${currentCount} 个任务已完成等待确认，请及时处理！`;
+          sendDesktopNotification(title, body);
+
+          // Toast 通知
+          showPendingToast(currentCount);
+        }
+
+        lastPendingCount = currentCount;
+
+        // 更新UI
+        const banner = document.getElementById('pendingConfirmBanner');
+        const countEl = document.getElementById('pendingConfirmCount');
+        if (countEl) {
+          countEl.textContent = currentCount;
+          countEl.className = 'count' + (currentCount === 0 ? ' zero' : '');
+        }
+        if (banner) {
+          banner.className = 'pending-confirm-banner' + (currentCount > 0 ? ' has-tasks' : '');
+        }
+      }
+
+      // ===== Toast 通知（页面内） =====
+      function showPendingToast(count) {
+        const oldToast = document.querySelector('.pending-toast');
+        if (oldToast) oldToast.remove();
+
+        const toast = document.createElement('div');
+        toast.className = 'pending-toast';
+        toast.innerHTML = `
+          <span>📋 有 <strong>${count}</strong> 个任务待确认</span>
+          <button onclick="this.parentElement.remove()">✕</button>
+        `;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          if (toast.parentElement) toast.remove();
+        }, 6000);
+      }
 
       // ============================================================
       // 折叠模块管理
@@ -2227,7 +2455,6 @@
         if (currentUserRole === 'admin' || currentUserRole === child) {
           expiredTasks = tasks.filter(t => (t.assigned_to === child || t.assigned_to === 'both') && t.due_date < today);
         } else {
-          // 如果查看的不是自己的任务（普通情况下不会发生）
           expiredTasks = tasks.filter(t => (t.assigned_to === child || t.assigned_to === 'both') && t.due_date < today);
         }
 
@@ -2271,7 +2498,6 @@
         });
         list.innerHTML = html;
 
-        // 绑定事件
         list.querySelectorAll('[data-action]').forEach(el => {
           el.addEventListener('click', function(e) {
             e.stopPropagation();
@@ -2296,7 +2522,6 @@
             today && !t.completed);
           const count = expiredTasks.length;
 
-          // Admin 面板中的按钮
           const btnAdmin = document.getElementById('expiredBtn' + child.charAt(0).toUpperCase() + child.slice(1));
           const badgeAdmin = document.getElementById('expiredBadge' + child.charAt(0).toUpperCase() + child.slice(1));
           if (btnAdmin && badgeAdmin) {
@@ -2305,7 +2530,6 @@
             btnAdmin.className = 'expired-btn' + (count === 0 ? ' no-expired' : '');
           }
 
-          // 女儿面板中的按钮
           const btnDaughter = document.getElementById('expiredBtn' + child.charAt(0).toUpperCase() + child.slice(1) +
             'Daughter');
           const badgeDaughter = document.getElementById('expiredBadge' + child.charAt(0).toUpperCase() + child.slice(1) +
@@ -2513,7 +2737,6 @@
 
         let html = '';
 
-        // 活跃任务
         activeDates.forEach((date, index) => {
           const tasksForDate = groups[date];
           if (!tasksForDate || tasksForDate.length === 0) return;
@@ -2541,7 +2764,6 @@
           }
         });
 
-        // 过期任务（折叠模块）
         if (expiredTasks.length > 0) {
           const sortedExpired = sortTasks(expiredTasks);
           const expiredGroups = {};
@@ -2607,7 +2829,6 @@
 
         container.innerHTML = html;
 
-        // 绑定折叠事件
         container.querySelectorAll('.expired-module .module-header[data-toggle]').forEach(header => {
           header.replaceWith(header.cloneNode(true));
           const newHeader = container.querySelector(
@@ -2680,6 +2901,12 @@
           currentUserRole = role;
           document.getElementById('loginPage').style.display = 'none';
           document.getElementById('mainApp').classList.add('visible');
+
+          // 如果是Admin，请求通知权限
+          if (role === 'admin') {
+            await requestNotificationPermission();
+          }
+
           await loadAllData();
           render();
           setTimeout(applyAllCollapseStates, 100);
@@ -3264,17 +3491,9 @@
         const isabellaTasks = tasks.filter(t => t.assigned_to === 'isabella' || t.assigned_to === 'both');
         const natalieTasks = tasks.filter(t => t.assigned_to === 'natalie' || t.assigned_to === 'both');
 
-        const pendingConfirm = tasks.filter(t => t.completed && !t.auto_score_applied);
-        const countEl = document.getElementById('pendingConfirmCount');
-        if (countEl) {
-          countEl.textContent = pendingConfirm.length;
-          countEl.className = 'count' + (pendingConfirm.length === 0 ? ' zero' : '');
-        }
-
         renderGroupedTasks('adminIsabellaTaskList', isabellaTasks, 'admin-isabella');
         renderGroupedTasks('adminNatalieTaskList', natalieTasks, 'admin-natalie');
 
-        // 更新过期按钮
         updateExpiredButtons();
 
         document.querySelectorAll('#adminIsabellaTaskList [data-action], #adminNatalieTaskList [data-action]').forEach(el => {
@@ -3292,7 +3511,6 @@
         const list = tasks.filter(t => t.assigned_to === who || t.assigned_to === 'both');
         renderGroupedTasks(who + 'TaskList', list, who);
 
-        // 更新女儿面板的过期按钮
         updateExpiredButtons();
 
         document.querySelectorAll(`#${who}TaskList [data-action]`).forEach(el => {
@@ -3320,7 +3538,7 @@
         else if (action === 'selfDelete') { if (confirm('删除你自己创建的任务？')) deleteTask(id); }
       }
 
-      // ===== 今日进度（只显示当天的任务）=====
+      // ===== 今日进度 =====
       function renderPersonalProgress(who) {
         const today = getTodayStr();
         const allTasks = tasks.filter(t => t.assigned_to === who || t.assigned_to === 'both');
@@ -3421,7 +3639,10 @@
           updateGlobalStats();
           renderDaughtersOverview();
           renderAdminTasks();
-          // 更新每日奖励弹窗中的今日数据
+
+          // 检查并触发待确认通知
+          checkAndNotifyPendingTasks();
+
           const today = getTodayStr();
           ['isabella', 'natalie'].forEach(child => {
             const tasksForChild = tasks.filter(t => t.assigned_to === child || t.assigned_to === 'both');
@@ -3880,7 +4101,6 @@
         // 每日奖励弹窗
         document.getElementById('btnDailyBonusAdmin').addEventListener('click', function() {
           document.getElementById('dailyBonusModal').classList.remove('hidden');
-          // 刷新今日数据
           const today = getTodayStr();
           ['isabella', 'natalie'].forEach(child => {
             const tasksForChild = tasks.filter(t => t.assigned_to === child || t.assigned_to === 'both');
@@ -3895,7 +4115,6 @@
           document.getElementById('dailyBonusModal').classList.add('hidden');
         });
 
-        // 奖励管理弹窗
         document.getElementById('btnRewardManager').addEventListener('click', function() {
           renderRewardManager();
           document.getElementById('rewardManagerModal').classList.remove('hidden');
@@ -3904,7 +4123,6 @@
           document.getElementById('rewardManagerModal').classList.add('hidden');
         });
 
-        // 学科管理弹窗
         document.getElementById('btnSubjectManager').addEventListener('click', function() {
           renderSubjectTags();
           updateSubjectDatalist();
@@ -3914,36 +4132,11 @@
           document.getElementById('subjectManagerModal').classList.add('hidden');
         });
 
-        // 每日奖励 Give 按钮
         document.getElementById('isabellaBonusBtn').addEventListener('click', function() {
           giveDailyBonus('isabella');
-          setTimeout(() => {
-            const today = getTodayStr();
-            ['isabella', 'natalie'].forEach(child => {
-              const tasksForChild = tasks.filter(t => t.assigned_to === child || t.assigned_to === 'both');
-              const todayTasks = tasksForChild.filter(t => t.due_date === today);
-              const done = todayTasks.filter(t => t.completed).length;
-              const total = todayTasks.length;
-              const el = document.getElementById('admin' + child.charAt(0).toUpperCase() + child.slice(1) +
-              'Today');
-              if (el) el.textContent = `${done}/${total}`;
-            });
-          }, 300);
         });
         document.getElementById('natalieBonusBtn').addEventListener('click', function() {
           giveDailyBonus('natalie');
-          setTimeout(() => {
-            const today = getTodayStr();
-            ['isabella', 'natalie'].forEach(child => {
-              const tasksForChild = tasks.filter(t => t.assigned_to === child || t.assigned_to === 'both');
-              const todayTasks = tasksForChild.filter(t => t.due_date === today);
-              const done = todayTasks.filter(t => t.completed).length;
-              const total = todayTasks.length;
-              const el = document.getElementById('admin' + child.charAt(0).toUpperCase() + child.slice(1) +
-              'Today');
-              if (el) el.textContent = `${done}/${total}`;
-            });
-          }, 300);
         });
 
         document.getElementById('reflectionsCloseBtn').addEventListener('click', function() {
@@ -4027,16 +4220,21 @@
         document.getElementById('saveReflectionBtn').addEventListener('click', function() { saveReflection('isabella'); });
         document.getElementById('saveReflectionBtn2').addEventListener('click', function() { saveReflection('natalie'); });
 
-        // 遗忘任务关闭按钮
         document.getElementById('forgottenTasksCloseBtn').addEventListener('click', function() {
           document.getElementById('forgottenTasksModal').classList.add('hidden');
         });
 
-        // 点击模态框外部关闭
         document.querySelectorAll('.modal-overlay').forEach(overlay => {
           overlay.addEventListener('click', function(e) {
             if (e.target === this) this.classList.add('hidden');
           });
+        });
+
+        // 点击通知状态显示，请求权限
+        document.getElementById('notificationStatus').addEventListener('click', function() {
+          if (Notification.permission === 'default') {
+            requestNotificationPermission();
+          }
         });
 
         initCollapsibleModules();
@@ -4060,6 +4258,11 @@
               currentUserRole = profile.role;
               document.getElementById('loginPage').style.display = 'none';
               document.getElementById('mainApp').classList.add('visible');
+
+              if (profile.role === 'admin') {
+                await requestNotificationPermission();
+              }
+
               await loadAllData();
               render();
               bindEvents();
@@ -4073,6 +4276,7 @@
         document.getElementById('loginPage').style.display = 'flex';
         document.getElementById('mainApp').classList.remove('visible');
         bindEvents();
+        updateNotificationStatusUI();
       }
 
       document.addEventListener('DOMContentLoaded', init);
