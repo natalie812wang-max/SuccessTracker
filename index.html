@@ -435,7 +435,6 @@
       background: #f59e0b;
     }
 
-    /* ===== 过期任务按钮 ===== */
     .expired-btn {
       background: #fee2e2;
       color: #991b1b;
@@ -522,7 +521,6 @@
       }
     }
 
-    /* ===== 桌面通知状态 ===== */
     .notification-status {
       font-size: 11px;
       color: #888;
@@ -648,7 +646,6 @@
       font-weight: 500;
     }
 
-    /* Admin 两栏中的折叠模块 */
     .admin-daughter-col {
       display: flex;
       flex-direction: column;
@@ -685,7 +682,6 @@
       padding-bottom: 20px;
     }
 
-    /* 女儿页面左侧面板中的折叠 */
     .daughter-left-panel .collapsible-module .module-body {
       padding: 4px 8px 8px 8px;
     }
@@ -693,7 +689,6 @@
       padding: 4px 10px;
     }
 
-    /* 女儿右侧面板 */
     .daughter-right-panel {
       flex: 1;
       display: flex;
@@ -1021,7 +1016,6 @@
       border: 1px dashed #ede6f5;
     }
 
-    /* ===== 过期任务折叠模块 ===== */
     .expired-module {
       margin-top: 4px;
       border-radius: 10px;
@@ -1110,7 +1104,6 @@
       background: #f87171;
     }
 
-    /* ===== ADMIN DAUGHTERS GRID ===== */
     .admin-daughters-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1119,7 +1112,6 @@
       min-height: 0;
     }
 
-    /* ===== DAUGHTER PANEL LAYOUT ===== */
     .daughter-panel-layout {
       display: flex;
       flex: 1;
@@ -1139,31 +1131,6 @@
     }
     .daughter-left-panel .collapsible-module .module-body {
       font-size: 12px;
-    }
-    .daughter-right-panel {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-      min-height: 0;
-    }
-    .daughter-right-panel .collapsible-module {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      min-height: 0;
-    }
-    .daughter-right-panel .collapsible-module .module-body {
-      flex: 1;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      min-height: 0;
-    }
-    .daughter-right-panel .collapsible-module .module-body .task-grid {
-      flex: 1;
-      overflow-y: auto;
-      max-height: none;
     }
 
     .personal-progress {
@@ -1296,7 +1263,7 @@
       background: #fff;
       border-radius: 24px;
       padding: 18px 22px;
-      max-width: 550px;
+      max-width: 580px;
       width: 100%;
       max-height: 90vh;
       overflow-y: auto;
@@ -1345,32 +1312,48 @@
     .modal-box .field select:focus {
       border-color: #7c3aed;
     }
+
+    /* ===== 优化：回复输入框更大 ===== */
     .modal-box .field textarea.reply-textarea {
-      min-height: 140px;
-      height: 140px;
-      max-height: 400px;
+      min-height: 200px;
+      height: 200px;
+      max-height: 500px;
       resize: vertical;
-      padding: 8px 10px;
-      font-size: 14px;
-      line-height: 1.6;
+      padding: 12px 14px;
+      font-size: 15px;
+      line-height: 1.7;
+      background: #faf8fc;
+      border: 2px solid #ede6f5;
+      border-radius: 12px;
+      transition: border-color 0.3s;
     }
+    .modal-box .field textarea.reply-textarea:focus {
+      border-color: #7c3aed;
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1);
+    }
+
     .modal-box .field .draft-status {
-      font-size: 11px;
+      font-size: 12px;
       color: #888;
-      margin-top: 4px;
+      margin-top: 6px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       transition: all 0.3s;
+      padding: 4px 6px;
+      border-radius: 8px;
+      background: #f8f6fa;
     }
     .modal-box .field .draft-status.saved {
       color: #0b6e4f;
+      background: #e6f7ef;
     }
     .modal-box .field .draft-status .icon {
-      font-size: 14px;
+      font-size: 16px;
     }
     .modal-box .field .draft-status .text {
-      font-size: 11px;
+      font-size: 12px;
     }
     .modal-box .field .draft-status .text.saving {
       color: #f59e0b;
@@ -1384,6 +1367,7 @@
         opacity: 1;
       }
     }
+
     .modal-box .field .checkbox-label {
       display: flex;
       align-items: center;
@@ -1427,6 +1411,7 @@
     .modal-box .btns .btn-confirm:hover {
       background: #6d28d9;
     }
+
     .reward-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1608,8 +1593,10 @@
         top: 10px;
       }
       .modal-box .field textarea.reply-textarea {
-        min-height: 100px;
-        height: 100px;
+        min-height: 140px;
+        height: 140px;
+        font-size: 14px;
+        padding: 10px 12px;
       }
     }
   </style>
@@ -1683,9 +1670,7 @@
 
       <!-- Panels -->
       <div class="panel-container">
-        <!-- =============================================================
-             ADMIN PANEL
-             ============================================================= -->
+        <!-- ADMIN PANEL -->
         <div class="panel" id="panel-admin">
           <div class="panel-header">
             <h2>📋 All Tasks</h2>
@@ -1698,7 +1683,6 @@
               <button class="btn-secondary" id="btnDailyBonusAdmin">🎯 每日奖励</button>
               <button class="btn-secondary" id="btnRewardManager">🎁 奖励管理</button>
               <button class="btn-secondary" id="btnSubjectManager">📚 学科管理</button>
-              <!-- 新增：反思历史按钮 -->
               <button class="btn-secondary" id="btnReflectionHistory" style="background:#fce7f3;color:#9d174d;">📖 反思历史</button>
               <div class="points-bar">
                 <span>⭐ Isabella: <span id="pointsIsabella">0</span></span>
@@ -1707,7 +1691,6 @@
             </div>
           </div>
 
-          <!-- Admin 任务列表 -->
           <div class="admin-daughters-grid">
             <div class="admin-daughter-col">
               <div class="col-header">
@@ -1746,9 +1729,7 @@
           </div>
         </div>
 
-        <!-- =============================================================
-             ISABELLA PANEL
-             ============================================================= -->
+        <!-- ISABELLA PANEL -->
         <div class="panel" id="panel-isabella">
           <div class="panel-header">
             <h2>🌸 Isabella's Success Pathway</h2>
@@ -1823,9 +1804,7 @@
           </div>
         </div>
 
-        <!-- =============================================================
-             NATALIE PANEL
-             ============================================================= -->
+        <!-- NATALIE PANEL -->
         <div class="panel" id="panel-natalie">
           <div class="panel-header">
             <h2>🌺 Natalie's Success Pathway</h2>
@@ -1958,14 +1937,14 @@
     </div>
   </div>
 
-  <!-- ===== 回复弹窗 ===== -->
+  <!-- ===== 回复弹窗 - 已优化：输入框更大 + 自动保存草稿 ===== -->
   <div class="modal-overlay hidden" id="replyModal">
     <div class="modal-box">
       <h2 id="replyModalTitle">💬 Submit Reply</h2>
       <div id="replyTaskInfo" class="text-muted" style="margin-bottom:6px;"></div>
       <div class="field">
         <label>Your message</label>
-        <textarea id="replyText" class="reply-textarea" placeholder="Write your reply..." rows="5"></textarea>
+        <textarea id="replyText" class="reply-textarea" placeholder="Write your reply..." rows="6"></textarea>
         <div class="draft-status" id="draftStatus">
           <span class="icon">💾</span>
           <span class="text" id="draftStatusText">草稿自动保存中...</span>
@@ -1975,8 +1954,10 @@
         <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;"><input type="file" id="replyFile"
             style="flex:1;" /><span id="fileNameDisplay" class="text-muted" style="font-size:11px;"></span></div>
       </div>
-      <div class="btns"><button class="btn btn-cancel" id="replyCancel">Cancel</button><button class="btn btn-confirm"
-          id="replyConfirm">Submit Reply</button></div>
+      <div class="btns">
+        <button class="btn btn-cancel" id="replyCancel">Cancel</button>
+        <button class="btn btn-confirm" id="replyConfirm">Submit Reply</button>
+      </div>
     </div>
   </div>
 
@@ -2053,7 +2034,7 @@
     </div>
   </div>
 
-  <!-- ===== 反思历史弹窗（Admin 专用） ===== -->
+  <!-- 反思历史弹窗 -->
   <div class="modal-overlay hidden" id="reflectionHistoryModal">
     <div class="modal-box" style="max-width:700px;">
       <h2>📖 反思历史</h2>
@@ -2071,7 +2052,7 @@
     </div>
   </div>
 
-  <!-- ===== 管理功能弹窗 ===== -->
+  <!-- 管理功能弹窗 -->
   <div class="modal-overlay hidden" id="dailyBonusModal">
     <div class="modal-box">
       <h2>🎯 每日奖励</h2>
@@ -3107,7 +3088,6 @@
             return;
           }
           let html = '';
-          // 按日期从新到旧排序
           const sorted = [...entries].sort((a, b) => new Date(b.date) - new Date(a.date));
           sorted.forEach(entry => {
             const d = new Date(entry.date);
@@ -3559,7 +3539,7 @@
       }
 
       // ============================================================
-      // 回复（含草稿自动保存）
+      // 回复（含草稿自动保存 + 修复按钮事件）
       // ============================================================
       function openReplyModal(taskId, isEdit) {
         const task = tasks.find(t => t.id === taskId);
@@ -3571,9 +3551,6 @@
         document.getElementById('replyTaskInfo').textContent = `Reply to: ${task.title}`;
 
         const textarea = document.getElementById('replyText');
-        const draftStatus = document.getElementById('draftStatus');
-        const draftStatusText = document.getElementById('draftStatusText');
-
         const draft = getReplyDraft(taskId);
 
         if (draft && draft.trim().length > 0) {
@@ -3608,8 +3585,24 @@
 
         document.getElementById('replyModal').classList.remove('hidden');
         setTimeout(() => textarea.focus(), 100);
+
+        // 绑定草稿自动保存（每次打开重新绑定）
+        if (textarea) {
+          // 移除旧监听器（防止重复绑定）
+          textarea.removeEventListener('input', replyTextInputHandler);
+          textarea.addEventListener('input', replyTextInputHandler);
+        }
       }
 
+      // 草稿保存处理函数（独立命名以便移除）
+      function replyTextInputHandler(e) {
+        const taskId = replyTargetId;
+        if (!taskId) return;
+        const text = this.value;
+        debounceSaveDraft(taskId, text);
+      }
+
+      // 提交回复
       async function submitReply() {
         const text = document.getElementById('replyText').value.trim();
         const fileInput = document.getElementById('replyFile');
@@ -3646,6 +3639,11 @@
         task.auto_score_applied = false;
         await saveTask(task);
         clearReplyDraft(replyTargetId);
+        document.getElementById('replyModal').classList.add('hidden');
+      }
+
+      // 取消回复
+      function cancelReply() {
         document.getElementById('replyModal').classList.add('hidden');
       }
 
@@ -3804,6 +3802,7 @@
       // 事件绑定
       // ============================================================
       function bindEvents() {
+        // 登录事件
         document.querySelectorAll('.login-btn').forEach(btn => {
           btn.addEventListener('click', function() {
             document.querySelectorAll('.login-btn').forEach(b => b.classList.remove('active'));
@@ -3834,11 +3833,13 @@
 
         document.getElementById('logoutBtn').addEventListener('click', logout);
 
+        // 历史
         document.getElementById('showHistoryBtn').addEventListener('click', showHistory);
         document.getElementById('historyCloseBtn').addEventListener('click', function() {
           document.getElementById('historyModal').classList.add('hidden');
         });
 
+        // Admin 管理按钮
         document.getElementById('btnDailyBonusAdmin').addEventListener('click', function() {
           document.getElementById('dailyBonusModal').classList.remove('hidden');
           const today = getTodayStr();
@@ -3872,12 +3873,12 @@
           document.getElementById('subjectManagerModal').classList.add('hidden');
         });
 
-        // 反思历史按钮
         document.getElementById('btnReflectionHistory').addEventListener('click', showReflectionHistory);
         document.getElementById('reflectionHistoryCloseBtn').addEventListener('click', function() {
           document.getElementById('reflectionHistoryModal').classList.add('hidden');
         });
 
+        // 每日奖励 Give
         document.getElementById('isabellaBonusBtn').addEventListener('click', function() { giveDailyBonus('isabella'); });
         document.getElementById('natalieBonusBtn').addEventListener('click', function() { giveDailyBonus('natalie'); });
 
@@ -3885,12 +3886,14 @@
           document.getElementById('reflectionsModal').classList.add('hidden');
         });
 
+        // 添加任务
         document.getElementById('btnAddTaskAdmin').addEventListener('click', () => openAddModal('isabella'));
         document.getElementById('btnAddTaskIsabella').addEventListener('click', () => openAddModal('isabella'));
         document.getElementById('btnAddTaskNatalie').addEventListener('click', () => openAddModal('natalie'));
 
         document.getElementById('btnAwardPoints').addEventListener('click', openAwardModal);
 
+        // 学科管理
         document.getElementById('addSubjectBtn').addEventListener('click', async function() {
           const input = document.getElementById('newSubjectInput');
           const name = input.value.trim();
@@ -3902,6 +3905,7 @@
           if (e.key === 'Enter') document.getElementById('addSubjectBtn').click();
         });
 
+        // 奖励管理
         document.getElementById('addRewardBtn').addEventListener('click', async function() {
           const label = document.getElementById('newRewardLabel').value.trim();
           const cost = parseInt(document.getElementById('newRewardCost').value, 10);
@@ -3918,45 +3922,42 @@
           if (e.key === 'Enter') document.getElementById('addRewardBtn').click();
         });
 
+        // 任务表单
         document.getElementById('taskFormCancel').addEventListener('click', function() {
           document.getElementById('taskFormModal').classList.add('hidden');
         });
         document.getElementById('taskFormConfirm').addEventListener('click', saveTaskFromForm);
 
-        document.getElementById('replyCancel').addEventListener('click', function() {
-          document.getElementById('replyModal').classList.add('hidden');
-        });
-
-        document.getElementById('replyConfirm').addEventListener('click', submitReply);
-
-        const replyText = document.getElementById('replyText');
-        if (replyText) {
-          replyText.addEventListener('input', function() {
-            const taskId = replyTargetId;
-            if (!taskId) return;
-            const text = this.value;
-            debounceSaveDraft(taskId, text);
-          });
-
-          window.addEventListener('beforeunload', function() {
-            const taskId = replyTargetId;
-            if (!taskId) return;
-            const text = document.getElementById('replyText').value;
-            if (text && text.trim().length > 0) {
-              saveReplyDraft(taskId, text);
+        // ===== 修复：回复弹窗按钮事件委托 =====
+        const replyModal = document.getElementById('replyModal');
+        if (replyModal) {
+          replyModal.addEventListener('click', function(e) {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            if (btn.id === 'replyCancel') {
+              e.preventDefault();
+              e.stopPropagation();
+              cancelReply();
+            } else if (btn.id === 'replyConfirm') {
+              e.preventDefault();
+              e.stopPropagation();
+              submitReply();
             }
           });
         }
 
+        // 查看回复
         document.getElementById('viewReplyClose').addEventListener('click', function() {
           document.getElementById('viewReplyModal').classList.add('hidden');
         });
 
+        // 评分
         document.getElementById('scoreCancel').addEventListener('click', function() {
           document.getElementById('scoreModal').classList.add('hidden');
         });
         document.getElementById('scoreConfirm').addEventListener('click', submitScore);
 
+        // 获奖
         document.getElementById('awardCancel').addEventListener('click', function() {
           document.getElementById('awardModal').classList.add('hidden');
         });
@@ -3969,6 +3970,7 @@
             document.getElementById('awardPoints').value = val; }
         });
 
+        // 兑换
         document.querySelectorAll('.btn-redeem').forEach(btn => {
           btn.addEventListener('click', function() {
             const child = this.dataset.child;
@@ -3979,21 +3981,35 @@
           document.getElementById('redeemModal').classList.add('hidden');
         });
 
+        // 反思
         document.getElementById('saveReflectionBtn').addEventListener('click', function() { saveReflection('isabella'); });
         document.getElementById('saveReflectionBtn2').addEventListener('click', function() { saveReflection('natalie'); });
 
+        // 过期任务弹窗
         document.getElementById('forgottenTasksCloseBtn').addEventListener('click', function() {
           document.getElementById('forgottenTasksModal').classList.add('hidden');
         });
 
+        // 点击模态框外部关闭
         document.querySelectorAll('.modal-overlay').forEach(overlay => {
           overlay.addEventListener('click', function(e) {
             if (e.target === this) this.classList.add('hidden');
           });
         });
 
+        // 桌面通知
         document.getElementById('notificationStatus').addEventListener('click', function() {
           if (Notification.permission === 'default') { requestNotificationPermission(); }
+        });
+
+        // beforeunload 自动保存草稿
+        window.addEventListener('beforeunload', function() {
+          const taskId = replyTargetId;
+          if (!taskId) return;
+          const text = document.getElementById('replyText').value;
+          if (text && text.trim().length > 0) {
+            saveReplyDraft(taskId, text);
+          }
         });
 
         initCollapsibleModules();
