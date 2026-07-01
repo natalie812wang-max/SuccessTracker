@@ -397,6 +397,20 @@
     .btn-primary:hover {
       background: #6d28d9;
     }
+    .btn-secondary {
+      background: #e0e7ff;
+      color: #3730a3;
+      border: none;
+      padding: 4px 14px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 11px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-secondary:hover {
+      background: #c7d2fe;
+    }
     .points-bar {
       display: flex;
       align-items: center;
@@ -421,15 +435,59 @@
       background: #f59e0b;
     }
 
+    /* ===== 过期任务按钮（改进） ===== */
+    .expired-btn {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+      padding: 2px 12px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+    .expired-btn:hover {
+      background: #fecaca;
+      transform: scale(1.02);
+    }
+    .expired-btn .badge {
+      background: #ef4444;
+      color: #fff;
+      border-radius: 30px;
+      padding: 0 6px;
+      font-size: 10px;
+      min-width: 18px;
+      text-align: center;
+    }
+    .expired-btn .badge.zero {
+      background: #d1d5db;
+      color: #666;
+    }
+    .expired-btn.no-expired {
+      background: #e5e7eb;
+      color: #6b7280;
+      border-color: #d1d5db;
+      cursor: default;
+    }
+    .expired-btn.no-expired:hover {
+      background: #e5e7eb;
+      transform: none;
+    }
+
     /* ===== 待确认统计横幅 ===== */
     .pending-confirm-banner {
       background: #fef3c7;
       border-radius: 10px;
-      padding: 4px 14px;
+      padding: 2px 14px;
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
       color: #92400e;
       border: 1px solid #f59e0b;
@@ -439,9 +497,9 @@
       background: #f59e0b;
       color: #fff;
       border-radius: 30px;
-      padding: 0 10px;
-      font-size: 13px;
-      min-width: 24px;
+      padding: 0 8px;
+      font-size: 12px;
+      min-width: 20px;
       text-align: center;
     }
     .pending-confirm-banner .count.zero {
@@ -540,6 +598,24 @@
     }
 
     /* Admin 两栏中的折叠模块 */
+    .admin-daughter-col {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .admin-daughter-col .col-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+      flex-shrink: 0;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .admin-daughter-col .col-header h3 {
+      font-size: 14px;
+      color: #7c3aed;
+    }
     .admin-daughter-col .collapsible-module {
       margin-bottom: 4px;
       flex: 1;
@@ -894,7 +970,7 @@
       border: 1px dashed #ede6f5;
     }
 
-    /* ===== 过期任务折叠模块（保留但不再强调） ===== */
+    /* ===== 过期任务折叠模块 ===== */
     .expired-module {
       margin-top: 4px;
       border-radius: 10px;
@@ -983,60 +1059,6 @@
       background: #f87171;
     }
 
-    /* ===== 过期统计条（顶部提示，点击打开遗忘弹窗） ===== */
-    .expired-stats-bar {
-      background: #fee2e2;
-      border: 1px solid #ef4444;
-      border-radius: 8px;
-      padding: 4px 12px;
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 4px 10px;
-      font-size: 12px;
-      color: #991b1b;
-      cursor: pointer;
-      transition: background 0.2s;
-      flex-shrink: 0;
-    }
-    .expired-stats-bar:hover {
-      background: #fecaca;
-    }
-    .expired-stats-bar .expired-label {
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .expired-stats-bar .expired-details {
-      display: flex;
-      gap: 10px;
-      font-size: 11px;
-    }
-    .expired-stats-bar .expired-details span {
-      background: #fff;
-      padding: 0 8px;
-      border-radius: 12px;
-      border: 1px solid #fca5a5;
-    }
-    .expired-stats-bar .expired-scroll-hint {
-      font-size: 10px;
-      color: #dc2626;
-      font-weight: 500;
-      animation: blinkHint 2s infinite;
-    }
-    @keyframes blinkHint {
-      0%,
-      100% {
-        opacity: 1;
-      }
-      50% {
-        opacity: 0.3;
-      }
-    }
-
     /* ===== ADMIN DAUGHTERS GRID ===== */
     .admin-daughters-grid {
       display: grid;
@@ -1044,17 +1066,6 @@
       gap: 14px;
       flex: 1;
       min-height: 0;
-    }
-    .admin-daughter-col {
-      display: flex;
-      flex-direction: column;
-      min-height: 0;
-    }
-    .admin-daughter-col h3 {
-      font-size: 14px;
-      margin-bottom: 4px;
-      color: #7c3aed;
-      flex-shrink: 0;
     }
 
     /* ===== DAUGHTER PANEL LAYOUT ===== */
@@ -1215,88 +1226,6 @@
       color: #4a3a5e;
     }
 
-    /* ===== Redeem 管理区域 (Admin) ===== */
-    .reward-manager {
-      background: #faf8fc;
-      border-radius: 10px;
-      padding: 6px 10px;
-      margin: 2px 0 6px 0;
-      border: 1px solid #ede6f5;
-    }
-    .reward-manager .rm-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 4px;
-    }
-    .reward-manager .rm-header .label {
-      font-weight: 600;
-      font-size: 12px;
-      color: #4a3a5e;
-    }
-    .reward-manager .rm-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      margin-top: 4px;
-    }
-    .reward-manager .rm-item {
-      background: #fff;
-      border-radius: 20px;
-      padding: 0 8px;
-      font-size: 11px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      border: 1px solid #ede6f5;
-    }
-    .reward-manager .rm-item .cost {
-      color: #7c3aed;
-      font-weight: 600;
-    }
-    .reward-manager .rm-item .del {
-      cursor: pointer;
-      color: #b91c1c;
-      font-weight: 700;
-      font-size: 13px;
-    }
-    .reward-manager .rm-add {
-      display: flex;
-      gap: 4px;
-      flex-wrap: wrap;
-      align-items: center;
-      margin-top: 4px;
-    }
-    .reward-manager .rm-add input {
-      padding: 2px 8px;
-      border: 1px solid #ede6f5;
-      border-radius: 20px;
-      font-size: 11px;
-      background: #fff;
-      outline: none;
-      width: 100px;
-    }
-    .reward-manager .rm-add input:focus {
-      border-color: #7c3aed;
-    }
-    .reward-manager .rm-add input.cost-input {
-      width: 60px;
-    }
-    .btn-sm-add-reward {
-      background: #7c3aed;
-      color: #fff;
-      border: none;
-      padding: 2px 12px;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 11px;
-      cursor: pointer;
-    }
-    .btn-sm-add-reward:hover {
-      background: #6d28d9;
-    }
-
     /* ===== MODALS ===== */
     .modal-overlay {
       position: fixed;
@@ -1444,113 +1373,27 @@
       font-size: 11px;
     }
 
-    /* ===== SUBJECT MANAGER ===== */
-    .subject-manager {
-      background: #faf8fc;
-      border-radius: 10px;
-      padding: 4px 10px;
-      margin: 2px 0 6px 0;
-      border: 1px solid #ede6f5;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 6px;
+    /* ===== 管理弹窗专用样式 ===== */
+    .admin-modal-content {
+      padding: 4px 0;
     }
-    .subject-manager .label {
-      font-weight: 600;
-      font-size: 12px;
-      color: #4a3a5e;
-    }
-    .subject-manager .flex-row {
-      display: flex;
-      gap: 4px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-    .subject-manager .flex-row input {
-      padding: 2px 8px;
-      border: 1px solid #ede6f5;
-      border-radius: 20px;
-      font-size: 12px;
-      background: #fff;
-      outline: none;
-      width: 120px;
-    }
-    .subject-manager .flex-row input:focus {
-      border-color: #7c3aed;
-    }
-    .btn-sm-add {
-      background: #7c3aed;
-      color: #fff;
+    .admin-modal-content .reward-manager {
       border: none;
-      padding: 2px 12px;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 11px;
-      cursor: pointer;
+      padding: 0;
+      margin: 0;
+      background: transparent;
     }
-    .btn-sm-add:hover {
-      background: #6d28d9;
-    }
-    .subject-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 3px;
-    }
-    .subject-tag {
-      background: #ede6f5;
-      padding: 0 8px;
-      border-radius: 30px;
-      font-size: 11px;
-      display: flex;
-      align-items: center;
-      gap: 3px;
-    }
-    .subject-tag .del {
-      cursor: pointer;
-      color: #b91c1c;
-      font-weight: 700;
-      font-size: 13px;
-    }
-
-    /* ===== ADMIN DAILY AREA ===== */
-    .admin-daily-area {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px 20px;
-      background: #faf8fc;
-      border-radius: 12px;
-      padding: 8px 12px;
-      margin: 6px 0 10px 0;
-      border: 1px solid #ede6f5;
-      align-items: center;
-    }
-    .admin-daily-area .daily-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      flex-wrap: wrap;
-    }
-    .admin-daily-area .daily-item input {
-      width: 50px;
-      padding: 2px 4px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 12px;
-    }
-    .admin-daily-area .daily-item .btn-sm {
-      padding: 2px 10px;
-      border-radius: 30px;
+    .admin-modal-content .subject-manager {
       border: none;
-      font-weight: 500;
-      font-size: 11px;
-      cursor: pointer;
-      background: #7c3aed;
-      color: #fff;
+      padding: 0;
+      margin: 0;
+      background: transparent;
     }
-    .admin-daily-area .daily-item .btn-sm:hover {
-      background: #6d28d9;
+    .admin-modal-content .admin-daily-area {
+      border: none;
+      padding: 0;
+      margin: 0;
+      background: transparent;
     }
 
     /* ===== RESPONSIVE ===== */
@@ -1597,12 +1440,6 @@
         font-size: 11px;
         padding: 2px 10px;
       }
-      .reward-manager .rm-add input {
-        width: 70px;
-      }
-      .reward-manager .rm-add input.cost-input {
-        width: 50px;
-      }
       .date-group .date-header {
         font-size: 11px;
       }
@@ -1621,16 +1458,16 @@
       .panel-header h2 {
         font-size: 14px;
       }
-      .expired-stats-bar {
-        font-size: 11px;
-        padding: 4px 8px;
+      .admin-daughter-col .col-header h3 {
+        font-size: 12px;
       }
-      .expired-stats-bar .expired-details {
+      .expired-btn {
         font-size: 10px;
-        gap: 4px;
+        padding: 1px 8px;
       }
-      .expired-module .module-body .task-grid {
-        max-height: 250px;
+      .btn-secondary {
+        font-size: 10px;
+        padding: 2px 10px;
       }
     }
   </style>
@@ -1706,12 +1543,15 @@
         <div class="panel" id="panel-admin">
           <div class="panel-header">
             <h2>📋 All Tasks</h2>
-            <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+            <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
               <span class="pending-confirm-banner" id="pendingConfirmBanner">
                 ⏳ 待确认 <span class="count" id="pendingConfirmCount">0</span>
               </span>
               <button class="btn-primary" id="btnAddTaskAdmin">➕ Add</button>
               <button class="btn-primary" id="btnAwardPoints" style="background:#f59e0b;">🏆 Award</button>
+              <button class="btn-secondary" id="btnDailyBonusAdmin">🎯 每日奖励</button>
+              <button class="btn-secondary" id="btnRewardManager">🎁 奖励管理</button>
+              <button class="btn-secondary" id="btnSubjectManager">📚 学科管理</button>
               <div class="points-bar">
                 <span>⭐ Isabella: <span id="pointsIsabella">0</span></span>
                 <span>⭐ Natalie: <span id="pointsNatalie">0</span></span>
@@ -1719,70 +1559,15 @@
             </div>
           </div>
 
-          <!-- 折叠模块：每日奖励 -->
-          <div class="collapsible-module" data-module="admin-daily">
-            <div class="module-header" data-toggle="admin-daily">
-              <span class="module-title">🎯 每日奖励</span>
-              <span class="module-toggle">▼</span>
-            </div>
-            <div class="module-body" data-body="admin-daily">
-              <div class="admin-daily-area" style="border:none;background:transparent;padding:0;margin:0;">
-                <div class="daily-item">
-                  <span>Isabella today: <span id="adminIsabellaToday">0/0</span></span>
-                  <span>Bonus (0-10):</span>
-                  <input type="number" id="isabellaDailyBonus" min="0" max="10" value="0" />
-                  <button class="btn-sm" id="isabellaBonusBtn">Give</button>
-                </div>
-                <div class="daily-item">
-                  <span>Natalie today: <span id="adminNatalieToday">0/0</span></span>
-                  <span>Bonus (0-10):</span>
-                  <input type="number" id="natalieDailyBonus" min="0" max="10" value="0" />
-                  <button class="btn-sm" id="natalieBonusBtn">Give</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 折叠模块：奖励管理 -->
-          <div class="collapsible-module" data-module="admin-rewards">
-            <div class="module-header" data-toggle="admin-rewards">
-              <span class="module-title">🎁 兑换奖励管理</span>
-              <span class="module-toggle">▼</span>
-            </div>
-            <div class="module-body" data-body="admin-rewards">
-              <div class="reward-manager" style="border:none;background:transparent;padding:0;margin:0;">
-                <div class="rm-list" id="rewardList"></div>
-                <div class="rm-add">
-                  <input type="text" id="newRewardLabel" placeholder="奖励名称" />
-                  <input type="number" id="newRewardCost" placeholder="积分" class="cost-input" min="1" value="100" />
-                  <button class="btn-sm-add-reward" id="addRewardBtn">➕ 添加</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 折叠模块：学科管理 -->
-          <div class="collapsible-module" data-module="admin-subjects">
-            <div class="module-header" data-toggle="admin-subjects">
-              <span class="module-title">📚 学科管理</span>
-              <span class="module-toggle">▼</span>
-            </div>
-            <div class="module-body" data-body="admin-subjects">
-              <div class="subject-manager" style="border:none;background:transparent;padding:0;margin:0;">
-                <div class="flex-row">
-                  <input type="text" id="newSubjectInput" placeholder="New subject" />
-                  <button class="btn-sm-add" id="addSubjectBtn">+ Add</button>
-                </div>
-                <div class="subject-tags" id="subjectTagContainer"></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Admin 任务列表：两栏分别显示女儿 -->
+          <!-- Admin 任务列表：两栏分别显示女儿（带过期按钮） -->
           <div class="admin-daughters-grid">
             <div class="admin-daughter-col">
-              <h3>👧 Isabella</h3>
-              <!-- 折叠模块：Isabella 任务列表 -->
+              <div class="col-header">
+                <h3>👧 Isabella</h3>
+                <button class="expired-btn" id="expiredBtnIsabella" onclick="window.showExpiredTasks('isabella')">
+                  ⚠️ 过期 <span class="badge" id="expiredBadgeIsabella">0</span>
+                </button>
+              </div>
               <div class="collapsible-module" data-module="admin-tasks-isabella">
                 <div class="module-header" data-toggle="admin-tasks-isabella">
                   <span class="module-title">📋 任务列表</span>
@@ -1794,8 +1579,12 @@
               </div>
             </div>
             <div class="admin-daughter-col">
-              <h3>👧 Natalie</h3>
-              <!-- 折叠模块：Natalie 任务列表 -->
+              <div class="col-header">
+                <h3>👧 Natalie</h3>
+                <button class="expired-btn" id="expiredBtnNatalie" onclick="window.showExpiredTasks('natalie')">
+                  ⚠️ 过期 <span class="badge" id="expiredBadgeNatalie">0</span>
+                </button>
+              </div>
               <div class="collapsible-module" data-module="admin-tasks-natalie">
                 <div class="module-header" data-toggle="admin-tasks-natalie">
                   <span class="module-title">📋 任务列表</span>
@@ -1810,21 +1599,22 @@
         </div>
 
         <!-- =============================================================
-             ISABELLA PANEL — "Isabella's Success Pathway"
+             ISABELLA PANEL
              ============================================================= -->
         <div class="panel" id="panel-isabella">
           <div class="panel-header">
             <h2>🌸 Isabella's Success Pathway</h2>
-            <div style="display:flex; gap:6px; align-items:center;">
+            <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
               <span class="points-bar">⭐ <span id="pointsIsabellaDaughter">0</span> pts <button class="btn-redeem"
                   data-child="isabella">🎁 Redeem</button></span>
               <button class="btn-primary" id="btnAddTaskIsabella">➕ Add</button>
+              <button class="expired-btn" id="expiredBtnIsabellaDaughter" onclick="window.showExpiredTasks('isabella')" style="display:none;">
+                ⚠️ 过期 <span class="badge" id="expiredBadgeIsabellaDaughter">0</span>
+              </button>
             </div>
           </div>
           <div class="daughter-panel-layout">
-            <!-- 左侧面板 -->
             <div class="daughter-left-panel">
-              <!-- 折叠：今日进度 -->
               <div class="collapsible-module" data-module="isabella-progress">
                 <div class="module-header" data-toggle="isabella-progress">
                   <span class="module-title">📈 今日进度</span>
@@ -1842,8 +1632,6 @@
                   </div>
                 </div>
               </div>
-
-              <!-- 折叠：鼓励语 -->
               <div class="collapsible-module" data-module="isabella-encourage">
                 <div class="module-header" data-toggle="isabella-encourage">
                   <span class="module-title">🌟 鼓励</span>
@@ -1856,8 +1644,6 @@
                   </div>
                 </div>
               </div>
-
-              <!-- 折叠：反思 -->
               <div class="collapsible-module" data-module="isabella-reflection">
                 <div class="module-header" data-toggle="isabella-reflection">
                   <span class="module-title">📝 每日反思</span>
@@ -1865,18 +1651,16 @@
                 </div>
                 <div class="module-body" data-body="isabella-reflection">
                   <div class="reflection-section" style="border:none;background:transparent;padding:0;">
-                    <div id="reflectionStatus" style="font-size:12px; color:#0b6e4f; margin-bottom:4px;"></div>
+                    <div id="reflectionStatus" style="font-size:12px;color:#0b6e4f;margin-bottom:4px;"></div>
                     <textarea id="reflectionInput" placeholder="How was your day?" rows="2"></textarea>
-                    <div style="display:flex; gap:6px; margin-top:4px;">
-                      <button class="btn-primary" id="saveReflectionBtn" style="padding:2px 12px; font-size:11px;">💾 Save</button>
+                    <div style="display:flex;gap:6px;margin-top:4px;">
+                      <button class="btn-primary" id="saveReflectionBtn" style="padding:2px 12px;font-size:11px;">💾 Save</button>
                     </div>
                     <div class="reflection-history" id="reflectionHistory"></div>
                   </div>
                 </div>
               </div>
             </div>
-
-            <!-- 右侧：任务列表（折叠模块） -->
             <div class="daughter-right-panel">
               <div class="collapsible-module" data-module="isabella-tasks">
                 <div class="module-header" data-toggle="isabella-tasks">
@@ -1892,19 +1676,21 @@
         </div>
 
         <!-- =============================================================
-             NATALIE PANEL — "Natalie's Success Pathway"
+             NATALIE PANEL
              ============================================================= -->
         <div class="panel" id="panel-natalie">
           <div class="panel-header">
             <h2>🌺 Natalie's Success Pathway</h2>
-            <div style="display:flex; gap:6px; align-items:center;">
+            <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
               <span class="points-bar">⭐ <span id="pointsNatalieDaughter">0</span> pts <button class="btn-redeem"
                   data-child="natalie">🎁 Redeem</button></span>
               <button class="btn-primary" id="btnAddTaskNatalie">➕ Add</button>
+              <button class="expired-btn" id="expiredBtnNatalieDaughter" onclick="window.showExpiredTasks('natalie')" style="display:none;">
+                ⚠️ 过期 <span class="badge" id="expiredBadgeNatalieDaughter">0</span>
+              </button>
             </div>
           </div>
           <div class="daughter-panel-layout">
-            <!-- 左侧面板 -->
             <div class="daughter-left-panel">
               <div class="collapsible-module" data-module="natalie-progress">
                 <div class="module-header" data-toggle="natalie-progress">
@@ -1923,7 +1709,6 @@
                   </div>
                 </div>
               </div>
-
               <div class="collapsible-module" data-module="natalie-encourage">
                 <div class="module-header" data-toggle="natalie-encourage">
                   <span class="module-title">🌟 鼓励</span>
@@ -1936,7 +1721,6 @@
                   </div>
                 </div>
               </div>
-
               <div class="collapsible-module" data-module="natalie-reflection">
                 <div class="module-header" data-toggle="natalie-reflection">
                   <span class="module-title">📝 每日反思</span>
@@ -1944,18 +1728,16 @@
                 </div>
                 <div class="module-body" data-body="natalie-reflection">
                   <div class="reflection-section" style="border:none;background:transparent;padding:0;">
-                    <div id="reflectionStatus2" style="font-size:12px; color:#0b6e4f; margin-bottom:4px;"></div>
+                    <div id="reflectionStatus2" style="font-size:12px;color:#0b6e4f;margin-bottom:4px;"></div>
                     <textarea id="reflectionInput2" placeholder="How was your day?" rows="2"></textarea>
-                    <div style="display:flex; gap:6px; margin-top:4px;">
-                      <button class="btn-primary" id="saveReflectionBtn2" style="padding:2px 12px; font-size:11px;">💾 Save</button>
+                    <div style="display:flex;gap:6px;margin-top:4px;">
+                      <button class="btn-primary" id="saveReflectionBtn2" style="padding:2px 12px;font-size:11px;">💾 Save</button>
                     </div>
                     <div class="reflection-history" id="reflectionHistory2"></div>
                   </div>
                 </div>
               </div>
             </div>
-
-            <!-- 右侧：任务列表（折叠模块） -->
             <div class="daughter-right-panel">
               <div class="collapsible-module" data-module="natalie-tasks">
                 <div class="module-header" data-toggle="natalie-tasks">
@@ -2124,10 +1906,76 @@
     </div>
   </div>
 
-  <!-- ===== 遗忘任务模态框 ===== -->
+  <!-- ===== 管理功能弹窗 ===== -->
+  <!-- 每日奖励弹窗 -->
+  <div class="modal-overlay hidden" id="dailyBonusModal">
+    <div class="modal-box">
+      <h2>🎯 每日奖励</h2>
+      <div class="admin-modal-content">
+        <div class="admin-daily-area">
+          <div class="daily-item">
+            <span>Isabella today: <span id="adminIsabellaToday">0/0</span></span>
+            <span>Bonus (0-10):</span>
+            <input type="number" id="isabellaDailyBonus" min="0" max="10" value="0" />
+            <button class="btn-sm" id="isabellaBonusBtn">Give</button>
+          </div>
+          <div class="daily-item">
+            <span>Natalie today: <span id="adminNatalieToday">0/0</span></span>
+            <span>Bonus (0-10):</span>
+            <input type="number" id="natalieDailyBonus" min="0" max="10" value="0" />
+            <button class="btn-sm" id="natalieBonusBtn">Give</button>
+          </div>
+        </div>
+      </div>
+      <div class="btns">
+        <button class="btn btn-cancel" id="dailyBonusCloseBtn">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 奖励管理弹窗 -->
+  <div class="modal-overlay hidden" id="rewardManagerModal">
+    <div class="modal-box">
+      <h2>🎁 兑换奖励管理</h2>
+      <div class="admin-modal-content">
+        <div class="reward-manager">
+          <div class="rm-list" id="rewardList"></div>
+          <div class="rm-add">
+            <input type="text" id="newRewardLabel" placeholder="奖励名称" />
+            <input type="number" id="newRewardCost" placeholder="积分" class="cost-input" min="1" value="100" />
+            <button class="btn-sm-add-reward" id="addRewardBtn">➕ 添加</button>
+          </div>
+        </div>
+      </div>
+      <div class="btns">
+        <button class="btn btn-cancel" id="rewardManagerCloseBtn">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 学科管理弹窗 -->
+  <div class="modal-overlay hidden" id="subjectManagerModal">
+    <div class="modal-box">
+      <h2>📚 学科管理</h2>
+      <div class="admin-modal-content">
+        <div class="subject-manager">
+          <div class="flex-row">
+            <input type="text" id="newSubjectInput" placeholder="New subject" />
+            <button class="btn-sm-add" id="addSubjectBtn">+ Add</button>
+          </div>
+          <div class="subject-tags" id="subjectTagContainer"></div>
+        </div>
+      </div>
+      <div class="btns">
+        <button class="btn btn-cancel" id="subjectManagerCloseBtn">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 过期任务弹窗 -->
   <div class="modal-overlay hidden" id="forgottenTasksModal">
     <div class="modal-box" style="max-width:700px;">
-      <h2>📋 遗忘的任务 <span style="font-size:14px;font-weight:400;color:#888;" id="forgottenTasksCount"></span></h2>
+      <h2>📋 过期任务 <span style="font-size:14px;font-weight:400;color:#888;" id="forgottenTasksCount"></span></h2>
       <div style="font-size:12px;color:#888;margin-bottom:6px;display:flex;gap:12px;flex-wrap:wrap;">
         <span>💡 过期任务完成后 <strong style="color:#f59e0b;">仅得 2 分</strong></span>
         <span>✅ 已完成 · ⏳ 未完成</span>
@@ -2362,24 +2210,25 @@
         });
       }
 
-      // ===== 打开遗忘任务弹窗（由顶部统计条触发） =====
-      window.showForgottenTasks = function() {
-        renderForgottenTasks();
+      // ============================================================
+      // 过期任务相关（全局暴露给 onclick）
+      // ============================================================
+      window.showExpiredTasks = function(child) {
+        renderExpiredTasks(child);
         document.getElementById('forgottenTasksModal').classList.remove('hidden');
       };
 
-      // ===== 渲染遗忘任务弹窗（显示所有过期任务，不显示红色警告标签） =====
-      function renderForgottenTasks() {
+      function renderExpiredTasks(child) {
         const list = document.getElementById('forgottenTasksList');
         const count = document.getElementById('forgottenTasksCount');
 
         const today = getTodayStr();
         let expiredTasks = [];
-        if (currentUserRole === 'admin') {
-          expiredTasks = tasks.filter(t => t.due_date < today);
-        } else if (currentUser) {
-          expiredTasks = tasks.filter(t => (t.assigned_to === currentUserRole || t.assigned_to === 'both') && t.due_date <
-            today);
+        if (currentUserRole === 'admin' || currentUserRole === child) {
+          expiredTasks = tasks.filter(t => (t.assigned_to === child || t.assigned_to === 'both') && t.due_date < today);
+        } else {
+          // 如果查看的不是自己的任务（普通情况下不会发生）
+          expiredTasks = tasks.filter(t => (t.assigned_to === child || t.assigned_to === 'both') && t.due_date < today);
         }
 
         expiredTasks.sort((a, b) => new Date(b.due_date) - new Date(a.due_date));
@@ -2387,11 +2236,13 @@
         const completed = expiredTasks.filter(t => t.completed);
         const pending = expiredTasks.filter(t => !t.completed);
 
-        count.textContent = `(总计 ${expiredTasks.length} 项 · ✅ ${completed.length} 已完成 · ⏳ ${pending.length} 未完成)`;
+        const childName = child.charAt(0).toUpperCase() + child.slice(1);
+        count.textContent =
+          `(${childName} · 总计 ${expiredTasks.length} 项 · ✅ ${completed.length} 已完成 · ⏳ ${pending.length} 未完成)`;
 
         if (expiredTasks.length === 0) {
           list.innerHTML =
-            '<div class="text-muted" style="padding:20px;text-align:center;">🎉 太棒了！没有任何过期任务！</div>';
+            '<div class="text-muted" style="padding:20px;text-align:center;">🎉 太棒了！没有过期任务！</div>';
           return;
         }
 
@@ -2414,7 +2265,6 @@
             `<div class="date-group"><div class="date-header"><span>${label}</span><span class="date-badge overdue">${tasksForDate.length} 项</span><span style="color:#ef4444;font-size:11px;">⚠️ 已过期</span><span style="font-size:10px;color:#888;margin-left:auto;">✅ ${doneCount} 已完成 · ⏳ ${pendingCount2} 未完成</span></div>`;
 
           tasksForDate.forEach(task => {
-            // 弹窗中不显示红色警告标签（showExpiredLabel = false）
             html += renderTaskCard(task, false);
           });
           html += `</div>`;
@@ -2429,15 +2279,52 @@
             const id = parseInt(this.dataset.id, 10);
             handleTaskAction(action, id);
             setTimeout(() => {
-              renderForgottenTasks();
+              renderExpiredTasks(child);
               render();
             }, 300);
           });
         });
       }
 
-      // ===== 渲染单个任务卡片 =====
-      // showExpiredLabel: 是否显示 "⚠️ 过期任务 · 完成仅得2分" 标签（主界面显示，弹窗不显示）
+      // ============================================================
+      // 更新过期按钮
+      // ============================================================
+      function updateExpiredButtons() {
+        const today = getTodayStr();
+        ['isabella', 'natalie'].forEach(child => {
+          const expiredTasks = tasks.filter(t => (t.assigned_to === child || t.assigned_to === 'both') && t.due_date <
+            today && !t.completed);
+          const count = expiredTasks.length;
+
+          // Admin 面板中的按钮
+          const btnAdmin = document.getElementById('expiredBtn' + child.charAt(0).toUpperCase() + child.slice(1));
+          const badgeAdmin = document.getElementById('expiredBadge' + child.charAt(0).toUpperCase() + child.slice(1));
+          if (btnAdmin && badgeAdmin) {
+            badgeAdmin.textContent = count;
+            badgeAdmin.className = 'badge' + (count === 0 ? ' zero' : '');
+            btnAdmin.className = 'expired-btn' + (count === 0 ? ' no-expired' : '');
+          }
+
+          // 女儿面板中的按钮
+          const btnDaughter = document.getElementById('expiredBtn' + child.charAt(0).toUpperCase() + child.slice(1) +
+            'Daughter');
+          const badgeDaughter = document.getElementById('expiredBadge' + child.charAt(0).toUpperCase() + child.slice(1) +
+            'Daughter');
+          if (btnDaughter && badgeDaughter) {
+            if (count > 0) {
+              btnDaughter.style.display = 'inline-flex';
+              badgeDaughter.textContent = count;
+              badgeDaughter.className = 'badge';
+            } else {
+              btnDaughter.style.display = 'none';
+            }
+          }
+        });
+      }
+
+      // ============================================================
+      // 渲染任务卡片
+      // ============================================================
       function renderTaskCard(task, showExpiredLabel) {
         const isPendingConfirm = task.completed && !task.auto_score_applied;
         const isDouble = task.double_points === true;
@@ -2494,7 +2381,6 @@
           selfBadge = `<span class="badge self-created">📝 自己添加</span>`;
         }
 
-        // 只有 showExpiredLabel 为 true 且任务过期时才显示红色警告
         let expiredLabel = '';
         if (showExpiredLabel && isExpired) {
           expiredLabel = `<div style="font-size:10px;color:#ef4444;font-weight:600;margin-top:2px;">⚠️ 过期任务 · 完成仅得2分</div>`;
@@ -2595,7 +2481,9 @@
         `;
       }
 
-      // ===== 按日期分组渲染任务列表（主界面，显示红色警告） =====
+      // ============================================================
+      // 按日期分组渲染任务列表
+      // ============================================================
       function renderGroupedTasks(containerId, taskList, contextId) {
         const container = document.getElementById(containerId);
         if (!container) return;
@@ -2625,23 +2513,6 @@
 
         let html = '';
 
-        // ----- 过期统计条（点击打开弹窗） -----
-        if (expiredTasks.length > 0) {
-          const completedCount = expiredTasks.filter(t => t.completed).length;
-          const pendingCount = expiredTasks.filter(t => !t.completed).length;
-          html += `
-            <div class="expired-stats-bar" onclick="window.showForgottenTasks()">
-              <span class="expired-label">🔴 过期任务提醒</span>
-              <span class="expired-details">
-                <span>总计 ${expiredTasks.length}</span>
-                <span>✅ ${completedCount} 已完成</span>
-                <span>⏳ ${pendingCount} 未完成</span>
-              </span>
-              <span class="expired-scroll-hint">▼ 点击查看全部</span>
-            </div>
-          `;
-        }
-
         // 活跃任务
         activeDates.forEach((date, index) => {
           const tasksForDate = groups[date];
@@ -2661,7 +2532,6 @@
           `;
 
           tasksForDate.forEach(task => {
-            // 主界面显示红色警告标签 (showExpiredLabel = true)
             html += renderTaskCard(task, true);
           });
 
@@ -2671,7 +2541,7 @@
           }
         });
 
-        // 过期任务（折叠模块，同样显示红色警告）
+        // 过期任务（折叠模块）
         if (expiredTasks.length > 0) {
           const sortedExpired = sortTasks(expiredTasks);
           const expiredGroups = {};
@@ -3404,6 +3274,9 @@
         renderGroupedTasks('adminIsabellaTaskList', isabellaTasks, 'admin-isabella');
         renderGroupedTasks('adminNatalieTaskList', natalieTasks, 'admin-natalie');
 
+        // 更新过期按钮
+        updateExpiredButtons();
+
         document.querySelectorAll('#adminIsabellaTaskList [data-action], #adminNatalieTaskList [data-action]').forEach(el => {
           el.addEventListener('click', function(e) {
             e.stopPropagation();
@@ -3418,6 +3291,9 @@
       function renderDaughter(who) {
         const list = tasks.filter(t => t.assigned_to === who || t.assigned_to === 'both');
         renderGroupedTasks(who + 'TaskList', list, who);
+
+        // 更新女儿面板的过期按钮
+        updateExpiredButtons();
 
         document.querySelectorAll(`#${who}TaskList [data-action]`).forEach(el => {
           el.addEventListener('click', function(e) {
@@ -3544,8 +3420,8 @@
           updateSubjectDatalist();
           updateGlobalStats();
           renderDaughtersOverview();
-          renderRewardManager();
           renderAdminTasks();
+          // 更新每日奖励弹窗中的今日数据
           const today = getTodayStr();
           ['isabella', 'natalie'].forEach(child => {
             const tasksForChild = tasks.filter(t => t.assigned_to === child || t.assigned_to === 'both');
@@ -3556,6 +3432,7 @@
             if (el) el.textContent = `${done}/${total}`;
           });
           document.getElementById('doublePointsField').style.display = 'block';
+          updateExpiredButtons();
         } else {
           document.getElementById('doublePointsField').style.display = 'none';
 
@@ -3579,6 +3456,7 @@
           renderReflections(currentUserRole);
           renderPersonalProgress(currentUserRole);
           renderReflectionStatus(currentUserRole);
+          updateExpiredButtons();
         }
 
         setTimeout(applyAllCollapseStates, 50);
@@ -3999,8 +3877,74 @@
           document.getElementById('historyModal').classList.add('hidden');
         });
 
-        document.getElementById('isabellaBonusBtn').addEventListener('click', function() { giveDailyBonus('isabella'); });
-        document.getElementById('natalieBonusBtn').addEventListener('click', function() { giveDailyBonus('natalie'); });
+        // 每日奖励弹窗
+        document.getElementById('btnDailyBonusAdmin').addEventListener('click', function() {
+          document.getElementById('dailyBonusModal').classList.remove('hidden');
+          // 刷新今日数据
+          const today = getTodayStr();
+          ['isabella', 'natalie'].forEach(child => {
+            const tasksForChild = tasks.filter(t => t.assigned_to === child || t.assigned_to === 'both');
+            const todayTasks = tasksForChild.filter(t => t.due_date === today);
+            const done = todayTasks.filter(t => t.completed).length;
+            const total = todayTasks.length;
+            const el = document.getElementById('admin' + child.charAt(0).toUpperCase() + child.slice(1) + 'Today');
+            if (el) el.textContent = `${done}/${total}`;
+          });
+        });
+        document.getElementById('dailyBonusCloseBtn').addEventListener('click', function() {
+          document.getElementById('dailyBonusModal').classList.add('hidden');
+        });
+
+        // 奖励管理弹窗
+        document.getElementById('btnRewardManager').addEventListener('click', function() {
+          renderRewardManager();
+          document.getElementById('rewardManagerModal').classList.remove('hidden');
+        });
+        document.getElementById('rewardManagerCloseBtn').addEventListener('click', function() {
+          document.getElementById('rewardManagerModal').classList.add('hidden');
+        });
+
+        // 学科管理弹窗
+        document.getElementById('btnSubjectManager').addEventListener('click', function() {
+          renderSubjectTags();
+          updateSubjectDatalist();
+          document.getElementById('subjectManagerModal').classList.remove('hidden');
+        });
+        document.getElementById('subjectManagerCloseBtn').addEventListener('click', function() {
+          document.getElementById('subjectManagerModal').classList.add('hidden');
+        });
+
+        // 每日奖励 Give 按钮
+        document.getElementById('isabellaBonusBtn').addEventListener('click', function() {
+          giveDailyBonus('isabella');
+          setTimeout(() => {
+            const today = getTodayStr();
+            ['isabella', 'natalie'].forEach(child => {
+              const tasksForChild = tasks.filter(t => t.assigned_to === child || t.assigned_to === 'both');
+              const todayTasks = tasksForChild.filter(t => t.due_date === today);
+              const done = todayTasks.filter(t => t.completed).length;
+              const total = todayTasks.length;
+              const el = document.getElementById('admin' + child.charAt(0).toUpperCase() + child.slice(1) +
+              'Today');
+              if (el) el.textContent = `${done}/${total}`;
+            });
+          }, 300);
+        });
+        document.getElementById('natalieBonusBtn').addEventListener('click', function() {
+          giveDailyBonus('natalie');
+          setTimeout(() => {
+            const today = getTodayStr();
+            ['isabella', 'natalie'].forEach(child => {
+              const tasksForChild = tasks.filter(t => t.assigned_to === child || t.assigned_to === 'both');
+              const todayTasks = tasksForChild.filter(t => t.due_date === today);
+              const done = todayTasks.filter(t => t.completed).length;
+              const total = todayTasks.length;
+              const el = document.getElementById('admin' + child.charAt(0).toUpperCase() + child.slice(1) +
+              'Today');
+              if (el) el.textContent = `${done}/${total}`;
+            });
+          }, 300);
+        });
 
         document.getElementById('reflectionsCloseBtn').addEventListener('click', function() {
           document.getElementById('reflectionsModal').classList.add('hidden');
@@ -4016,6 +3960,8 @@
           const input = document.getElementById('newSubjectInput');
           const name = input.value.trim();
           if (await saveSubject(name)) input.value = '';
+          renderSubjectTags();
+          updateSubjectDatalist();
         });
         document.getElementById('newSubjectInput').addEventListener('keydown', function(e) {
           if (e.key === 'Enter') document.getElementById('addSubjectBtn').click();
@@ -4027,6 +3973,7 @@
           if (await addReward(label, cost)) {
             document.getElementById('newRewardLabel').value = '';
             document.getElementById('newRewardCost').value = '100';
+            renderRewardManager();
           }
         });
         document.getElementById('newRewardLabel').addEventListener('keydown', function(e) {
@@ -4080,15 +4027,16 @@
         document.getElementById('saveReflectionBtn').addEventListener('click', function() { saveReflection('isabella'); });
         document.getElementById('saveReflectionBtn2').addEventListener('click', function() { saveReflection('natalie'); });
 
+        // 遗忘任务关闭按钮
+        document.getElementById('forgottenTasksCloseBtn').addEventListener('click', function() {
+          document.getElementById('forgottenTasksModal').classList.add('hidden');
+        });
+
+        // 点击模态框外部关闭
         document.querySelectorAll('.modal-overlay').forEach(overlay => {
           overlay.addEventListener('click', function(e) {
             if (e.target === this) this.classList.add('hidden');
           });
-        });
-
-        // 遗忘任务关闭按钮
-        document.getElementById('forgottenTasksCloseBtn').addEventListener('click', function() {
-          document.getElementById('forgottenTasksModal').classList.add('hidden');
         });
 
         initCollapsibleModules();
