@@ -382,6 +382,8 @@
     .panel-header h2 {
       font-size: 17px;
       color: #2d1b3d;
+      display: flex;
+      align-items: center;
     }
     .btn-primary {
       background: #7c3aed;
@@ -1546,6 +1548,32 @@
       }
     }
 
+    /* ===== 刷新按钮样式 ===== */
+    .btn-refresh {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      margin-left: 6px;
+      padding: 4px 6px;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      background: rgba(124, 58, 237, 0.08);
+      vertical-align: middle;
+    }
+    .btn-refresh:hover {
+      background: rgba(124, 58, 237, 0.2);
+      transform: rotate(60deg);
+    }
+    .btn-refresh:active {
+      transform: rotate(180deg);
+    }
+
     /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
       .app-wrapper {
@@ -1633,6 +1661,11 @@
       #replyModal .modal-box {
         max-width: 100%;
       }
+      .btn-refresh {
+        font-size: 16px;
+        width: 28px;
+        height: 28px;
+      }
     }
   </style>
 </head>
@@ -1710,7 +1743,10 @@
              ============================================================= -->
         <div class="panel" id="panel-admin">
           <div class="panel-header">
-            <h2>📋 All Tasks</h2>
+            <h2>
+              📋 All Tasks
+              <button class="btn-refresh" id="refreshAdminBtn" title="刷新数据">🔄</button>
+            </h2>
             <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
               <span class="pending-confirm-banner" id="pendingConfirmBanner">
                 ⏳ 待确认 <span class="count" id="pendingConfirmCount">0</span>
@@ -1771,7 +1807,10 @@
              ============================================================= -->
         <div class="panel" id="panel-isabella">
           <div class="panel-header">
-            <h2>🌸 Isabella's Success Pathway</h2>
+            <h2>
+              🌸 Isabella's Success Pathway
+              <button class="btn-refresh" id="refreshIsabellaBtn" title="刷新数据">🔄</button>
+            </h2>
             <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
               <span class="points-bar">⭐ <span id="pointsIsabellaDaughter">0</span> pts <button class="btn-redeem"
                   data-child="isabella">🎁 Redeem</button></span>
@@ -1848,7 +1887,10 @@
              ============================================================= -->
         <div class="panel" id="panel-natalie">
           <div class="panel-header">
-            <h2>🌺 Natalie's Success Pathway</h2>
+            <h2>
+              🌺 Natalie's Success Pathway
+              <button class="btn-refresh" id="refreshNatalieBtn" title="刷新数据">🔄</button>
+            </h2>
             <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
               <span class="points-bar">⭐ <span id="pointsNatalieDaughter">0</span> pts <button class="btn-redeem"
                   data-child="natalie">🎁 Redeem</button></span>
@@ -4266,6 +4308,39 @@
       }
 
       // ============================================================
+      // 刷新功能
+      // ============================================================
+      async function refreshData() {
+        if (!currentUser) return;
+        const btns = document.querySelectorAll('.btn-refresh');
+        try {
+          // 显示刷新状态
+          btns.forEach(btn => { btn.textContent = '⏳';
+            btn.style.opacity = '0.5';
+            btn.style.pointerEvents = 'none'; });
+
+          await loadAllData();
+          render();
+          setTimeout(applyAllCollapseStates, 100);
+
+          // 显示成功提示
+          const toast = document.createElement('div');
+          toast.style.cssText =
+            'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#7c3aed;color:#fff;padding:8px 24px;border-radius:30px;font-size:14px;font-weight:600;z-index:9999;box-shadow:0 8px 30px rgba(124,58,237,0.3);animation:slideUp 0.3s ease;';
+          toast.textContent = '✅ 数据已刷新';
+          document.body.appendChild(toast);
+          setTimeout(() => { toast.remove(); }, 1500);
+        } catch (err) {
+          console.error('Refresh error:', err);
+          alert('刷新失败，请检查网络或 Supabase 配置。');
+        } finally {
+          btns.forEach(btn => { btn.textContent = '🔄';
+            btn.style.opacity = '1';
+            btn.style.pointerEvents = ''; });
+        }
+      }
+
+      // ============================================================
       // 事件绑定
       // ============================================================
       function bindEvents() {
@@ -4451,6 +4526,11 @@
             }
           }
         });
+
+        // ===== 刷新按钮 =====
+        document.getElementById('refreshAdminBtn').addEventListener('click', refreshData);
+        document.getElementById('refreshIsabellaBtn').addEventListener('click', refreshData);
+        document.getElementById('refreshNatalieBtn').addEventListener('click', refreshData);
 
         initCollapsibleModules();
       }
