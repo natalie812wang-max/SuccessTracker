@@ -1574,6 +1574,148 @@
       transform: rotate(180deg);
     }
 
+    /* ================================================================
+       🆕 核销相关样式
+       ================================================================ */
+    .redemption-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 4px;
+      border-bottom: 1px solid #f0ecf5;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .redemption-item:last-child {
+      border-bottom: none;
+    }
+    .redemption-item .info {
+      flex: 1;
+      min-width: 0;
+    }
+    .redemption-item .info .reward-name {
+      font-weight: 600;
+      font-size: 13px;
+      color: #2d1b3d;
+    }
+    .redemption-item .info .meta {
+      font-size: 11px;
+      color: #888;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 12px;
+      margin-top: 2px;
+    }
+    .redemption-item .info .meta .user {
+      font-weight: 500;
+      color: #4a3a5e;
+    }
+    .redemption-item .info .meta .cost {
+      color: #7c3aed;
+      font-weight: 600;
+    }
+    .redemption-item .info .meta .time {
+      color: #aaa;
+    }
+    .redemption-item .status-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 10px;
+      border-radius: 30px;
+      white-space: nowrap;
+    }
+    .status-badge.used {
+      background: #d1fae5;
+      color: #0b6e4f;
+    }
+    .status-badge.unused {
+      background: #fef3c7;
+      color: #b45309;
+    }
+    .redemption-item .actions {
+      display: flex;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .btn-sm.consume {
+      background: #10b981;
+      color: #fff;
+      font-weight: 600;
+      padding: 2px 14px;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
+    }
+    .btn-sm.consume:hover {
+      background: #059669;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+    }
+    .btn-sm.consume:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    .btn-sm.consume:disabled:hover {
+      background: #10b981;
+      transform: none;
+    }
+    .redemption-item .used-at {
+      font-size: 10px;
+      color: #0b6e4f;
+      margin-left: 4px;
+    }
+    .history-modal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      max-height: 55vh;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .history-section {
+      background: #faf8fc;
+      border-radius: 12px;
+      padding: 8px 12px;
+      border: 1px solid #ede6f5;
+    }
+    .history-section h4 {
+      font-size: 14px;
+      color: #4a3a5e;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .history-section .empty-msg {
+      color: #bbb;
+      font-style: italic;
+      font-size: 12px;
+      padding: 8px 0;
+      text-align: center;
+    }
+    .history-item {
+      padding: 4px 0;
+      border-bottom: 1px solid #f0ecf5;
+      font-size: 12px;
+    }
+    .history-item:last-child {
+      border-bottom: none;
+    }
+
+    /* ===== 核销统计小标签 ===== */
+    .consume-stats {
+      font-size: 11px;
+      color: #888;
+      margin-left: 8px;
+      font-weight: 400;
+    }
+    .consume-stats .used-count {
+      color: #0b6e4f;
+      font-weight: 600;
+    }
+    .consume-stats .unused-count {
+      color: #b45309;
+      font-weight: 600;
+    }
+
     /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
       .app-wrapper {
@@ -1665,6 +1807,18 @@
         font-size: 16px;
         width: 28px;
         height: 28px;
+      }
+      .history-modal-grid {
+        grid-template-columns: 1fr;
+        max-height: 60vh;
+      }
+      .redemption-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+      }
+      .redemption-item .actions {
+        justify-content: flex-end;
       }
     }
   </style>
@@ -2097,23 +2251,29 @@
     </div>
   </div>
 
+  <!-- ===== 🆕 优化后的 History 弹窗 ===== -->
   <div class="modal-overlay hidden" id="historyModal">
-    <div class="modal-box" style="max-width:600px;">
-      <h2>📜 History</h2>
-      <div class="history-modal-grid"
-        style="display:grid; grid-template-columns:1fr 1fr; gap:16px; max-height:50vh; overflow-y:auto;">
-        <div class="history-section"
-          style="background:#faf8fc; border-radius:12px; padding:8px 12px; border:1px solid #ede6f5;">
-          <h4 style="font-size:14px; color:#4a3a5e; margin-bottom:4px;">🎁 Redemption History</h4>
+    <div class="modal-box" style="max-width:720px;">
+      <h2>📜 History
+        <span style="font-size:13px;font-weight:400;color:#888;margin-left:10px;">
+          🎁 兑换 <span class="consume-stats">已核销 <span class="used-count" id="redeemUsedCount">0</span> · 未核销 <span class="unused-count" id="redeemUnusedCount">0</span></span>
+        </span>
+      </h2>
+      <div class="history-modal-grid">
+        <!-- 兑换历史 -->
+        <div class="history-section">
+          <h4>🎁 兑换记录</h4>
           <div id="historyRedeemList"></div>
         </div>
-        <div class="history-section"
-          style="background:#faf8fc; border-radius:12px; padding:8px 12px; border:1px solid #ede6f5;">
-          <h4 style="font-size:14px; color:#4a3a5e; margin-bottom:4px;">🏆 Award History</h4>
+        <!-- 获奖历史 -->
+        <div class="history-section">
+          <h4>🏆 获奖记录</h4>
           <div id="historyAwardList"></div>
         </div>
       </div>
-      <div class="btns"><button class="btn btn-cancel" id="historyCloseBtn">Close</button></div>
+      <div class="btns">
+        <button class="btn btn-cancel" id="historyCloseBtn">关闭</button>
+      </div>
     </div>
   </div>
 
@@ -2237,6 +2397,8 @@
       let scoreTargetId = null;
       let redeemChild = null;
       let customRewards = [];
+      // userMap: id -> role
+      let userMap = {};
 
       // ===== 草稿自动保存相关 =====
       let draftSaveTimer = null;
@@ -2299,7 +2461,6 @@
         notificationPermission = status;
       }
 
-      // 请求通知权限
       function requestNotificationPermission() {
         if (!('Notification' in window)) {
           document.getElementById('notifText').textContent = '⚠️ 浏览器不支持桌面通知';
@@ -2319,7 +2480,6 @@
         });
       }
 
-      // 发送桌面通知
       function sendDesktopNotification(title, body, onClickUrl) {
         if (!('Notification' in window)) return;
         if (Notification.permission !== 'granted') return;
@@ -2333,44 +2493,35 @@
             requireInteraction: true
           });
 
-          // 点击通知聚焦到页面
           notification.onclick = function() {
             window.focus();
             this.close();
-            // 如果有特定URL，跳转
             if (onClickUrl) {
               window.location.href = onClickUrl;
             }
           };
 
-          // 5秒后自动关闭
           setTimeout(() => notification.close(), 8000);
         } catch (e) {
           console.log('桌面通知发送失败（可忽略）:', e);
         }
       }
 
-      // 检查并触发待确认通知
       function checkAndNotifyPendingTasks() {
         if (currentUserRole !== 'admin') return;
 
         const pendingConfirm = tasks.filter(t => t.completed && !t.auto_score_applied);
         const currentCount = pendingConfirm.length;
 
-        // 如果数量增加且 > 0，发送通知
         if (currentCount > lastPendingCount && currentCount > 0) {
-          // 桌面通知
           const title = `📋 ${currentCount} 个任务待确认`;
           const body = `有 ${currentCount} 个任务已完成等待确认，请及时处理！`;
           sendDesktopNotification(title, body);
-
-          // Toast 通知
           showPendingToast(currentCount);
         }
 
         lastPendingCount = currentCount;
 
-        // 更新UI
         const banner = document.getElementById('pendingConfirmBanner');
         const countEl = document.getElementById('pendingConfirmCount');
         if (countEl) {
@@ -2382,7 +2533,6 @@
         }
       }
 
-      // ===== Toast 通知（页面内） =====
       function showPendingToast(count) {
         const oldToast = document.querySelector('.pending-toast');
         if (oldToast) oldToast.remove();
@@ -3098,7 +3248,6 @@
           document.getElementById('loginPage').style.display = 'none';
           document.getElementById('mainApp').classList.add('visible');
 
-          // 如果是Admin，请求通知权限
           if (role === 'admin') {
             await requestNotificationPermission();
           }
@@ -3141,13 +3290,17 @@
           if (subErr) throw subErr;
           subjects = subData.map(s => s.name) || [];
 
+          // 🆕 查询所有 profiles（包括 admin）
           const { data: profiles, error: profErr } = await sb
             .from('profiles')
-            .select('role, points')
-            .in('role', ['isabella', 'natalie']);
+            .select('id, role, points');
           if (profErr) throw profErr;
+          userMap = {};
           profiles.forEach(p => {
-            points[p.role] = p.points || 0;
+            userMap[p.id] = p.role;
+            if (p.role === 'isabella' || p.role === 'natalie') {
+              points[p.role] = p.points || 0;
+            }
           });
 
           const { data: logs, error: logsErr } = await sb.from('manual_logs').select('*');
@@ -3156,7 +3309,11 @@
 
           const { data: reds, error: redsErr } = await sb.from('redemptions').select('*');
           if (redsErr) throw redsErr;
-          redemptions = reds || [];
+          redemptions = (reds || []).map(r => ({
+            ...r,
+            used: r.used === true,
+            used_at: r.used_at || null
+          }));
 
           const { data: awds, error: awdsErr } = await sb.from('awards').select('*');
           if (awdsErr) throw awdsErr;
@@ -3174,14 +3331,12 @@
               .select('id, role')
               .in('role', ['isabella', 'natalie']);
             if (profAllErr) throw profAllErr;
-            const userMap = {};
-            profilesAll.forEach(p => { userMap[p.id] = p.role; });
+            const uMap = {};
+            profilesAll.forEach(p => { uMap[p.id] = p.role; });
             reflections = { isabella: [], natalie: [] };
             refsData.forEach(r => {
-              const role = userMap[r.user_id];
-              if (role && reflections[role]) {
-                reflections[role].push(r);
-              }
+              const role = uMap[r.user_id];
+              if (role && reflections[role]) reflections[role].push(r);
             });
           } else {
             reflections[currentUserRole] = refsData.filter(r => r.user_id === currentUser.id);
@@ -3535,6 +3690,53 @@
       }
 
       // ============================================================
+      // 🆕 核销功能（含自动刷新历史弹窗）
+      // ============================================================
+      async function consumeRedemption(redemptionId) {
+        if (!redemptionId) {
+          alert('❌ 无效的兑换记录 ID。');
+          return;
+        }
+        if (!confirm('✅ 确认核销此兑换记录？\n核销后该奖励标记为「已使用」，不可撤销。')) return;
+
+        try {
+          const now = new Date().toISOString();
+          const { error } = await sb
+            .from('redemptions')
+            .update({ used: true, used_at: now })
+            .eq('id', redemptionId);
+
+          if (error) {
+            if (error.message && error.message.includes('column "used" does not exist')) {
+              alert(
+                '⚠️ 数据库表 "redemptions" 中缺少 "used" 字段。\n\n请在 Supabase 中执行以下 SQL 添加字段：\n\nALTER TABLE redemptions ADD COLUMN used BOOLEAN DEFAULT false;\nALTER TABLE redemptions ADD COLUMN used_at TIMESTAMP;'
+              );
+              return;
+            }
+            throw error;
+          }
+
+          // 刷新所有数据
+          await loadAllData();
+          render();
+
+          // 如果历史弹窗是打开的，立即刷新它的内容
+          const historyModal = document.getElementById('historyModal');
+          if (historyModal && !historyModal.classList.contains('hidden')) {
+            showHistory(); // 重新渲染历史列表
+          }
+
+          alert('✅ 核销成功！该兑换已标记为「已使用」。');
+        } catch (err) {
+          console.error('Consume redemption error:', err);
+          alert('❌ 核销失败: ' + err.message);
+        }
+      }
+
+      // 暴露到全局，供 HTML onclick 调用
+      window.consumeRedemption = consumeRedemption;
+
+      // ============================================================
       // 渲染函数
       // ============================================================
       function updateGlobalStats() {
@@ -3576,7 +3778,7 @@
         document.getElementById('monthTotal').textContent = monthTotal;
         const mf = document.getElementById('monthFill');
         mf.style.width = monthTotal === 0 ? '0%' : (monthDone / monthTotal * 100) + '%';
-        mf.className = 'fill' + (monthTotal > 0 && weekDone === monthTotal ? ' all-done' : (monthDone > 0 ? ' done' : ''));
+        mf.className = 'fill' + (monthTotal > 0 && weekDone === monthTotal ? ' all-done' : (weekDone > 0 ? ' done' : ''));
       }
 
       function renderDaughtersOverview() {
@@ -3804,6 +4006,105 @@
         }
       }
 
+      // ===== 🆕 显示 History（含核销按钮，并自动刷新统计） =====
+      function showHistory() {
+        const redeemList = document.getElementById('historyRedeemList');
+        const awardList = document.getElementById('historyAwardList');
+        const usedCountEl = document.getElementById('redeemUsedCount');
+        const unusedCountEl = document.getElementById('redeemUnusedCount');
+
+        // --- 兑换历史 ---
+        if (!redemptions || redemptions.length === 0) {
+          redeemList.innerHTML = '<div class="empty-msg">暂无兑换记录</div>';
+          if (usedCountEl) usedCountEl.textContent = '0';
+          if (unusedCountEl) unusedCountEl.textContent = '0';
+        } else {
+          const sorted = [...redemptions].sort((a, b) =>
+            new Date(b.redeemed_at || b.created_at) - new Date(a.redeemed_at || a.created_at)
+          );
+
+          const usedCount = sorted.filter(r => r.used === true).length;
+          const unusedCount = sorted.length - usedCount;
+          if (usedCountEl) usedCountEl.textContent = usedCount;
+          if (unusedCountEl) unusedCountEl.textContent = unusedCount;
+
+          let html = '';
+          sorted.forEach(r => {
+            // 获取用户名
+            let displayName = 'Someone';
+            if (userMap[r.user_id]) {
+              const role = userMap[r.user_id];
+              displayName = role.charAt(0).toUpperCase() + role.slice(1);
+            } else if (r.user_id === currentUser?.id) {
+              displayName = 'Admin';
+            }
+
+            const isUsed = r.used === true;
+            const statusText = isUsed ? '✅ 已核销' : '⏳ 未核销';
+            const statusClass = isUsed ? 'used' : 'unused';
+            const usedAtText = isUsed && r.used_at ? ` · 核销于 ${formatDateTime(r.used_at)}` : '';
+            const isAdmin = currentUserRole === 'admin';
+
+            let consumeBtn = '';
+            if (isAdmin && !isUsed) {
+              consumeBtn =
+                `<button class="btn-sm consume" onclick="window.consumeRedemption('${r.id}')" title="标记此奖励已使用">✅ 核销</button>`;
+            } else if (isUsed) {
+              consumeBtn = `<span class="status-badge used">已核销</span>`;
+            }
+
+            html += `
+              <div class="redemption-item">
+                <div class="info">
+                  <div class="reward-name">${r.reward}</div>
+                  <div class="meta">
+                    <span class="user">👤 ${displayName}</span>
+                    <span class="cost">${r.cost} pts</span>
+                    <span class="time">${formatDateTime(r.redeemed_at || r.created_at)}</span>
+                    <span class="status-badge ${statusClass}">${statusText}</span>
+                    ${usedAtText}
+                  </div>
+                </div>
+                <div class="actions">
+                  ${consumeBtn}
+                </div>
+              </div>
+            `;
+          });
+          redeemList.innerHTML = html;
+        }
+
+        // --- 获奖历史 ---
+        if (!awards || awards.length === 0) {
+          awardList.innerHTML = '<div class="empty-msg">暂无获奖记录</div>';
+        } else {
+          const sortedAwards = [...awards].sort((a, b) =>
+            new Date(b.awarded_at || b.date || b.created_at) - new Date(a.awarded_at || a.date || a.created_at)
+          );
+          let html = '';
+          sortedAwards.forEach(a => {
+            let displayName = 'Someone';
+            if (userMap[a.user_id]) {
+              const role = userMap[a.user_id];
+              displayName = role.charAt(0).toUpperCase() + role.slice(1);
+            } else if (a.user_id === currentUser?.id) {
+              displayName = 'Admin';
+            }
+            const timeField = a.awarded_at || a.date || a.created_at || new Date().toISOString();
+            html += `
+              <div class="history-item">
+                <strong>${displayName}</strong>: +${a.amount} pts
+                ${a.reason ? ` (${a.reason})` : ''}
+                <span style="font-size:10px;color:#888;display:block;">${formatDateTime(timeField)}</span>
+              </div>
+            `;
+          });
+          awardList.innerHTML = html;
+        }
+
+        document.getElementById('historyModal').classList.remove('hidden');
+      }
+
       // ===== 主渲染 =====
       function render() {
         if (!currentUser) return;
@@ -3836,7 +4137,6 @@
           renderDaughtersOverview();
           renderAdminTasks();
 
-          // 检查并触发待确认通知
           checkAndNotifyPendingTasks();
 
           const today = getTodayStr();
@@ -4046,7 +4346,6 @@
         const textarea = document.getElementById('replyText');
         const draft = getReplyDraft(taskId);
 
-        // 恢复草稿或原有回复
         if (draft && draft.trim().length > 0) {
           if (isEdit && task.reply && task.reply.text === draft) {
             textarea.value = draft;
@@ -4080,14 +4379,12 @@
         document.getElementById('replyModal').classList.remove('hidden');
         setTimeout(() => textarea.focus(), 100);
 
-        // 绑定草稿自动保存（每次打开重新绑定，避免重复监听）
         if (textarea) {
           textarea.removeEventListener('input', replyTextInputHandler);
           textarea.addEventListener('input', replyTextInputHandler);
         }
       }
 
-      // 草稿保存处理函数
       function replyTextInputHandler(e) {
         const taskId = replyTargetId;
         if (!taskId) return;
@@ -4095,7 +4392,6 @@
         debounceSaveDraft(taskId, text);
       }
 
-      // 提交回复
       async function submitReply() {
         const text = document.getElementById('replyText').value.trim();
         const fileInput = document.getElementById('replyFile');
@@ -4135,7 +4431,6 @@
         document.getElementById('replyModal').classList.add('hidden');
       }
 
-      // 取消回复（清除草稿）
       function cancelReply() {
         if (replyTargetId) {
           clearReplyDraft(replyTargetId);
@@ -4222,7 +4517,8 @@
         sb.from('awards').insert([{
           user_id: currentUser.id,
           amount: pointsToAdd,
-          reason: reason
+          reason: reason,
+          awarded_at: new Date().toISOString()
         }]).then(() => { loadAllData().then(() => render()); });
         document.getElementById('awardModal').classList.add('hidden');
       }
@@ -4271,7 +4567,9 @@
           user_id: currentUser.id,
           reward: label,
           cost: cost,
-          redeemed_at: new Date().toISOString()
+          redeemed_at: new Date().toISOString(),
+          used: false,
+          used_at: null
         }]).then(() => { loadAllData().then(() => render()); });
         document.getElementById('redeemModal').classList.add('hidden');
         alert(`🎉 ${child} redeemed "${label}"! Remaining points: ${points[child]}`);
@@ -4279,33 +4577,9 @@
       }
 
       // ============================================================
-      // 历史
+      // 历史（已用 showHistory 替代，但保留此兼容入口）
       // ============================================================
-      function showHistory() {
-        const redeemList = document.getElementById('historyRedeemList');
-        if (redemptions.length === 0) {
-          redeemList.innerHTML = '<div class="text-muted">No redemptions.</div>';
-        } else {
-          let html = '';
-          redemptions.slice().reverse().forEach(r => {
-            html +=
-              `<div class="history-item">${r.user_id || 'Someone'}: ${r.reward} (${r.cost} pts) on ${formatDateTime(r.redeemed_at || r.created_at)}</div>`;
-          });
-          redeemList.innerHTML = html;
-        }
-        const awardList = document.getElementById('historyAwardList');
-        if (awards.length === 0) {
-          awardList.innerHTML = '<div class="text-muted">No awards.</div>';
-        } else {
-          let html = '';
-          awards.slice().reverse().forEach(a => {
-            html +=
-              `<div class="history-item">${a.user_id || 'Someone'}: +${a.amount} pts ${a.reason ? '("'+a.reason+'")' : ''} on ${formatDateTime(a.created_at || a.date)}</div>`;
-          });
-          awardList.innerHTML = html;
-        }
-        document.getElementById('historyModal').classList.remove('hidden');
-      }
+      // 注意：原 showHistory 已经被增强版替换，现在绑定到按钮上
 
       // ============================================================
       // 刷新功能
@@ -4314,7 +4588,6 @@
         if (!currentUser) return;
         const btns = document.querySelectorAll('.btn-refresh');
         try {
-          // 显示刷新状态
           btns.forEach(btn => { btn.textContent = '⏳';
             btn.style.opacity = '0.5';
             btn.style.pointerEvents = 'none'; });
@@ -4323,7 +4596,6 @@
           render();
           setTimeout(applyAllCollapseStates, 100);
 
-          // 显示成功提示
           const toast = document.createElement('div');
           toast.style.cssText =
             'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#7c3aed;color:#fff;padding:8px 24px;border-radius:30px;font-size:14px;font-weight:600;z-index:9999;box-shadow:0 8px 30px rgba(124,58,237,0.3);animation:slideUp 0.3s ease;';
@@ -4379,7 +4651,6 @@
           document.getElementById('historyModal').classList.add('hidden');
         });
 
-        // 每日奖励弹窗
         document.getElementById('btnDailyBonusAdmin').addEventListener('click', function() {
           document.getElementById('dailyBonusModal').classList.remove('hidden');
           const today = getTodayStr();
@@ -4462,7 +4733,6 @@
         });
         document.getElementById('taskFormConfirm').addEventListener('click', saveTaskFromForm);
 
-        // ===== Reply 弹窗按钮 =====
         document.getElementById('replyCancel').addEventListener('click', cancelReply);
         document.getElementById('replyConfirm').addEventListener('click', submitReply);
 
@@ -4510,14 +4780,12 @@
           });
         });
 
-        // 点击通知状态显示，请求权限
         document.getElementById('notificationStatus').addEventListener('click', function() {
           if (Notification.permission === 'default') {
             requestNotificationPermission();
           }
         });
 
-        // 页面关闭前保存草稿
         window.addEventListener('beforeunload', function() {
           if (replyTargetId) {
             const text = document.getElementById('replyText').value;
@@ -4527,7 +4795,6 @@
           }
         });
 
-        // ===== 刷新按钮 =====
         document.getElementById('refreshAdminBtn').addEventListener('click', refreshData);
         document.getElementById('refreshIsabellaBtn').addEventListener('click', refreshData);
         document.getElementById('refreshNatalieBtn').addEventListener('click', refreshData);
